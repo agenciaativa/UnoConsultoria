@@ -1,0 +1,68 @@
+<!-- Main row -->
+<div class="row">
+	<div class="col-md-12">
+		<form role="form" name="contatoForm" ng-submit="submitForm()" novalidate>
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Cadastrar Assuntos
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group" ng-class="{ 'has-error' : errorMsg.subject &&  !contato.subject }">
+								<label for="subject">
+									<i ng-show="errorMsg.subject &&  !contato.subject" class="fa fa-times-circle-o"></i>Assunto
+								</label>
+								<input type="text" id="subject" name="subject" class="form-control" placeholder="Assunto e-mail" ng-model="contato.subject">
+								<span class="help-block" ng-show="errorMsg.subject && !contato.subject">{{errorMsg.subject[0]}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<div class="panel panel-default">
+								<div class="panel-heading">Lista de assuntos</div>
+								<div ng-hide="contatos.length" class="pad text-center">
+									<i>Não há assuntos cadastrados!</i>
+								</div>
+								<table class="table table-condensed table-striped" ng-show="contatos.length">
+									<thead>
+										<tr>
+											<th class="text-center">#</th>
+											<th>Assunto</th>
+											<th>&nbsp;</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="c in contatos">
+											<td class="text-center">{{ ::c.id }}</td>
+											<td>{{ ::c.subject }}</td>
+											<td class="text-right">
+												<div class="btn-group">
+													<button type="button" class="btn btn-default btn-sm" ng-click="editContato(c)" title="Editar assunto">
+														<i class="fa fa-edit"></i>
+													</button>
+													<button type="button" class="btn btn-danger btn-sm" ng-click="deleteContato(c)" title="Excluir">
+														<i class="fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+					<button type="submit" class="btn btn-primary">
+						<i class="fa fa-save"></i>&nbsp;&nbsp;Salvar
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /.row -->

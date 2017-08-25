@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Cliente;
+use App\Clientes;
+use Illuminate\Http\Request;
+
+class ClienteController extends Controller
+{
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		$cliente_text = Cliente::first();
+		$clientes = Clientes::all();
+		return response()->json(['text' => $cliente_text, 'clientes' => $clientes, 'message' => '']);
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		//
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+		$message = 'Não foi possível salvar o registro!';
+		if (Cliente::create($request->all())) 
+			$message = 'Registro salvo com sucesso!';
+
+		$cliente_text = Cliente::first();
+
+		return response()->json(['text' => $cliente_text, 'message' => $message]);
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Cliente  $cliente
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(Cliente $cliente)
+	{
+		//
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  \App\Cliente  $cliente
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit(Cliente $cliente)
+	{
+		//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Cliente  $cliente
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, Cliente $cliente)
+	{
+		$message = 'Não foi possível alterar o registro!';
+		if ($cliente->fill($request->all())->save())
+			$message = 'Registro alterado com sucesso!';
+
+		$cliente_text = Cliente::first();
+
+		return response()->json(['text' => $cliente_text, 'message' => $message]);
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Cliente  $cliente
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(Cliente $cliente)
+	{
+		//
+	}
+}

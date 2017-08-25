@@ -1,0 +1,113 @@
+<!-- Main row -->
+<div class="row">
+	<div class="col-md-12">
+		<form role="form" ng-submit="saveClienteText(clienteTextForm.$valid)" name="clienteTextForm">
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Área texto
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="form-group">
+						<label for="text_clients">Texto</label>
+						<textarea id="text_clients" name="text_clients" class="ckeditor" rows="10" cols="80" ng-model="cliente_text.text_clients" ckeditor></textarea>
+					</div>
+				</div>
+				<div class="box-footer">
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i>&nbsp;&nbsp;Salvar
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		<form role="form" name="clienteForm" ng-submit="saveCliente()" novalidate>
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Adicionar Clientes
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group" ng-class="{ 'has-error' : errorMsg.title_client &&  cliente.title_client == undefined }">
+										<label for="title_client">
+											<i ng-show="errorMsg.title_client &&  cliente.title_client == undefined" class="fa fa-times-circle-o"></i>Título
+										</label>
+										<input type="text" class="form-control" id="title_client" name="title_client" placeholder="Título cliente" ng-model="cliente.title_client" required>
+										<span class="help-block" ng-show="errorMsg.title_client &&  cliente.title_client == undefined">{{errorMsg.title_client[0]}}</span>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group" ng-class="{'has-error' : errorMsg.file[0]}">
+										<label for="image_client">
+											<i ng-show="errorMsg.file[0]" class="fa fa-times-circle-o"></i>
+											Imagem JPG/JPEG (Largura: 311px, Altura: 233px)
+										</label>
+										<input type="file" id="file" name="file" class="form-control" ng-file-select="onFileSelect($files)" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile" required>
+										<span class="help-block" ng-show="errorMsg.file[0]">{{errorMsg.file[0]}}</span>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Visualização</label>
+										<div class="image-view well well-sm no-shadow">
+											<i ng-hide="imageSrc">Sem imagem para visualização</i>
+											<img ng-src="{{imageSrc}}" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">Lista de clientes</div>
+								<div ng-hide="clientes.length" class="pad text-center">
+									<i>Não há clientes cadastrados!</i>
+								</div>
+								<table class="table table-condensed table-striped" ng-show="clientes.length">
+									<thead>
+										<tr>
+											<th class="text-center">#</th>
+											<th>Cliente</th>
+											<th>&nbsp;</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="c in clientes">
+											<td class="text-center">{{ ::c.id }}</td>
+											<td>{{ ::c.title_client }}</td>
+											<td class="text-right">
+												<div class="btn-group">
+													<button type="button" class="btn btn-default btn-sm" ng-click="editCliente(c)" title="Editar cliente">
+														<i class="fa fa-edit"></i>
+													</button>
+													<button type="button" class="btn btn-danger btn-sm" ng-click="deleteCliente(c)" title="Excluir">
+														<i class="fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i>&nbsp;&nbsp;Salvar
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /.row -->

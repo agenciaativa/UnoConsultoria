@@ -1,0 +1,63 @@
+<!-- Main row -->
+<div class="row">
+	<div class="col-md-12">
+		<form role="form" name="empresaForm" ng-submit="submitForm()" novalidate>
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Área Texto
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group" ng-class="{ 'has-error' : errorMsg.text_empresa &&  !empresa.text_empresa }">
+								<label for="text_empresa">
+									<i ng-show="errorMsg.text_empresa &&  !empresa.text_empresa" class="fa fa-times-circle-o"></i>Sobre a Empresa
+								</label>
+								<textarea id="text_empresa" name="text_empresa" class="ckeditor" rows="10" cols="80" ng-model="empresa.text_empresa" ckeditor></textarea>
+								<span class="help-block" ng-show="errorMsg.text_empresa && !empresa.text_empresa">{{errorMsg.text_empresa[0]}}</span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group" ng-class="{ 'has-error' : errorMsg.text_empresa2 &&  !empresa.text_empresa2 }">
+								<label for="text_empresa2">
+									<i ng-show="errorMsg.text_empresa2 &&  !empresa.text_empresa2" class="fa fa-times-circle-o"></i>Visão / Missão / Valores
+								</label>
+								<textarea id="text_empresa2" name="text_empresa2" class="ckeditor" rows="10" cols="80" ng-model="empresa.text_empresa2" ckeditor></textarea>
+								<span class="help-block" ng-show="errorMsg.text_empresa2 && !empresa.text_empresa2">{{errorMsg.text_empresa2[0]}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group" ng-class="{'has-error' : errorMsg.file[0]}">
+								<label for="file">
+									<i ng-show="errorMsg.file[0]" class="fa fa-times-circle-o"></i>
+									Imagem de fundo (JPG/JPEG/PNG) (Largura: 850px, Altura: 723px)
+								</label>
+								<input type="file" id="file" name="file" class="form-control" ng-file-select="onFileSelect($files)" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile" required/>
+								<span class="help-block" ng-show="errorMsg.file[0]">{{errorMsg.file[0]}}</span>
+							</div>
+							<div class="form-group">
+								<label>Visualização</label>
+								<div class="image-view well well-sm no-shadow">
+									<i ng-hide="imageSrc">Sem imagem para visualização</i>
+									<img ng-src="{{imageSrc}}" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i>&nbsp;&nbsp;Salvar
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /.row

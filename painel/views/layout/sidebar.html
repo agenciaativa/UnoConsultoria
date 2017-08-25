@@ -1,0 +1,70 @@
+<!-- Sidebar user panel -->
+<div class="user-panel">
+	<!-- <div class="pull-left image">
+		<img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+	</div> -->
+	<div class="info">
+		<p>UNO CONSULTORIA</p>
+		<p>Gestão de Saúde</p>
+	</div>
+</div>
+<!-- sidebar menu -->
+<ul class="sidebar-menu" data-widget="tree">
+	<li class="header text-center">MENU</li>
+	<li class="treeview" ng-class="{'active': state == 'app.home'}">
+		<a href="#">
+			<i class="fa fa-file-text-o"></i> 
+			<span>Páginas</span>
+			<span class="pull-right-container">
+				<i class="fa fa-angle-left pull-right"></i>
+			</span>
+		</a>
+		<ul class="treeview-menu">
+			<li ng-class="{'active': sub == 'app.home'}">
+				<a ui-sref="app.home">
+					<i class="fa fa-circle-o"></i>Home
+				</a>
+			</li>
+			<li ng-class="{'active': sub == 'app.empresa'}">
+				<a ui-sref="app.empresa">
+					<i class="fa fa-circle-o"></i>A Empresa
+				</a>
+			</li>
+			<li ng-class="{'active': sub == 'app.servicos-solucoes'}">
+				<a ui-sref="app.servicos-solucoes">
+					<i class="fa fa-circle-o"></i>Serviços e Soluções
+				</a>
+			</li>
+			<li ng-class="{'active': sub == 'app.clientes'}">
+				<a ui-sref="app.clientes">
+					<i class="fa fa-circle-o"></i>Clientes
+				</a>
+			</li>
+			<li ng-class="{'active': sub == 'app.cases'}">
+				<a ui-sref="app.cases">
+					<i class="fa fa-circle-o"></i>Cases
+				</a>
+			</li>
+			<!-- <li ng-class="{'active': sub == 'app.fale-conosco'}">
+				<a ui-sref="app.fale-conosco">
+					<i class="fa fa-circle-o"></i>Fale Conosco
+				</a>
+			</li> -->
+		</ul>
+	</li>
+	<li ng-class="{'active': state == 'app.banners'}">
+		<a ui-sref="app.banners">
+			<i class="fa fa-image"></i> <span>Banners</span>
+		</a>
+	</li>
+	<li ng-class="{'active': state == 'app.newsletter'}">
+		<a ui-sref="app.newsletter">
+			<i class="fa fa-envelope"></i> <span>Newsletter</span>
+		</a>
+	</li>
+	<li ng-class="{'active': state == 'app.configuracoes'}">
+		<a ui-sref="app.configuracoes">
+			<i class="fa fa-cogs"></i> <span>Configurações Gerais</span>
+		</a>
+	</li>
+</ul>

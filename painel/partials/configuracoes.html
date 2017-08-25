@@ -1,0 +1,104 @@
+<!-- Main row -->
+<div class="row">
+	<div class="col-md-12">
+		<form role="form" name="configForm" ng-submit="saveConfig()" novalidate>
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Editar configurações
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="row">
+						<div class="col-md-7">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group" ng-class="{ 'has-error' : errorMsg.sender &&  !config.sender }">
+										<label for="sender">
+											<i ng-show="errorMsg.sender &&  !config.sender" class="fa fa-times-circle-o"></i>E-Mail
+										</label>
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+											<input type="email" id="sender" name="sender" class="form-control" placeholder="E-mail destinatário" ng-model="config.sender">
+										</div>
+										<span class="help-block" ng-show="errorMsg.sender && !config.sender">{{errorMsg.sender[0]}}</span>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group" ng-class="{ 'has-error' : errorMsg.address &&  !config.address }">
+										<label for="address">
+											<i ng-show="errorMsg.address &&  !config.address" class="fa fa-times-circle-o"></i>Endereço
+										</label>
+										<input type="text" id="address" name="address" class="form-control" placeholder="Endereço" ng-model="config.address">
+										<span class="help-block" ng-show="errorMsg.address && !config.address">{{errorMsg.address[0]}}</span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group" ng-class="{ 'has-error' : errorMsg.phone &&  !config.phone }">
+										<label for="telefone">
+											<i ng-show="errorMsg.phone && !config.phone" class="fa fa-times-circle-o"></i>Telefone
+										</label>
+										<div class="input-group">
+											<div class="input-group-addon">
+												<i class="fa fa-phone"></i>
+											</div>
+											<input type="text" id="telefone" name="telefone" class="form-control" data-mask ng-model="config.phone">
+										</div>
+										<span class="help-block" ng-show="errorMsg.phone && !config.phone">{{errorMsg.phone[0]}}</span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group" ng-class="{ 'has-error' : (errorMsg.localization) }">
+										<label>
+											<i ng-show="(errorMsg.localization)" class="fa fa-times-circle-o"></i>Localização
+										</label>
+										<div class="row">
+											<div class="col-md-6">
+												<input type="text" id="lat" name="lat" class="form-control" placeholder="Latitude" ng-model="config.lat" check-field/>
+											</div>
+											<div class="col-md-6">
+												<input type="text" id="lon" name="lon" class="form-control" placeholder="Longitude" ng-model="config.lon" check-field />
+											</div>
+										</div>
+										<span class="help-block" ng-show="(errorMsg.localization)">{{errorMsg.localization[0]}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-5">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group" ng-class="{'has-error' : errorMsg.file[0]}">
+										<label for="file">
+											<i ng-show="errorMsg.file[0]" class="fa fa-times-circle-o"></i>
+												LOGO - Imagem JPG/PNG (Máx: 1Mb)
+										</label>
+										<input type="file" id="file" name="file" class="form-control" ng-file-select="onFileSelect($files)" accept="image/*" ngf-max-size="1MB" ngf-model-invalid="errorFile" required />
+										<span class="help-block" ng-show="errorMsg.file[0]">{{errorMsg.file[0]}}</span>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Visualização</label>
+										<div class="image-view well well-sm no-shadow">
+											<i ng-hide="imageSrc">Sem imagem para visualização</i>
+											<img ng-src="{{imageSrc}}" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i>&nbsp;&nbsp;Salvar
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /.row -->

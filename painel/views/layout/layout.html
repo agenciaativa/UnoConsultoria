@@ -1,0 +1,31 @@
+<header ui-view="header" class="main-header"></header>
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar">
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar" ui-view="sidebar">
+	</section>
+	<!-- /.sidebar -->
+</aside>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>{{title}}</h1>
+		
+		<ol class="breadcrumb">
+			<li>
+				<a ui-sref="app.home"><i class="fa fa-dashboard"></i> Painel
+				</a>
+			</li>
+			<li class="active">{{active_page}}</li>
+		</ol>
+
+		<div class="alert global {{classe}}" role="alert" ng-class="{hidden:hide}">{{ message }}</div>
+	</section>
+
+	<!-- Main content -->
+	<section class="content" ui-view></section>
+	<!-- /.content -->
+</div>
+<!-- /.left-side -->

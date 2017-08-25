@@ -1,0 +1,21 @@
+<div class="services-solutions">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="services-details">
+					<div id="{{s.link}}" class="service-item-box" ng-repeat="s in servicos">
+						<div class="service-item-avatar" ng-show="s.image_item_path">
+							<img ng-src="http://localhost:8000/storage/{{s.image_item_path}}" />
+						</div>
+						<div class="service-item-title">
+							<h4 class="gb">{{ s.title_item }}</h4>
+						</div>
+						<div class="service-item-description open">
+							<div ng-bind-html="s.text_item"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

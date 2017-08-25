@@ -1,0 +1,21 @@
+<div class="container box-container">
+    <div class="logo">
+        <a ui-sref="home">
+            <img ng-src={{imgLogo}} />
+        </a>
+    </div>
+    <div class="phone-box gb">
+        <div class="phone-item">
+            <img src="img/header/fone-ico.png" />
+        </div>
+        <div class="phone-item inline">
+            <div class="phone-item">
+                <span>TELEFONE</span>
+            </div>
+            <div class="phone-item">
+                <span>{{ config.phone | customPhone:'ddd'}}</span>
+                <span class="xf">{{ config.phone | customPhone:'phone'}}</span>
+            </div>
+        </div>
+    </div>
+</div>

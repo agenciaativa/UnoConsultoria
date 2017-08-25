@@ -1,0 +1,15 @@
+{
+  "name": "grunt-angular-templates",
+  "homepage": "https://github.com/ericclemmons/grunt-angular-templates",
+  "version": "1.0.4",
+  "_release": "1.0.4",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.4",
+    "commit": "cd769f5740cddff556c01e088f21f88eb760fddf"
+  },
+  "_source": "https://github.com/ericclemmons/grunt-angular-templates.git",
+  "_target": "^1.0.4",
+  "_originalSource": "grunt-angular-templates",
+  "_direct": true
+}

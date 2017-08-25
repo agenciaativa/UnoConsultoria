@@ -1,0 +1,64 @@
+<!-- Main row -->
+<div class="row home">
+	<div class="col-md-12">
+		<form role="form" ng-submit="submitForm(homeForm.$valid)" name="homeForm">
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Área Texto 1
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="form-group">
+						<label for="text1">Texto</label>
+						<textarea id="text1" name="text1" class="ckeditor" rows="10" cols="80" ng-model="home.text1" ckeditor></textarea>
+					</div>
+				</div>
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Área Texto 2
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="form-group">
+						<label for="title_text2">Título</label>
+						<input type="text" class="form-control" id="title_text2" name="title_text2" placeholder="Título" ng-model="home.title_text2" />
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="header_text2">Texto Cabeçalho</label>
+								<textarea id="header_text2" name="header_text2" class="ckeditor" rows="10" cols="80" ng-model="home.header_text2" ckeditor></textarea>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="footer_text2">Texto Rodapé</label>
+								<textarea id="footer_text2" name="footer_text2" class="ckeditor" rows="10" cols="80" ng-model="home.footer_text2" ckeditor></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Área Clientes
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="form-group">
+						<label for="title_clients">Título</label>
+						<input type="text" class="form-control" id="title_clients" name="title_clients" placeholder="Título" ng-model="home.title_clients" />
+					</div>
+				</div>
+				<div class="box-footer">
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i>&nbsp;&nbsp;Salvar
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /.row -->

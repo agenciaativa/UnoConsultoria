@@ -1,0 +1,36 @@
+<div class="newsletter" ng-controller="newsController">
+	<div class="container">
+		<form role="form" name="news-form">
+			<div class="row">
+				<div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-lg-2 col-lg-offset-2">
+					<p>Cadastre-se e receba nossa newsletter</p>
+				</div>
+				<div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-0 news-col">
+					<input type="text" id="email" name="email" class="form-control" ng-model="news.email" placeholder="SEU EMAIL AQUI" />
+				</div>
+				<div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-lg-2 col-lg-offset-0 news-col">
+					<button type="button" id="btn_register" class="btn btn-newsletter gb" ng-click="saveNews()">CADASTRAR</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<footer class="container-fluid">
+	<div class="container">
+		<div class="col-md-12 text-center logo">
+			<a ui-sref="home">
+				<img ng-src="{{imgLogo}}" />
+			</a>
+		</div>
+		<div class="col-md-12 text-center">
+			<span class="glyphicon glyphicon-earphone"></span>
+			<span class="gb phone-number">{{ config.phone }}</span>
+			<a class="fb" href="#">
+				<img src="./img/footer/fb.png" />
+			</a>
+		</div>
+		<div class="col-md-12 text-center">
+			<span>© Copyright 2017 Uno gestão de saúde - todos os direitos reservados</span>
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,131 @@
+<!-- Main row -->
+<div class="row">
+	<div class="col-md-12">
+		<form role="form" name="servicoForm" ng-submit="saveServico()" novalidate>
+			<div class="box box-info">
+				<div class="box-header with-border">
+					<h3 class="box-title">
+						Adicionar itens
+					</h3>
+				</div>
+				<div class="box-body pad">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group" ng-class="{ 'has-error' : errorMsg.title_item &&  !servico.title_item }">
+								<label for="title_item">
+									<i ng-show="errorMsg.title_item &&  !servico.title_item" class="fa fa-times-circle-o"></i>Título
+								</label>
+								<input type="text" class="form-control" id="title_item" name="title_item" ng-model="servico.title_item" placeholder="Título">
+								<span class="help-block" ng-show="errorMsg.title_item && !servico.title_item">{{errorMsg.title_item[0]}}</span>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error' : errorMsg.text_item &&  !servico.text_item }">
+								<label for="text_item">
+									<i ng-show="errorMsg.text_item &&  !servico.text_item" class="fa fa-times-circle-o"></i>Descrição
+								</label>
+								<textarea id="text_item" name="text_item" class="ckeditor" rows="10" cols="80" ng-model="servico.text_item" ckeditor></textarea>
+								<span class="help-block" ng-show="errorMsg.text_item && !servico.text_item">{{errorMsg.text_item[0]}}</span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-md-10">
+									<div class="form-group" ng-class="{ 'has-error' : errorMsg.link &&  !servico.link }">
+										<label for="link">
+											<i ng-show="errorMsg.link &&  !servico.link" class="fa fa-times-circle-o"></i>Link
+										</label>
+										<input type="text" class="form-control" id="link" name="link" ng-model="servico.link" placeholder="Link">
+										<span class="help-block" ng-show="errorMsg.link && !servico.link">{{errorMsg.link[0]}}</span>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="form-group" ng-class="{ 'has-error' : errorMsg.position &&  !servico.position }">
+										<label for="position">
+											<i ng-show="errorMsg.position &&  !servico.position" class="fa fa-times-circle-o"></i>Ordem
+										</label>
+										<input type="number" min="1" class="form-control" id="position" name="position" ng-model="servico.position">
+										<span class="help-block" ng-show="errorMsg.position && !servico.position">{{errorMsg.position[0]}}</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group" ng-class="{'has-error' : errorMsg.file[0]}">
+										<label for="file">
+											<i ng-show="errorMsg.file[0]" class="fa fa-times-circle-o"></i>
+											Imagem (Formato SVG)
+										</label>
+										<input type="file" id="file" name="file" class="form-control" ng-file-select="onFileSelect($files)" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile" required>
+										<span class="help-block" ng-show="errorMsg.file[0]">{{errorMsg.file[0]}}</span>
+									</div>
+									<div class="form-group">
+										<label>Visualização</label>
+										<div class="image-view well well-sm no-shadow servicos">
+											<i ng-hide="imageSrc">Sem imagem para visualização</i>
+											<img ng-src="{{imageSrc}}" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-heading">Lista de serviços</div>
+								<div ng-hide="servicos.length" class="pad text-center">
+									<i>Não há serviços cadastrados!</i>
+								</div>
+								<table class="table table-condensed table-striped servicos" ng-show="servicos.length">
+									<thead>
+										<tr>
+											<th class="text-center">#</th>
+											<th>Título</th>
+											<th class="text-center">Link</th>
+											<th class="text-center">Ordem</th>
+											<th class="text-center">Ícone</th>
+											<th>&nbsp;</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng-repeat="s in servicos">
+											<td class="text-center">{{ ::s.id }}</td>
+											<td>{{ ::s.title_item }}</td>
+											<td class="text-center">{{ ::s.link }}</td>
+											<td class="text-center">{{ ::s.position }}</td>
+											<td class="text-center">
+												<img style="max-width: 40px;" ng-src="http://localhost:8000/storage/{{ ::s.image_item_path }}" />
+											</td>
+											<td class="text-right">
+												<div class="btn-group">
+													<button type="button" class="btn btn-default btn-sm" ng-click="editServico(s)" title="Editar item">
+														<i class="fa fa-edit"></i>
+													</button>
+													<button type="button" class="btn btn-danger btn-sm" ng-click="deleteServico(s)" title="Excluir">
+														<i class="fa fa-trash-o"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer">
+					<div class="pull-right">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-save"></i>&nbsp;&nbsp;Salvar
+						</button>
+					</div>
+					<div class="pull-right">
+						<button type="button" class="btn btn-default" ng-click="resetForm()">
+							Cancelar
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- /.row -->

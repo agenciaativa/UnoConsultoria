@@ -1,0 +1,40 @@
+<div class="business-info">
+	<div class="container-fluid" ng-class="{'bg-home' : state == 'home'}">
+		<div class="container">
+			<div class="row description">
+				<div class="col-md-6 col-sm-12 col-xs-12" ng-bind-html="home.text1">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="business-description">
+	<div class="container">
+		<div class="business-description-header" ng-show="home.title_text2">
+			<h2 class="gb text-center">{{ home.title_text2 }}</h2>
+			<div class="pt20" ng-bind-html="home.header_text2"></div>
+		</div>
+		<div class="advice-box">
+			<div class="row">
+				<div class="col-md-3 col-sm-6 col-xs-12 advice-box-item" ng-repeat="s in servicos" ng-click="linkTo('/servicos-solucoes', s)">
+					<div class="filter"></div>
+					<div class="advice-item">
+						<div class="circle" ng-bind-html="s.image2"></div>
+						<div class="advice-item-description text-center gb">{{ s.title_item }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div ng-bind-html="home.footer_text2"></div>
+	</div>
+</div>
+<div class="clients-home">
+	<div class="container">
+		<h2 class="gb text-center">{{ home.title_clients }}</h2>
+		<div class="clients-slider">
+			<div class="col-md-3" ng-repeat="imgx in imgpaths">
+				<loaded-img isrc="imgx.path" ititle="imgx.title" onloadimg="imgx.callback(imgx)"></loaded-img>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,58 @@
+<div class="contact">
+	<div class="container">
+		<h2 class="gb">FALE CONOSCO</h1>
+		<div class="contact-form">
+			<form ng-submit="sendMail()">
+				<div class="row">
+					<div class="col-md-6 contact-column">
+						<div class="form-group">
+							<input type="text" name="nome" id="nome" class="form-control" placeholder="Nome" ng-model="formData.nome" required />
+						</div>
+						<div class="row">
+							<div class="col-md-4 form-group">
+								<input type="text" name="fone" id="fone" class="form-control" placeholder="Telefone" ng-model="formData.telefone" required />
+							</div>
+							<div class="col-md-8 form-group">
+								<select id="departamento" class="form-control" ng-model="formData.departamento" required>
+									<option value="">-- Departamento --</option>
+									<option value="A">ARQUITETURA</option>
+									<option value="C">CONTABILIDADE</option>
+									<option value="F">FINANCEIRO</option>
+									<option value="G">GESTÃO DE PESSOAS</option>
+									<option value="Q">GESTÃO DE QUALIDADE</option>
+									<option value="J">JURÍDICO</option>
+									<option value="M">PROPAGANDA E MARKETING</option>
+									<option value="T">TÉCNICA DE ASSISTÊNCIA A SAÚDE</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="text" name="email" id="email" class="form-control" placeholder="E-Mail" ng-model="formData.email" required />
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<textarea name="mensagem" id="mensagem" class="form-control" placeholder="Mensagem" ng-model="formData.mensagem" required></textarea>
+						</div>
+					</div>
+					<div class="col-md-12 contact-form-button text-right">
+						<div class="form-group">
+							<button type="submit" class="btn btn-primary gb">Enviar</button>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="alert alert-{{mensagem.classe}}" role="alert" ng-show="mensagem">
+							{{ mensagem.texto }}
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="contact-map">
+	<div class="contact-address text-center">
+		<h5 class="gb">Tel.: {{ config.phone }} • {{ config.address }}</h3>
+	</div>
+	<div id="address-map"></div>
+</div>
