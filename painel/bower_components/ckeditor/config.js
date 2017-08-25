@@ -32,7 +32,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.format_span = { name: 'Texto curto', element: 'span' };
 	
-	//config.format_div = { name: 'Caixa de Texto', element: 'div' };
+	config.format_div = { name: 'Caixa de Texto', element: 'div' };
 
 	// Set the most common block elements.
 	//config.format_tags = 'p;span;h1;h2;h3;div';
@@ -43,6 +43,6 @@ CKEDITOR.editorConfig = function( config ) {
 
 	config.skin = 'moonocolor';
 
-	config.extraAllowedContent = 'div(*){*}[*] span(*){*}[*]';
+	config.extraAllowedContent = 'div(*){*}[*]; span(*){*}[*]';
 
 };
