@@ -213,10 +213,10 @@ angular.module('unoApp.controllers', [])
 			dataFactory.getAll('cliente')
 				.then(function (response) {
 					var result = response.data;
-					$scope.clientes.clientes = result.clientes;
-					
-					if ($scope.clientes.clientes.length > 0)
-						$scope.clientes.text = $sce.trustAsHtml($scope.clientes.text.text_clients);
+					$scope.clientes = result.clientes;
+					$scope.text = result.text;
+					if ('undefined' != typeof $scope.text)
+						$scope.text.text_clients = $sce.trustAsHtml($scope.text.text_clients);
 				}, function (error) {
 					$scope.message = 'Não foi possível carregar registro: ' + error.statusText;
 				});

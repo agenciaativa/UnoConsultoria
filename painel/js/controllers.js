@@ -580,6 +580,12 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		$rootScope.state = 'app.home';
 		$rootScope.sub = state;
 		$rootScope.title = $rootScope.active_page = 'Cases';
+		$rootScope.message = '';
+		$rootScope.classe = '';
+
+		$scope.cases = {};
+		$scope.case_text = {};
+		$scope.errorMsg = {};
 
 		$scope.options = {
 			resize_enabled: false,
@@ -590,7 +596,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		};
 
 		$scope.init = function() {
-			dataFactory.getAll('cases')
+			dataFactory.getAll('case')
 				.then(function (response) {
 					var result = response.data;
 					$scope.case_text = result.text;
@@ -613,6 +619,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		};
 
 		$scope.saveCaseText = function() {
+			// UPDATE
 			if (($scope.case_text != null) && ("undefined" != typeof $scope.case_text.id)) {
 				dataFactory.updateItem($scope.case_text, 'case')
 					.then(function (response) {
@@ -623,27 +630,41 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$rootScope.scrollTop();
 						$rootScope.showMessage();
 					}, function (error) {
-						$rootScope.message = 'Não foi possível alterar o registro: ' + error.statusText;
-						$rootScope.classe = 'alert-danger';
-						$rootScope.scrollTop();
-						$rootScope.showMessage();
+						if (error.data && "undefined" != typeof error.data) {
+							var result = error.data;
+							$scope.errorMsg = result;
+						}
 					});
 			} else {
-				dataFactory.insertItem($scope.case_text, 'case')
-					.then(function (response) {
-						var result = response.data;
-						$scope.case_text = result.text;
-						$rootScope.message = result.message;
-						$rootScope.classe = 'alert-success';
-						$rootScope.scrollTop();
-						$rootScope.showMessage();
-						console.log(result);
-					}, function (error) {
-						$rootScope.message = 'Não foi possível inserir o registro: ' + error.statusText;
-						$rootScope.classe = 'alert-danger';
-						$rootScope.scrollTop();
-						$rootScope.showMessage();
-					});
+			// INSERT
+				if ($scope.case_text) {
+					dataFactory.insertItem($scope.case_text, 'case')
+						.then(function (response) {
+							var result = response.data;
+							$scope.case_text = result.text;
+							$rootScope.message = result.message;
+							$rootScope.classe = 'alert-success';
+							$rootScope.scrollTop();
+							$rootScope.showMessage();
+							console.log(result);
+						}, function (error) {
+							if (error.data && "undefined" != typeof error.data) {
+								var result = error.data;
+								$scope.errorMsg = result;
+							}
+						});
+				} else {
+					if ($scope.case_text) {
+						if ("undefined" == typeof $scope.case_text.title)
+							$scope.errorMsg.title = ['Campo obrigatório'];
+
+						if ("undefined" == typeof $scope.case_text.subtitle)
+							$scope.errorMsg.subtitle = ['Campo obrigatório'];
+					} else {
+						$scope.errorMsg.title = ['Campo obrigatório'];
+						$scope.errorMsg.subtitle = ['Campo obrigatório'];
+					}
+				}
 			}
 		};
 

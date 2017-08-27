@@ -9,13 +9,19 @@
 					</h3>
 				</div>
 				<div class="box-body pad">
-					<div class="form-group">
-						<label for="title_case">Título</label>
-						<input type="text" class="form-control" id="title_case" name="title_case" placeholder="Título">
+					<div class="form-group" ng-class="{ 'has-error' : errorMsg.title &&  !case_text.title }">
+						<label for="title">
+							<i ng-show="errorMsg.title &&  !case_text.title" class="fa fa-times-circle-o"></i>Título
+						</label>
+						<input type="text" class="form-control" id="title" name="title" placeholder="Título" ng-model="case_text.title">
+						<span class="help-block" ng-show="errorMsg.title && !case_text.title">{{errorMsg.title[0]}}</span>
 					</div>
-					<div class="form-group">
-						<label for="text_case">Legenda</label>
-						<input type="text" id="text_case" name="text_case" class="form-control" placeholder="Legenda" />
+					<div class="form-group" ng-class="{ 'has-error' : errorMsg.subtitle &&  !case_text.subtitle }">
+						<label for="subtitle">
+							<i ng-show="errorMsg.subtitle &&  !case_text.subtitle" class="fa fa-times-circle-o"></i>Legenda
+						</label>
+						<input type="text" id="subtitle" name="subtitle" class="form-control" placeholder="Legenda" ng-model="case_text.subtitle" />
+						<span class="help-block" ng-show="errorMsg.subtitle && !case_text.subtitle">{{errorMsg.subtitle[0]}}</span>
 					</div>
 				</div>
 				<div class="box-footer">
