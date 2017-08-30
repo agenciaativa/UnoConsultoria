@@ -187,7 +187,7 @@ angular.module('unoApp.controllers', [])
 			initMap();
 		});*/
 
-		$scope.sendMail = function() {
+		/*$scope.sendMail = function() {
 			$scope.mensagem = {};
 			APIService.sendMail($scope.formData)
 			.then((res) => {
@@ -197,7 +197,7 @@ angular.module('unoApp.controllers', [])
 				$scope.mensagem.classe = 'danger';
 				$scope.mensagem.texto = 'Ocorreu um erro! Tente novamente mais tarde.';
 			});
-		};
+		};*/
 	})
 
 	.controller('clientesController', function($state, $rootScope, $scope, $http, $sce, dataFactory) {
@@ -213,10 +213,10 @@ angular.module('unoApp.controllers', [])
 			dataFactory.getAll('cliente')
 				.then(function (response) {
 					var result = response.data;
-					$scope.clientes = result.clientes;
-					$scope.text = result.text;
-					if ('undefined' != typeof $scope.text)
-						$scope.text.text_clients = $sce.trustAsHtml($scope.text.text_clients);
+					$scope.clientes.clientes = result.clientes;
+					
+					if ($scope.clientes.clientes.length > 0)
+						$scope.clientes.text = $sce.trustAsHtml($scope.clientes.text.text_clients);
 				}, function (error) {
 					$scope.message = 'Não foi possível carregar registro: ' + error.statusText;
 				});
@@ -253,9 +253,66 @@ angular.module('unoApp.controllers', [])
 		$scope.init();
 	})
 
-	.controller('blogController', function($state, $rootScope, $scope, $stateParams) {
-		$rootScope.state = $state.current.name;
-	})
+    .controller('blogController', function($state, $rootScope, $scope, $http, $sce, dataFactory) {
+        $rootScope.state = $state.current.name;
+        $scope.blog = [];
+
+        $scope.init = function() {
+            getBlog();
+        }
+
+        var getBlog = function() {
+            $scope.message = {};
+            dataFactory.getAll('blog')
+                .then(function (response) {
+                    var result = response.data;
+                    angular.forEach(result.blog, function(value, key) {
+                        value.user = $sce.trustAsHtml(value.user);
+                        value.image_client_path = $sce.trustAsHtml(value.image_client_path);
+                        value.resume = $sce.trustAsHtml(value.resume);
+                        value.description = $sce.trustAsHtml(value.description);
+                        value.title_client = $sce.trustAsHtml(value.title_client);
+                        value.title_tags = $sce.trustAsHtml(value.title_tags);
+                        value.slug = $sce.trustAsHtml(value.slug);
+                        var data = new Date($sce.trustAsHtml(value.date_publish));
+                        value.date_publish = data;
+
+                        this.push(value);
+                    }, $scope.blog);
+                }, function (error) {
+                    $scope.message = 'Não foi possível carregar registro: ' + error.statusText;
+                });
+        };
+
+        $scope.init();
+
+        $scope.itemsPerPage = 5;
+        $scope.currentPage = 0;
+
+        $scope.prevPage = function() {
+            if ($scope.currentPage > 0) {
+                $scope.currentPage--;
+            }
+        };
+
+        $scope.prevPageDisabled = function() {
+            return $scope.currentPage === 0 ? "disabled" : "";
+        };
+
+        $scope.pageCount = function() {
+            return Math.ceil($scope.blog.length/$scope.itemsPerPage)-1;
+        };
+
+        $scope.nextPage = function() {
+            if ($scope.currentPage < $scope.pageCount()) {
+                $scope.currentPage++;
+            }
+        };
+
+        $scope.nextPageDisabled = function() {
+            return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
+        };
+    })
 
 	.controller('casesController', function($state, $rootScope, $scope, $stateParams) {
 		$rootScope.state = $state.current.name;
@@ -295,24 +352,51 @@ angular.module('unoApp.controllers', [])
 		}];
 	})
 
-	.controller('infoblogController', function($state, $scope, $stateParams, $sce) {
+	.controller('infoblogController', function($state, $scope, $stateParams, $sce, dataFactory) {
 		$scope.blogID = $stateParams.id;
-		$scope.blog = [{
-			title: 'SANTA CASA DE PRESIDENTE EPITÁCIO',
-			html: $sce.trustAsHtml('<p>Em virtude de transição ocorrida na Diretoria da Irmandade da Santa Casa de Tupi Paulista, a Uno Gestão de Saúde foi convidada para elaborar um processo de auditoria nos custos dos serviços prestados pela Santa Casa de Misericórdia de Tupi Paulista.</p>' +
-				'<p>A Uno disponibilizou para a realização deste trabalho o profissional especializado em gestão financeira com formação em economia.</p>' +
-				'<p>Através de uma metodologia baseada no conceito de custos por absorção, realizamos uma análise econômico-financeira desta unidade de saúde.</p>' +
-				'<p>Em virtude de transição ocorrida na Diretoria da Irmandade da Santa Casa de Tupi Paulista, a Uno Gestão de Saúde foi convidada para elaborar um processo de auditoria nos custos dos serviços prestados pela Santa Casa de Misericórdia de Tupi Paulista.</p>' +
-				'<p>A Uno disponibilizou para a realização deste trabalho o profissional especializado em gestão financeira com formação em economia.</p>' +
-				'<p>Através de uma metodologia baseada no conceito de custos por absorção, realizamos uma análise econômico-financeira desta unidade de saúde.</p>')
-		},
-			{
-				title: 'SANTA CASA DE TUPI PAULISTA',
-				html: $sce.trustAsHtml('')
-			}];
+        //console.log($stateParams);
+
+        $scope.blog = [];
+
+        $scope.init = function() {
+            getBlog();
+        }
+
+        var getBlog = function() {
+            $scope.message = {};
+            dataFactory.getAll('blog')
+                .then(function (response) {
+                    var result = response.data;
+                    angular.forEach(result.blog, function(value, key) {
+                        value.idpost = value.id;
+                    	if(value.slug == $stateParams.slug ) {
+                    		console.log($stateParams);
+                            //console.log($scope.blogID);
+                            value.user = $sce.trustAsHtml(value.user);
+                            value.image_client_path = $sce.trustAsHtml(value.image_client_path);
+                            value.resume = $sce.trustAsHtml(value.resume);
+                            value.description = $sce.trustAsHtml(value.description);
+                            value.title_client = $sce.trustAsHtml(value.title_client);
+                            value.title_tags = $sce.trustAsHtml(value.title_tags);
+                            value.slug = $sce.trustAsHtml(value.slug);
+                            var data = new Date($sce.trustAsHtml(value.date_publish));
+                            value.date_publish = data;
+
+                            this.push(value);
+                    	}
+                    }, $scope.blog);
+                }, function (error) {
+                    $scope.message = 'Não foi possível carregar registro: ' + error.statusText;
+                });
+        };
+
+        $scope.init();
+
 	})
 
-	.controller('newsController', function($scope, APIService) {
+
+
+	/*.controller('newsController', function($scope, APIService) {
 		$scope.mensagem = {};
 		$scope.errorMsg = {};
 
@@ -330,7 +414,7 @@ angular.module('unoApp.controllers', [])
 				}
 			});
 		};
-	})
+	})*/
 
 	.controller('bannersController', function($scope, $sce, dataFactory) {
 		$scope.banners = [];

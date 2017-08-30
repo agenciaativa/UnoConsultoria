@@ -48,7 +48,15 @@ angular.module('unoApp.states', ['ui.router'])
 			})
 
 			.state('blogdetalhes', {
-				url: '/blog/:id',
+				url: '/blog/:slug',
+				resolve:{
+					id:function ($stateParams) {
+						return $stateParams.id;
+                    }
+				},
+				params: {
+					id:null
+				},
 				templateUrl: 'partials/blog-detail.html',
 				controller: 'infoblogController'
 			})

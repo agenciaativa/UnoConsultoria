@@ -43,4 +43,6 @@ Route::group(['middleware' => ['cors'], 'prefix' => '/v1'], function() {
 
 	Route::apiResource('servicos', 'ServicosController');
 
+    Route::apiResource('blog', 'BlogController');
+
 });

@@ -3,7 +3,7 @@
 angular.module('unoApp', ['unoApp.states', 'unoApp.service', 'unoApp.factories', 'unoApp.controllers', 'unoApp.directives', 'unoApp.filters'])
 
 	.run(['$rootScope', '$http', 'APIService', 'dataFactory', function($rootScope, $http, APIService, dataFactory) {
-		var storage = 'http://localhost:8000/storage/';
+		var storage = 'http://localhost:8000/uno/storage/';
 		$rootScope.api = 'http://localhost:8000/api/v1/';
 		$rootScope.config = {};
 		$rootScope.message = {};

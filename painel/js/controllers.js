@@ -580,12 +580,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		$rootScope.state = 'app.home';
 		$rootScope.sub = state;
 		$rootScope.title = $rootScope.active_page = 'Cases';
-		$rootScope.message = '';
-		$rootScope.classe = '';
-
-		$scope.cases = {};
-		$scope.case_text = {};
-		$scope.errorMsg = {};
 
 		$scope.options = {
 			resize_enabled: false,
@@ -596,7 +590,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		};
 
 		$scope.init = function() {
-			dataFactory.getAll('case')
+			dataFactory.getAll('cases')
 				.then(function (response) {
 					var result = response.data;
 					$scope.case_text = result.text;
@@ -619,7 +613,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		};
 
 		$scope.saveCaseText = function() {
-			// UPDATE
 			if (($scope.case_text != null) && ("undefined" != typeof $scope.case_text.id)) {
 				dataFactory.updateItem($scope.case_text, 'case')
 					.then(function (response) {
@@ -630,41 +623,27 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$rootScope.scrollTop();
 						$rootScope.showMessage();
 					}, function (error) {
-						if (error.data && "undefined" != typeof error.data) {
-							var result = error.data;
-							$scope.errorMsg = result;
-						}
+						$rootScope.message = 'Não foi possível alterar o registro: ' + error.statusText;
+						$rootScope.classe = 'alert-danger';
+						$rootScope.scrollTop();
+						$rootScope.showMessage();
 					});
 			} else {
-			// INSERT
-				if ($scope.case_text) {
-					dataFactory.insertItem($scope.case_text, 'case')
-						.then(function (response) {
-							var result = response.data;
-							$scope.case_text = result.text;
-							$rootScope.message = result.message;
-							$rootScope.classe = 'alert-success';
-							$rootScope.scrollTop();
-							$rootScope.showMessage();
-							console.log(result);
-						}, function (error) {
-							if (error.data && "undefined" != typeof error.data) {
-								var result = error.data;
-								$scope.errorMsg = result;
-							}
-						});
-				} else {
-					if ($scope.case_text) {
-						if ("undefined" == typeof $scope.case_text.title)
-							$scope.errorMsg.title = ['Campo obrigatório'];
-
-						if ("undefined" == typeof $scope.case_text.subtitle)
-							$scope.errorMsg.subtitle = ['Campo obrigatório'];
-					} else {
-						$scope.errorMsg.title = ['Campo obrigatório'];
-						$scope.errorMsg.subtitle = ['Campo obrigatório'];
-					}
-				}
+				dataFactory.insertItem($scope.case_text, 'case')
+					.then(function (response) {
+						var result = response.data;
+						$scope.case_text = result.text;
+						$rootScope.message = result.message;
+						$rootScope.classe = 'alert-success';
+						$rootScope.scrollTop();
+						$rootScope.showMessage();
+						console.log(result);
+					}, function (error) {
+						$rootScope.message = 'Não foi possível inserir o registro: ' + error.statusText;
+						$rootScope.classe = 'alert-danger';
+						$rootScope.scrollTop();
+						$rootScope.showMessage();
+					});
 			}
 		};
 
@@ -1145,5 +1124,220 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 
 		$scope.$on('$viewContentLoaded', function() {
 			$('[data-mask]').inputmask({mask: ['(99) 9999-9999', '(99) 99999-9999']});
-		});
+        });
 	}])
+
+    .controller('blogController', ['$state', '$rootScope', '$scope', '$window', '$filter', 'fileReader', 'dataFactory', 'Upload', function($state, $rootScope, $scope, $window, $filter, fileReader, dataFactory, Upload) {
+        var state = $state.current.name;
+        $rootScope.state = 'app.home';
+        $rootScope.sub = state;
+        $rootScope.title = $rootScope.active_page = 'Blog';
+        $rootScope.message = '';
+        $rootScope.classe = '';
+
+        $scope.blog_text = {};
+        $scope.blogs = {};
+        $scope.blog = {};
+        $scope.errorMsg = {};
+
+        $scope.getFile = function () {
+            fileReader.readAsDataUrl($scope.file, $scope)
+                .then(function(result) {
+                    $scope.imageSrc = result;
+                });
+        };
+
+        $scope.init = function() {
+            dataFactory.getAll('blog')
+                .then(function (response) {
+                    var result = response.data;
+                    $scope.title_client = result.title_client;
+                    $scope.blog = result.blog;
+                    //console.log(result);
+                }, function (error) {
+                    $rootScope.message = 'Não foi possível carregar registro: ' + error.statusText;
+                    $rootScope.classe = 'alert-danger';
+                    $rootScope.scrollTop();
+                    $rootScope.showMessage();
+                });
+        };
+
+        $scope.init();
+
+        $scope.saveBlogText = function() {
+            if (($scope.blog_text != null) && ("undefined" != typeof $scope.blog_text.id)) {
+                dataFactory.updateItem($scope.blog_text, 'blog')
+                    .then(function (response) {
+                        var result = response.data;
+                        $scope.blog_text = result.blog_text;
+                        $rootScope.message = result.message;
+                        $rootScope.classe = 'alert-success';
+                        $rootScope.scrollTop();
+                        $rootScope.showMessage();
+                        console.log(result);
+                    }, function (error) {
+                        $rootScope.message = 'Não foi possível alterar o registro: ' + error.statusText;
+                        $rootScope.classe = 'alert-danger';
+                        $rootScope.scrollTop();
+                        $rootScope.showMessage();
+                    });
+            } else {
+                dataFactory.insertItem($scope.blog_text, 'blog')
+                    .then(function (response) {
+                        var result = response.data;
+                        $scope.blog_text = result.blog_text;
+                        $rootScope.message = result.message;
+                        $rootScope.classe = 'alert-success';
+                        $rootScope.scrollTop();
+                        $rootScope.showMessage();
+                        //console.log(result);
+                    }, function (error) {
+                        $rootScope.message = 'Não foi possível inserir o registro: ' + error.statusText;
+                        $rootScope.classe = 'alert-danger';
+                        $rootScope.scrollTop();
+                        $rootScope.showMessage();
+                    });
+            }
+        };
+
+        $scope.saveBlog = function() {
+            var file = $scope.file;
+            // UPDATE
+            if ($scope.blogs && "undefined" != typeof $scope.blogs.id) {
+                if (file) {
+                    $scope.blogs.file = file;
+                    file.upload = Upload.upload({
+                        url: $rootScope.api + 'blog/' + $scope.blogs.id,
+                        data: {
+                            id: $scope.blogs.id,
+                            title_client: $scope.blogs.title_client,
+                            title_tags: $scope.blogs.title_tags,
+                            image_client_path: $scope.blogs.image_client_path,
+                            description: $scope.blogs.description,
+							status: $scope.blogs.status,
+                            date_publish: $scope.blogs.date_publish,
+							_method: 'PUT',
+                            file: file
+                        }
+                    });
+
+                    file.upload.then(function (response) {
+                        var result = response.data;
+                        $scope.blog = result.blog;
+                        $scope.errorMsg = {};
+                        $scope.blogs = {};
+                        $scope.imageSrc = null;
+                        $rootScope.message = result.message;
+                        $rootScope.classe = result.classe;//'alert-success';
+                        $rootScope.scrollTop();
+                        $rootScope.showMessage();
+                        blogForm.reset();
+                        $('.image-view img').attr('src', '');
+                    }, function (error) {
+                        if (error.data && "undefined" != typeof error.data) {
+                            var result = error.data;
+                            $scope.errorMsg = result;
+                        }
+                    });
+                } else {
+                    console.log($scope.blogs);
+                    dataFactory.updateItem($scope.blogs, 'blog')
+                        .then(function (response) {
+                            var result = response.data;
+                            $scope.blog = result.blog;
+                            $scope.errorMsg = {};
+                            $scope.blogs = {};
+                            $scope.imageSrc = null;
+                            $rootScope.message = result.message;
+                            $rootScope.classe = result.classe;//'alert-success';
+                            $rootScope.scrollTop();
+                            $rootScope.showMessage();
+                            blogForm.reset();
+                            $('.image-view img').attr('src', '');
+                            console.log(result);
+                        }, function (error) {
+                            if (error.data && "undefined" != typeof error.data) {
+                                var result = error.data;
+                                $scope.errorMsg = result;
+                            }
+                        });
+                }
+            } else {
+                // INSERT
+                if (file && ($scope.blogs && "undefined" != typeof $scope.blogs.title_client) ) {
+                    file.upload = Upload.upload({
+                        url: $rootScope.api + 'blog',
+                        method: 'POST',
+                        data: {
+                            title_client: $scope.blogs.title_client,
+                            title_tags: $scope.blogs.title_tags,
+							image_client_path: file,
+							description: $scope.blogs.description,
+							status: '1',
+                            date_publish: $scope.blogs.date_publish
+                        }
+                    });
+
+                    file.upload.then(function (response) {
+                        var result = response.data;
+                        $scope.blog = result.blog;
+                        $scope.errorMsg = {};
+                        $scope.blogs = {};
+                        $scope.imageSrc = null;
+                        $rootScope.message = result.message;
+                        $rootScope.classe = 'alert-success';
+                        $rootScope.scrollTop();
+                        $rootScope.showMessage();
+                        blogForm.reset();
+                        $('.image-view img').attr('src', '');
+                    }, function (error) {
+                        if (error.data && "undefined" != typeof error.data) {
+                            var result = error.data;
+                            $scope.errorMsg = result;
+                        }
+                    });
+                } else {
+                    $scope.errorMsg.file = ['Campo obrigatório'];
+                    if ("undefined" == typeof $scope.blog.title_client)
+                        $scope.errorMsg.title_client = ['Campo obrigatório'];
+                }
+            }
+        };
+
+        $scope.editBlog = function(blogs) {
+            var data = new Date(blogs.date_publish);
+        	$scope.blogs = blogs;
+            $scope.errorMsg = {};
+            var storage = 'http://localhost:8000/storage/';
+            var image_url = storage + blogs.image_client_path;
+            $scope.imageSrc = image_url;
+            $scope.blogs.date_publish = $filter('date')(data, 'dd/MM/yyyy');
+        };
+
+        $scope.deleteBlog = function(blogs) {
+            $scope.blogs = {};
+            $scope.imageSrc = null;
+            $('.image-view img').attr('src', '');
+
+            var confirm = $window.confirm('Deseja mesmo excluir esse post?');
+
+            if (confirm) {
+                dataFactory.deleteItem(blogs, 'blog')
+                    .then(function (response) {
+                        var result = response.data;
+                        $rootScope.message = result.message;
+                        $scope.blog = result.blog;
+                        $rootScope.classe = 'alert-success';
+                        $rootScope.scrollTop();
+                        $rootScope.showMessage();
+                    }, function (error) {
+                        $rootScope.message = 'Não foi possível excluir o registro: ' + error.statusText;
+                        $rootScope.classe = 'alert-danger';
+                    });
+            }
+        };
+
+        $scope.$on('$viewContentLoaded', function() {
+            $('[data-mask]').inputmask({mask: ['99/99/9999', '99/99/9999']});
+        });
+    }])

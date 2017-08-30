@@ -20,4 +20,17 @@ angular.module('unoApp.filters', [])
 				return match[0];
 			}
 		}
-	});
+	})
+
+    .filter('slice', function() {
+        return function(arr, start, end) {
+            return (arr || []).slice(start, end);
+        };
+    })
+
+    .filter('offset', function() {
+        return function(input, start) {
+            start = parseInt(start, 10);
+            return input.slice(start);
+        };
+    });
