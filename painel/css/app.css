@@ -31,6 +31,9 @@ table * {
 	.image-view.servicos {
 		height: 200px;
 	}
+	.image-view.config {
+		height: 331px;
+	}
 
 .imagem-preview {
 	min-height: 400px;

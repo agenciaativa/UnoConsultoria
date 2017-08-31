@@ -43,36 +43,106 @@
 					</h3>
 				</div>
 				<div class="box-body pad">
-					<div class="row fix-height">
+					<div class="row">
 						<div class="col-md-6">
+							<div class="form-group" ng-class="{ 'has-error' : errorMsg.title &&  case.title == undefined }">
+								<label for="title_case">
+									<i ng-show="errorMsg.title &&  case.title == undefined" class="fa fa-times-circle-o"></i>Título Case
+								</label>
+								<input type="text" class="form-control" id="title_case" name="title_case" placeholder="Título" ng-model="case.title">
+								<span class="help-block" ng-show="errorMsg.title && !case.title">{{errorMsg.title[0]}}</span>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="cliente">Vincular cliente</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="cliente" placeholder="Cliente" value="{{ case.cliente.title_client }}"  readonly />
+									<span class="input-group-btn">
+										<button class="btn btn-default" type="button" data-toggle="modal" data-target="#modal-clientes" ng-click="getClientes()">
+											<i class="fa fa-search"></i>
+										</button>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
 							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label for="title_clientes">Título Case</label>
-										<input type="text" class="form-control" id="title_clientes" name="title_clientes" placeholder="Título">
+								<div class="col-md-6">
+									<div class="form-group" ng-class="{ 'has-error' : errorMsg.description && !case.description }">
+										<label for="text_case">
+											<i ng-show="errorMsg.description && !case.description" class="fa fa-times-circle-o"></i>Descrição
+										</label>
+										<textarea id="text_case" name="text_case" class="ckeditor" rows="10" cols="80" ng-model="case.description" ckeditor></textarea>
+										<span class="help-block" ng-show="errorMsg.description && !case.description">{{errorMsg.description[0]}}</span>
 									</div>
 								</div>
-								<div class="col-md-12">
-									<div class="form-group">
-										<label for="text_case_item">Descrição</label>
-										<textarea id="text_case_item" name="text_case_item" class="ckeditor" ckeditor></textarea>
+								<div class="col-md-6">
+									<div class="form-group" ng-class="{ 'has-error' : errorMsg.text && !case.text }">
+										<label for="text_case">
+											<i ng-show="errorMsg.text && !case.text" class="fa fa-times-circle-o"></i>Texto
+										</label>
+										<textarea id="text_case" name="text_case" class="ckeditor" rows="10" cols="80" ng-model="case.text" ckeditor></textarea>
+										<span class="help-block" ng-show="errorMsg.text && !case.text">{{errorMsg.text[0]}}</span>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label for="imagem_case">Imagem JPG/JPEG (Largura: 311px, Altura: 233px)</label>
-										<input type="file" id="imagem_case" name="imagem_case" class="form-control" ng-file-select="onFileSelect($files)">
+								<div class="col-md-6">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group" ng-class="{'has-error' : errorMsg.file[0]}">
+												<label for="file">
+													<i ng-show="errorMsg.file[0]" class="fa fa-times-circle-o"></i>Imagem JPG/PNG (Largura: 1140px, Altura: 770px)
+												</label>
+												<input type="file" id="file" name="file" class="form-control" ng-file-select="onFileSelect($files)" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile" required>
+												<span class="help-block" ng-show="errorMsg.file[0]">{{errorMsg.file[0]}}</span>
+											</div>
+										</div>
+										<div class="col-md-12">
+											<label>Visualização</label>
+											<div class="image-view well well-sm no-shadow">
+												<i ng-hide="imageSrc">Sem imagem para visualização</i>
+												<img ng-src="{{imageSrc}}" />
+											</div>
+										</div>
 									</div>
 								</div>
-								<div class="col-md-12">
-									<label>Visualização</label>
-									<div class="image-view well well-sm no-shadow">
-										<i ng-hide="imageSrc">Sem imagem para visualização</i>
-										<img ng-src="{{imageSrc}}" />
+								<div class="col-md-6">
+									<div class="panel panel-default">
+										<div class="panel-heading">Lista de cases</div>
+										<div ng-hide="cases.length" class="pad text-center">
+											<i>Não há cases cadastrados!</i>
+										</div>
+										<table class="table table-condensed table-striped" ng-show="cases.length">
+											<thead>
+												<tr>
+													<th class="text-center">#</th>
+													<th>Título</th>
+													<th>&nbsp;</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng-repeat="c in cases">
+													<td class="text-center">{{ ::c.id }}</td>
+													<td>{{ ::c.title }}</td>
+													<td class="text-right">
+														<div class="btn-group">
+															<button type="button" class="btn btn-default btn-sm" ng-click="editCase(c)" title="Editar case">
+																<i class="fa fa-edit"></i>
+															</button>
+															<button type="button" class="btn btn-danger btn-sm" ng-click="deleteCase(c)" title="Excluir">
+																<i class="fa fa-trash-o"></i>
+															</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</div>
@@ -91,3 +161,54 @@
 	</div>
 </div>
 <!-- /.row -->
+<div class="modal fade" id="modal-clientes">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Vincular cliente</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">Lista de clientes</div>
+							<div ng-hide="clientes.length" class="pad text-center">
+								<i>Não há clientes cadastrados!</i>
+							</div>
+							<table class="table table-condensed table-striped" ng-show="clientes.length">
+								<thead>
+									<tr>
+										<th class="text-center">#</th>
+										<th>Cliente</th>
+										<th>&nbsp;</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="c in clientes">
+										<td class="text-center">{{ ::c.id }}</td>
+										<td>{{ ::c.title_client }}</td>
+										<td class="text-right">
+											<div class="btn-group">
+												<button type="button" class="btn btn-primary btn-sm" ng-click="selectCliente(c)" title="Vincular cliente" data-dismiss="modal">
+													<i class="fa fa-plus"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

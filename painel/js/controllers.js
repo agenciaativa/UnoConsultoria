@@ -388,6 +388,8 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		$scope.cliente = {};
 		$scope.errorMsg = {};
 
+		$scope.file = null;
+
 		$scope.getFile = function () {
 			fileReader.readAsDataUrl($scope.file, $scope)
 				.then(function(result) {
@@ -469,6 +471,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.clientes = result.clientes;
 						$scope.errorMsg = {};
 						$scope.cliente = {};
+						$scope.file = null;
 						$scope.imageSrc = null;
 						$rootScope.message = result.message;
 						$rootScope.classe = result.classe;//'alert-success';
@@ -490,6 +493,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 							$scope.clientes = result.clientes;
 							$scope.errorMsg = {};
 							$scope.cliente = {};
+							$scope.file = null;
 							$scope.imageSrc = null;
 							$rootScope.message = result.message;
 							$rootScope.classe = result.classe;//'alert-success';
@@ -522,6 +526,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.clientes = result.clientes;
 						$scope.errorMsg = {};
 						$scope.cliente = {};
+						$scope.file = null;
 						$scope.imageSrc = null;
 						$rootScope.message = result.message;
 						$rootScope.classe = 'alert-success';
@@ -583,13 +588,15 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		$rootScope.message = '';
 		$rootScope.classe = '';
 
-		$scope.cases = {};
 		$scope.case_text = {};
+		$scope.case = {};
+		$scope.cases = {};
+		$scope.clientes = {};
 		$scope.errorMsg = {};
 
 		$scope.options = {
 			resize_enabled: false,
-			height: 216,
+			height: 300,
 			format_div: { name: 'Caixa de Texto', element: 'div' },
 			format_tags: 'p;span;h1;h2;h3;div',
 			stylesSet: 'custom'
@@ -668,11 +675,110 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 			}
 		};
 
+		$scope.saveCase = function() {
+			var file = $scope.file;
+			
+			// UPDATE
+			if ($scope.case && "undefined" != typeof $scope.case.id) {
+				if (file) {
+					$scope.case.file = file;
+					$scope.case._method = 'PUT';
+					file.upload = Upload.upload({
+						url: $rootScope.api + 'cases/' + $scope.case.id,
+						data: $scope.case
+					});
+
+					file.upload.then(function (response) {
+						var result = response.data;
+						$scope.cases = result.cases;
+						$scope.errorMsg = {};
+						$scope.case = {};
+						$scope.file = null;
+						$scope.imageSrc = null;
+						$rootScope.message = result.message;
+						$rootScope.classe = result.classe;
+						$rootScope.scrollTop();
+						$rootScope.showMessage();
+						casesForm.reset();
+						$('.image-view img').attr('src', '');
+					}, function (error) {
+						if (error.data && "undefined" != typeof error.data) {
+							var result = error.data;
+							$scope.errorMsg = result;
+						}
+					});
+				} else {
+					dataFactory.updateItem($scope.case, 'cases')
+						.then(function (response) {
+							var result = response.data;
+							$scope.cases = result.cases;
+							$scope.errorMsg = {};
+							$scope.case = {};
+							$scope.file = null;
+							$scope.imageSrc = null;
+							$rootScope.message = result.message;
+							$rootScope.classe = result.classe;
+							$rootScope.scrollTop();
+							$rootScope.showMessage();
+							casesForm.reset();
+							$('.image-view img').attr('src', '');
+						}, function (error) {
+							if (error.data && "undefined" != typeof error.data) {
+								var result = error.data;
+								$scope.errorMsg = result;
+							}
+						});
+				}
+			} else {
+				// INSERT
+				if (file && ($scope.case && "undefined" != typeof $scope.case.title && $scope.case.text != '' && $scope.case.description != '') ) {
+					$scope.case.file = file;
+					file.upload = Upload.upload({
+						url: $rootScope.api + 'cases',
+						method: 'POST',
+						data: $scope.case
+					});
+
+					file.upload.then(function (response) {
+						var result = response.data;
+						$scope.cases = result.cases;
+						$scope.errorMsg = {};
+						$scope.case = {};
+						$scope.file = null;
+						$scope.imageSrc = null;
+						$rootScope.message = result.message;
+						$rootScope.classe = 'alert-success';
+						$rootScope.scrollTop();
+						$rootScope.showMessage();
+						casesForm.reset();
+						$('.image-view img').attr('src', '');
+					}, function (error) {
+						if (error.data && "undefined" != typeof error.data) {
+							var result = error.data;
+							$scope.errorMsg = result;
+						}
+					});
+				} else {
+					if (!file)
+						$scope.errorMsg.file = ['Campo obrigatório'];
+
+					if (($scope.case.title == "") || ("undefined" == typeof $scope.case.title))
+						$scope.errorMsg.title = ['Campo obrigatório'];
+
+					if (($scope.case.description == "") || ("undefined" == typeof $scope.case.description))
+						$scope.errorMsg.description = ['Campo obrigatório'];
+
+					if (($scope.case.text == "") || ("undefined" == typeof $scope.case.text))
+						$scope.errorMsg.text = ['Campo obrigatório'];
+				}
+			}
+		};
+
 		$scope.editCase = function(item) {
 			$scope.case = item;
 			$scope.errorMsg = {};
 			var storage = 'http://localhost:8000/storage/';
-			var image_url = storage + item.image_client_path;
+			var image_url = storage + item.filepath;
 			$scope.imageSrc = image_url;
 		};
 
@@ -697,6 +803,25 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$rootScope.classe = 'alert-danger';
 					});
 			}
+		};
+
+		$scope.getClientes = function() {
+			if (!$scope.clientes.length) {
+				dataFactory.getAll('clientes')
+					.then(function (response) {
+						var result = response.data;
+						$scope.clientes = result.clientes;
+					}, function (error) {
+						$rootScope.message = 'Não foi possível carregar registro: ' + error.statusText;
+						$rootScope.classe = 'alert-danger';
+						$rootScope.scrollTop();
+						$rootScope.showMessage();
+					});
+			}
+		};
+
+		$scope.selectCliente = function(cliente) {
+			$scope.case.cliente = cliente;
 		};
 	}])
 
@@ -1057,12 +1182,12 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						var result = response.data;
 						$scope.config = result.config[0];
 						$scope.errorMsg = {};
+						$scope.file = null;
 						$scope.imageSrc = storage + $scope.config.logo_filepath;
 						$rootScope.message = result.message;
 						$rootScope.classe = result.classe;
 						$rootScope.scrollTop();
 						$rootScope.showMessage();
-						// $('.image-view img').attr('src', '');
 					}, function (error) {
 						if (error.data && "undefined" != typeof error.data) {
 							var result = error.data;
@@ -1075,12 +1200,12 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 							var result = response.data;
 							$scope.config = result.config[0];
 							$scope.errorMsg = {};
+							$scope.file = null;
 							$scope.imageSrc = storage + $scope.config.logo_filepath;
 							$rootScope.message = result.message;
 							$rootScope.classe = result.classe;
 							$rootScope.scrollTop();
 							$rootScope.showMessage();
-							// $('.image-view img').attr('src', '');
 						}, function (error) {
 							if (error.data && "undefined" != typeof error.data) {
 								var result = error.data;
@@ -1102,12 +1227,12 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						var result = response.data;
 						$scope.config = result.config[0];
 						$scope.errorMsg = {};
+						$scope.file = null;
 						$scope.imageSrc = storage + $scope.config.logo_filepath;
 						$rootScope.message = result.message;
 						$rootScope.classe = 'alert-success';
 						$rootScope.scrollTop();
 						$rootScope.showMessage();
-						// $('.image-view img').attr('src', '');
 					}, function (error) {
 						if (error.data && "undefined" != typeof error.data) {
 							var result = error.data;

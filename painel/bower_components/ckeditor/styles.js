@@ -24,8 +24,8 @@ CKEDITOR.stylesSet.add( 'default', [
 	
 	{ name: 'Normal',				element: 'p', 	attributes: { 'class': ' '	} },
 	{ name: 'Parágrafo Negrito',	element: 'p',	attributes: { 'class': 'gb' } },
-	{ name: 'Título 1',				element: 'h1',	attributes: { 'class': 'gb' } },
-	{ name: 'Título 2',				element: 'h2' },
+	{ name: 'Título 1',				element: 'h1' },
+	{ name: 'Título 2',				element: 'h2',	attributes: { 'class': 'gb' } },
 	{ name: 'Título 3',				element: 'h3' },
 	/*{ 
 		name: 'Conteúdo Destacado',		
@@ -48,8 +48,8 @@ CKEDITOR.stylesSet.add( 'custom', [
 	
 	{ name: 'Normal',				element: 'p', 	attributes: { 'class': ' '	} },
 	{ name: 'Parágrafo Negrito',	element: 'p',	attributes: { 'class': 'gb' } },
-	{ name: 'Título 1',				element: 'h1',	attributes: { 'class': 'gb' } },
-	{ name: 'Título 2',				element: 'h2' },
+	{ name: 'Título 1',				element: 'h1' },
+	{ name: 'Título 2',				element: 'h2',	attributes: { 'class': 'gb' } },
 	{ name: 'Título 3',				element: 'h3' },
 	{ 
 		name: 'Conteúdo Destacado',		
