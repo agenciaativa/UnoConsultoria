@@ -316,9 +316,6 @@ angular.module('unoApp.controllers', [])
         };
     })
 
-		$rootScope.state = $state.current.name;
-	})
-
 	.controller('casesController', function($state, $rootScope, $scope, $stateParams, $sce, dataFactory) {
 		$rootScope.state = $state.current.name;
 
@@ -363,25 +360,8 @@ angular.module('unoApp.controllers', [])
 		$scope.init();
 	})
 
-	.controller('infoblogController', function($state, $scope, $stateParams, $sce) {
-		$scope.blogID = $stateParams.id;
-		$scope.blog = [{
-			title: 'SANTA CASA DE PRESIDENTE EPITÁCIO',
-			html: $sce.trustAsHtml('<p>Em virtude de transição ocorrida na Diretoria da Irmandade da Santa Casa de Tupi Paulista, a Uno Gestão de Saúde foi convidada para elaborar um processo de auditoria nos custos dos serviços prestados pela Santa Casa de Misericórdia de Tupi Paulista.</p>' +
-				'<p>A Uno disponibilizou para a realização deste trabalho o profissional especializado em gestão financeira com formação em economia.</p>' +
-				'<p>Através de uma metodologia baseada no conceito de custos por absorção, realizamos uma análise econômico-financeira desta unidade de saúde.</p>' +
-				'<p>Em virtude de transição ocorrida na Diretoria da Irmandade da Santa Casa de Tupi Paulista, a Uno Gestão de Saúde foi convidada para elaborar um processo de auditoria nos custos dos serviços prestados pela Santa Casa de Misericórdia de Tupi Paulista.</p>' +
-				'<p>A Uno disponibilizou para a realização deste trabalho o profissional especializado em gestão financeira com formação em economia.</p>' +
-				'<p>Através de uma metodologia baseada no conceito de custos por absorção, realizamos uma análise econômico-financeira desta unidade de saúde.</p>')
-		},
-			{
-				title: 'SANTA CASA DE TUPI PAULISTA',
-				html: $sce.trustAsHtml('')
-			}];
-
 	.controller('infoblogController', function($state, $scope, $stateParams, $sce, dataFactory) {
 		$scope.blogID = $stateParams.id;
-        //console.log($stateParams);
 
         $scope.blog = [];
 
@@ -397,8 +377,6 @@ angular.module('unoApp.controllers', [])
                     angular.forEach(result.blog, function(value, key) {
                         value.idpost = value.id;
                     	if(value.slug == $stateParams.slug ) {
-                    		console.log($stateParams);
-                            //console.log($scope.blogID);
                             value.user = $sce.trustAsHtml(value.user);
                             value.image_client_path = $sce.trustAsHtml(value.image_client_path);
                             value.resume = $sce.trustAsHtml(value.resume);
@@ -408,7 +386,6 @@ angular.module('unoApp.controllers', [])
                             value.slug = $sce.trustAsHtml(value.slug);
                             var data = new Date($sce.trustAsHtml(value.date_publish));
                             value.date_publish = data;
-
                             this.push(value);
                     	}
                     }, $scope.blog);
@@ -418,7 +395,6 @@ angular.module('unoApp.controllers', [])
         };
 
         $scope.init();
-
 	})
 
 	.controller('newsController', function($scope, APIService) {
