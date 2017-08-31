@@ -3,7 +3,7 @@ angular.module('unoApp.filters', [])
 		var RegExp, match;
 
 		return function(phone, type) {
-			if (typeof phone != 'undefined') {
+			if (phone && typeof phone != 'undefined') {
 				switch(type) {
 					case 'ddd' :
 						RegExp = /(\(\d{2}\))/gi;

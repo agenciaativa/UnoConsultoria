@@ -30,8 +30,16 @@ angular.module('unoApp.states', ['ui.router'])
 				controller: 'casesController'
 			})
 			.state('detalhes', {
-				url: '/cases/:id',
+				url: '/cases/:slug',
 				templateUrl: 'partials/case-detalhes.html',
+				resolve: {
+					id: function($stateParams){
+						return $stateParams.id;
+					}
+				},
+				params: {
+					id: null
+				},
 				controller: 'infocasesController'
 			})
 
