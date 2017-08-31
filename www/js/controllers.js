@@ -255,7 +255,67 @@ angular.module('unoApp.controllers', [])
 		$scope.init();
 	})
 
-	.controller('blogController', function($state, $rootScope, $scope, $stateParams) {
+    .controller('blogController', function($state, $rootScope, $scope, $http, $sce, dataFactory) {
+        $rootScope.state = $state.current.name;
+        $scope.blog = [];
+
+        $scope.init = function() {
+            getBlog();
+        }
+
+        var getBlog = function() {
+            $scope.message = {};
+            dataFactory.getAll('blog')
+                .then(function (response) {
+                    var result = response.data;
+                    angular.forEach(result.blog, function(value, key) {
+                        value.user = $sce.trustAsHtml(value.user);
+                        value.image_client_path = $sce.trustAsHtml(value.image_client_path);
+                        value.resume = $sce.trustAsHtml(value.resume);
+                        value.description = $sce.trustAsHtml(value.description);
+                        value.title_client = $sce.trustAsHtml(value.title_client);
+                        value.title_tags = $sce.trustAsHtml(value.title_tags);
+                        value.slug = $sce.trustAsHtml(value.slug);
+                        var data = new Date($sce.trustAsHtml(value.date_publish));
+                        value.date_publish = data;
+
+                        this.push(value);
+                    }, $scope.blog);
+                }, function (error) {
+                    $scope.message = 'Não foi possível carregar registro: ' + error.statusText;
+                });
+        };
+
+        $scope.init();
+
+        $scope.itemsPerPage = 5;
+        $scope.currentPage = 0;
+
+        $scope.prevPage = function() {
+            if ($scope.currentPage > 0) {
+                $scope.currentPage--;
+            }
+        };
+
+        $scope.prevPageDisabled = function() {
+            return $scope.currentPage === 0 ? "disabled" : "";
+        };
+
+        $scope.pageCount = function() {
+            return Math.ceil($scope.blog.length/$scope.itemsPerPage)-1;
+        };
+
+        $scope.nextPage = function() {
+            if ($scope.currentPage < $scope.pageCount()) {
+                $scope.currentPage++;
+            }
+        };
+
+        $scope.nextPageDisabled = function() {
+            return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
+        };
+    })
+
 		$rootScope.state = $state.current.name;
 	})
 
@@ -318,6 +378,47 @@ angular.module('unoApp.controllers', [])
 				title: 'SANTA CASA DE TUPI PAULISTA',
 				html: $sce.trustAsHtml('')
 			}];
+
+	.controller('infoblogController', function($state, $scope, $stateParams, $sce, dataFactory) {
+		$scope.blogID = $stateParams.id;
+        //console.log($stateParams);
+
+        $scope.blog = [];
+
+        $scope.init = function() {
+            getBlog();
+        }
+
+        var getBlog = function() {
+            $scope.message = {};
+            dataFactory.getAll('blog')
+                .then(function (response) {
+                    var result = response.data;
+                    angular.forEach(result.blog, function(value, key) {
+                        value.idpost = value.id;
+                    	if(value.slug == $stateParams.slug ) {
+                    		console.log($stateParams);
+                            //console.log($scope.blogID);
+                            value.user = $sce.trustAsHtml(value.user);
+                            value.image_client_path = $sce.trustAsHtml(value.image_client_path);
+                            value.resume = $sce.trustAsHtml(value.resume);
+                            value.description = $sce.trustAsHtml(value.description);
+                            value.title_client = $sce.trustAsHtml(value.title_client);
+                            value.title_tags = $sce.trustAsHtml(value.title_tags);
+                            value.slug = $sce.trustAsHtml(value.slug);
+                            var data = new Date($sce.trustAsHtml(value.date_publish));
+                            value.date_publish = data;
+
+                            this.push(value);
+                    	}
+                    }, $scope.blog);
+                }, function (error) {
+                    $scope.message = 'Não foi possível carregar registro: ' + error.statusText;
+                });
+        };
+
+        $scope.init();
+
 	})
 
 	.controller('newsController', function($scope, APIService) {
