@@ -18,7 +18,7 @@ class CaseController extends Controller
 	public function index()
 	{
 		$case = CaseText::first();
-		$cases = Cases::all();
+		$cases = Cases::with('cliente')->get();
 		return response()->json(['text' => $case, 'cases' => $cases, 'message' => '']);
 	}
 
@@ -81,43 +81,13 @@ class CaseController extends Controller
 	 */
 	public function update(CaseRequest $request, CaseText $case)
 	{
-		$input = $request->all();
-
-		$rules = array(
-			'title'  => 'required',
-			'subtitle'  => 'required',
-		);
-
-		$messages = [
-			'required' => 'Campo obrigatório',
-		];
-
-		$validator = Validator::make($input, $rules, $messages);
-
-		$this->validate($request, [
-			'title' => 'required',
-			'subtitle' => 'required'
-		], $messages);
-
 		$message = 'Não foi possível alterar o registro!';
-		$classe = 'alert-danger';
+		if ($case->fill($request->all())->save())
+			$message = 'Registro alterado com sucesso!';
 
-		if ($validator->fails()) 
-		{
-			$case = CaseText::first();
+		$case_text = CaseText::first();
 
-			return response()->json(['text' => $case, 'message' => $validator->errors()->first(), 'classe' => $classe]);
-		} 
-		else 
-		{
-			$message = 'Não foi possível alterar o registro!';
-			if ($case->fill($request->all())->save())
-				$message = 'Registro alterado com sucesso!';
-
-			$case_text = CaseText::first();
-
-			return response()->json(['text' => $case_text, 'message' => $message]);
-		}
+		return response()->json(['text' => $case_text, 'message' => $message]);
 	}
 
 	/**

@@ -16,7 +16,7 @@ class ClienteController extends Controller
 	public function index()
 	{
 		$cliente_text = Cliente::first();
-		$clientes = Clientes::all();
+		$clientes = Clientes::with('case')->get();
 		return response()->json(['text' => $cliente_text, 'clientes' => $clientes, 'message' => '']);
 	}
 

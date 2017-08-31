@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cases extends Model
 {
-    use Notifiable;
+	use Notifiable;
 
 	/**
 	 * The attributes that are mass assignable.
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['title', 'text', 'filepath'];
+	protected $fillable = ['cliente_id', 'title', 'description', 'text', 'filepath', 'thumbnail', 'slug'];
 	
 	/**
 	 * The table associated with the model.
@@ -28,5 +28,13 @@ class Cases extends Model
 	 *
 	 * @var array
 	 */
-	protected $hidden = ['created_at', 'updated_at'];
+	protected $hidden = ['updated_at'];
+
+	/**
+	 * Get the Cliente that owns the Case.
+	 */
+	public function cliente()
+	{
+		return $this->belongsTo('App\Clientes', 'cliente_id', 'id');
+	}
 }
