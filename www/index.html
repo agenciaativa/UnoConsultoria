@@ -13,7 +13,6 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="description" content="Uno Consultoria">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-
 		<link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
 		<link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
 		<link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
@@ -24,38 +23,19 @@
 		<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
 		<link rel="stylesheet" href="css/app.css">
 		<link rel="stylesheet" href="css/responsive.css">
-		<base href="./">
-
-
-		<div id="fb-root"></div>
-		<script>(function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.10";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-
-		<!--<script
-				type="text/javascript"
-				async defer
-				src="//assets.pinterest.com/js/pinit.js"
-		></script>-->
-
+		<base href="/Uno%20Consultoria/angular-template/app/">
 	</head>
-	<body ng-app="unoApp" ng-init="loadConfig()">
+	<body ng-app="unoApp">
 
 		<!-- Header -->
 		<header class="container-fluid" ng-include="'templates/header.html'"></header>
 		<nav class="navbar navbar-default" ng-include="'templates/navbar.html'"></nav>
 
 		<!-- Banner Carousel -->
-		<div id="carousel" class="carousel slide" data-ride="carousel" ng-if="state == 'home'" ng-controller="bannersController" ng-show="banners.length > 0">    
+		<div id="carousel" class="carousel slide" data-ride="carousel" ng-if="state == 'home'" ng-controller="bannersController" ng-show="banners.length">    
 			<!-- Indicators -->
 			<ol class="carousel-indicators">
 				<li data-target="#carousel" data-slide-to="{{$index}}" ng-repeat="b in banners" ng-class="{'active': $index == 0}"></li>
-				<!-- <li data-target="#carousel" data-slide-to="1"></li>
-				<li data-target="#carousel" data-slide-to="2"></li> -->
 			</ol>
 
 			<!-- Wrapper for slides -->
@@ -64,20 +44,6 @@
 					<img ng-src="http://localhost:8000/storage/{{b.path}}" alt="{{ b.name }}" />
 					<div class="carousel-caption" ng-show="b.description" ng-bind-html="b.description"></div>
 				</div>
-				<!-- <div class="item">
-					<img src="img/banners/banner-1.jpg" alt="BANNER 1" />
-					<div class="carousel-caption">
-						<h1 class="gb">SOLUÇÕES PRÁTICAS,</h1>
-						<p>COM UMA METODOLOGIA DE TRABALHO EFICIENTE, PENSADAS ESPECIFICAMENTE PARA A ROTINA DOS PROFISSIONAIS DA ÁREA DA SAÚDE.</p>
-					</div>
-				</div>
-				<div class="item">
-					<img src="img/banners/banner-1.jpg" alt="BANNER 1" />
-					<div class="carousel-caption">
-						<h1 class="gb">SOLUÇÕES PRÁTICAS,</h1>
-						<p>COM UMA METODOLOGIA DE TRABALHO EFICIENTE, PENSADAS ESPECIFICAMENTE PARA A ROTINA DOS PROFISSIONAIS DA ÁREA DA SAÚDE.</p>
-					</div>
-				</div> -->
 			</div>
 
 			<!-- Controls -->
@@ -108,7 +74,7 @@
 
 		<!-- Vendor: Javascripts -->
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+		<script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-3.5.0.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 		<!-- Vendor: jQuery Plugins -->
@@ -117,7 +83,6 @@
 		<!-- Vendor: Angular & Others -->
 		<script src="bower_components/angular/angular.min.js"></script>
 		<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-		<script src="bower_components/angular-locale-pt-br/angular-locale_pt-br.js"></script>
 
 		<!-- Custom JS -->
 		<script src="js/app.js"></script>
