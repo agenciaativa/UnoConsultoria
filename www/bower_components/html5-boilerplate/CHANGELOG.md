@@ -1,3 +1,38 @@
+### 6.0.0 (August 17, 2017)
+
+* Fix Bug: .visuallyhidden on macOS VO fixes #1985 ([#1989](https://github.com/h5bp/html5-boilerplate/pull/1989))
+* Adds web app manifest file ([#1963](https://github.com/h5bp/html5-boilerplate/pull/1963))
+* Update to jQuery 3.2.1 ([#1942](https://github.com/h5bp/html5-boilerplate/pull/1942))
+* Improve ::selection documentation which became confusing after c7057be ([#1955](https://github.com/h5bp/html5-boilerplate/pull/1955))
+* refactor(html): update browsehappy to https instead of http ([#1952](https://github.com/h5bp/html5-boilerplate/pull/1952))
+* Fix links to CONTRIBUTING.md  ([#1951](https://github.com/h5bp/html5-boilerplate/pull/1951))
+* Adds .github folder and contents Fixes  ([#1948](https://github.com/h5bp/html5-boilerplate/pull/1948))
+* Modernizr 3, modernizr.config and ([#1940](https://github.com/h5bp/html5-boilerplate/pull/1940))
+* Housekeeping by @coliff (#1968 #1969 #1965 #1964 #1958 #1957 #1956)
+* Update .gitattributes for Web Projects ([#1935](https://github.com/h5bp/html5-boilerplate/pull/1935))
+* Add the link for useful .gitignore templates ([#1936](https://github.com/h5bp/html5-boilerplate/pull/1936))
+* Node plumbing updated ([#1925](https://github.com/h5bp/html5-boilerplate/pull/1925)) ([#1928](https://github.com/h5bp/html5-boilerplate/pull/1928)) ([#1931](https://github.com/h5bp/html5-boilerplate/pull/1931))
+* Use es2015 syntax in mocha tests ([#1788](https://github.com/h5bp/html5-boilerplate/pull/1788)) 
+* Scope :first-letter selector for print styles ([#1904](https://github.com/h5bp/html5-boilerplate/pull/1904))
+* Add SRI Hash for jQuery ([#1904](https://github.com/h5bp/html5-boilerplate/pull/1904)) 
+* Update .jshintrc ([#1903](https://github.com/h5bp/html5-boilerplate/pull/1903))
+* Improve accessibility with visuallyhidden content ([#1900](https://github.com/h5bp/html5-boilerplate/pull/1900))
+* Tell users that IE 8 and 9 are outdated
+  ([#1747](https://github.com/h5bp/html5-boilerplate/issues/1747)).
+* Removed IE8 Support (upgrades jQuery and normalize.css to latest)
+  ([#1524](https://github.com/h5bp/html5-boilerplate/issues/1524)).
+* Fix print styles for Internet Explorer 11
+  ([#1799](https://github.com/h5bp/html5-boilerplate/issues/1799)).
+* Update doc links to https
+  ([#1889](https://github.com/h5bp/html5-boilerplate/issues/1889)).
+* Delete crossdomain.xml
+  ([#1881](https://github.com/h5bp/html5-boilerplate/issues/1881)).
+* Adds pre-wrap to PRE
+  ([#1742](https://github.com/h5bp/html5-boilerplate/issues/1742)).
+* Change license format to SPDX format
+  ([#1814](https://github.com/h5bp/html5-boilerplate/pull/1814)).
+* Simplify the Google Analytics snippet using `async` & `defer` ([#1660](https://github.com/h5bp/html5-boilerplate/pull/1660#issuecomment-89285678)).
+
 ### 5.3.0 (January 12, 2016)
 
 * Update jQuery to `v1.12.0`.

@@ -1,13 +1,13 @@
 <div class="clients">
 	<div class="container">
-		<div ng-bind-html="clientes.text"></div>
+		<div ng-bind-html="text.text_clients"></div>
 		<div class="clients-gallery row">
-			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 clients-gallery-item" ng-repeat="cliente in clientes.clientes">
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 clients-gallery-item" ng-repeat="c in clientes">
 				<div class="item-image">
-					<img class="img-thumbnail" ng-src="http://localhost:8000/storage/{{ cliente.image_client_path }}"  title="{{ cliente.title_client }}"/>
+					<img class="img-thumbnail" ng-src="http://localhost:8000/storage/{{ c.image_client_path }}"  title="{{ c.title_client }}"/>
 				</div>
 				<div class="item-description">
-					<h5 class="gb text-center">{{ cliente.title_client }}</h5>
+					<h5 class="gb text-center">{{ c.title_client }}</h5>
 				</div>
 			</div>
 		</div>

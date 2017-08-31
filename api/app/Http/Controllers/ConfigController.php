@@ -48,7 +48,10 @@ class ConfigController extends Controller
 			'address' => $request->address,
 			'lat' => $request->lat,
 			'lon' => $request->lon,
-			'logo_filepath' => $filepath
+			'logo_filepath' => $filepath,
+			'facebook' => $request->facebook ?? '',
+			'instagram' => $request->instagram ?? '',
+			'linkedin' => $request->linkedin ?? ''
 		];
 		if (Config::create($input)) 
 			$message = 'Configurações salvas com sucesso!';
@@ -132,12 +135,15 @@ class ConfigController extends Controller
 			$config->lat = $input['lat'];
 			$config->lon = $input['lon'];
 			$config->banner_count = $input['banner_count'];
+			$config->facebook = $input['facebook'] ?? '';
+			$config->instagram = $input['instagram'] ?? '';
+			$config->linkedin = $input['linkedin'] ?? '';
 
 			if ($file = $request->file('file'))
 			{
 				$stored_file = public_path('storage/').$config->logo_filepath;
-				$ext = '.'.$file->getClientOriginalExtension();
-				$config->logo_filepath = upload_file($file, 'uploads/images/', $stored_file, 'logo.'.$ext);
+				$ext = $file->getClientOriginalExtension();
+				$config->logo_filepath = upload_file($file, 'uploads/images', $stored_file, 'logo.'.$ext);
 			}
 
 			if ($config->save()) 

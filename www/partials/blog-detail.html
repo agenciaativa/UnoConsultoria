@@ -6,43 +6,35 @@
 
 			<div class="col-md-8 col-sm-8 col-xs-12">
 
-				<div class="list-blog-news" ng-repeat="b in blog">
+				<div class="list-blog-news">
 
-					<h3 class="blog-title">{{ b.title_client }}</h3>
+					<h3 class="blog-title">Santa Casa Presidente Epitacio</h3>
 
 					<ul class="list-header-blog nav">
 
-						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-user full-icon" aria-hidden="true"></i> {{b.user}}</li>
-						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-calendar full-icon" aria-hidden="true"></i> {{b.date_publish | date: 'dd'}} de {{b.date_publish | date: 'MMMM' }} de {{b.date_publish | date: 'yyyy'}} </li>
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-user full-icon" aria-hidden="true"></i> Wally West</li>
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-calendar full-icon" aria-hidden="true"></i> Terça Feira, Julho, 2017</li>
 						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-tags full-icon" aria-hidden="true"></i> Blog</li>
 
 					</ul>
 
-					<img ng-src="http://localhost:8000/storage/{{b.image_client_path}}" />
+					<img src="img/cases/1_full.jpg" class="img-responsive">
 
-					<p ng-bind-html="b.description"></p>
+					<div class="detalhe" data-ng-bind-html="blog[blogID-1].html"></div>
 
 					<ul class="list-share nav">
 
 						<li>
 
-						<li class="tags"><i class="fa fa-tags full-icon" aria-hidden="true"></i> Tags: <a ui-sref="tags({ id : b.id, slug : b.slug })"> {{b.title_tags}}</a></li>
+							<li class="tags"><i class="fa fa-tags full-icon" aria-hidden="true"></i> Tags: <a ui-sref="javascript:;">Blog</a> &bull; <a ui-sref="javascript:;">Blog</a> &bull; <a ui-sref="javascript:;">Blog</a> &bull; <a ui-sref="javascript:;">Blog</a></li>
 
 
 							<ul class="list-share-right nav navbar-nav navbar-right share-link">
 								<li class="space-link">Compartilhar</li>
-								<!--<div class="fb-share-button" data-href="http://www.unogestaodesaude.com.br/blog/{{b.slug}}" data-layout="button_count"><img src="img/blog/share_facebook.png"></div>-->
-								<i><span class="fb" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="small" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.unogestaodesaude.com.br/#blog/{{b.slug}}&amp;src=sdkpreparse"><img src="img/blog/share_facebook.png"></a></span></i>
-								<i>
-									<a class="twitter-share-button" href="https://twitter.com/share" data-size="large"
-									  data-text="{{b.title_client}}" data-url="http://www.unogestaodesaude.com.br/#blog/{{b.slug}}"
-									  data-hashtags="{{b.title_tags}}" data-via="@unogestaodesaude" data-related="twitterapi,twitter" target="_blank">
-										<img src="img/blog/share_twitter.png">
-									</a>
-								</i>
-								<i><a href="http://pinterest.com/pin/create/button/?url=http://www.unogestaodesaude.com.br/#blog/{{b.slug}}&media=http://localhost:8000/storage/{{b.image_client_path}}&description={{b.title_client}}"
-									  target="_blank"><img src="img/blog/share_pinterest.png"></a></i>
-								<i><a href="https://plus.google.com/share?url=http://www.unogestaodesaude.com.br/#blog/{{b.slug}}" target="_blank"><img src="img/blog/share_google.png"></a></i>
+								<i><a href="javascript"><img src="img/blog/share_facebook.png"></a></i>
+								<i><a href="javascript"><img src="img/blog/share_twitter.png"></a></i>
+								<i><a href="javascript"><img src="img/blog/share_pinterest.png"></a></i>
+								<i><a href="javascript"><img src="img/blog/share_google.png"></a></i>
 							</ul>
 
 						</li>
@@ -58,21 +50,46 @@
 					<li class="active"><a href="#last" target="_self" data-toggle="tab">Ultimas</a></li>
 					<li><a href="#reads" target="_self" data-toggle="tab">Mais Lidas</a></li>
 				</ul>
-				<div class="tab-content" ng-controller="blogController as blog">
+				<div class="tab-content">
 
 					<div class="tab-pane active" id="last">
 
-						<div class="list-lastnews" ng-repeat="b in blog | slice:1:10">
+						<div class="list-lastnews">
 
 							<div class="image-news">
 
-								<img ng-src="http://localhost:8000/storage/{{b.image_client_path}}" class="img-responsive" />
+								<img src="img/cases/2_full.jpg" class="img-responsive">
 
 							</div>
 
-							<p><a ui-sref="blogdetalhes({ id : b.id, slug : b.slug })" class="link-news">{{b.title_client}}</a></p>
+							<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
 
 						</div>
+
+						<div class="list-lastnews">
+
+							<div class="image-news">
+
+								<img src="img/cases/2_full.jpg" class="img-responsive">
+
+							</div>
+
+							<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
+
+						</div>
+
+						<div class="list-lastnews">
+
+							<div class="image-news">
+
+								<img src="img/cases/2_full.jpg" class="img-responsive">
+
+							</div>
+
+							<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
+
+						</div>
+
 
 					</div>
 
@@ -81,15 +98,39 @@
 
 						<div class="list-lasnews">
 
-							<div class="list-lastnews" ng-repeat="b in blog | limitTo:10 | orderBy:'-views'">
+							<div class="list-lastnews">
 
 								<div class="image-news">
 
-									<img ng-src="http://localhost:8000/storage/{{b.image_client_path}}" class="img-responsive" />
+									<img src="img/cases/3_full.jpg" class="img-responsive">
 
 								</div>
 
-								<p><a ui-sref="blogdetalhes({ id : b.id, slug : b.slug })" class="link-news">{{b.title_client}}</a></p>
+								<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
+
+							</div>
+
+							<div class="list-lastnews">
+
+								<div class="image-news">
+
+									<img src="img/cases/3_full.jpg" class="img-responsive">
+
+								</div>
+
+								<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
+
+							</div>
+
+							<div class="list-lastnews">
+
+								<div class="image-news">
+
+									<img src="img/cases/3_full.jpg" class="img-responsive">
+
+								</div>
+
+								<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
 
 							</div>
 

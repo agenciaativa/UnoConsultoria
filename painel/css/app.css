@@ -5,9 +5,7 @@ hr {
 table * { 
 	vertical-align: middle !important;
 }
-img a{
-	border: none;
-}
+
 .image-view {
 	width: 100%;
 	height: 288px;
@@ -32,6 +30,9 @@ img a{
 	}
 	.image-view.servicos {
 		height: 200px;
+	}
+	.image-view.config {
+		height: 331px;
 	}
 
 .imagem-preview {
@@ -92,5 +93,4 @@ span.logo-lg img {
 }
 
 .skin-blue .main-header .logo {
-	background-color: #222d32;
-}
+    background-color: #222d32;
