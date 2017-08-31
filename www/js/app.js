@@ -14,7 +14,7 @@ angular.module('unoApp', ['unoApp.states', 'unoApp.service', 'unoApp.factories',
 				if (result.config.length > 0) {
 					$rootScope.config = result.config[0];
 				
-					if ('undefined' != typeof $rootScope.config.logo_filepath)
+					if ($rootScope.config.logo_filepath && 'undefined' != typeof $rootScope.config.logo_filepath)
 						$rootScope.imgLogo = storage + $rootScope.config.logo_filepath;
 				}
 			}, function (error) {
