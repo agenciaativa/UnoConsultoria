@@ -63,6 +63,24 @@
 										<span class="help-block" ng-show="(errorMsg.localization)">{{errorMsg.localization[0]}}</span>
 									</div>
 								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="facebook">Facebook</label>
+										<input type="text" id="facebook" name="facebook" class="form-control" placeholder="Link facebook" ng-model="config.facebook">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="instagram">Instagram</label>
+										<input type="text" id="instagram" name="instagram" class="form-control" placeholder="Link instagram" ng-model="config.instagram">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="linkedin">LinkedIn</label>
+										<input type="text" id="linkedin" name="linkedin" class="form-control" placeholder="Link linkedin" ng-model="config.linkedin">
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-5">
@@ -80,7 +98,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<label>Visualização</label>
-										<div class="image-view well well-sm no-shadow">
+										<div class="image-view well well-sm no-shadow config">
 											<i ng-hide="imageSrc">Sem imagem para visualização</i>
 											<img ng-src="{{imageSrc}}" />
 										</div>

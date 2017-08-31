@@ -1,4 +1,4 @@
-[HTML5 Boilerplate homepage](https://html5boilerplate.com) | [Documentation
+[HTML5 Boilerplate homepage](https://html5boilerplate.com/) | [Documentation
 table of contents](TOC.md)
 
 # Miscellaneous
@@ -6,7 +6,6 @@ table of contents](TOC.md)
 * [.gitignore](#gitignore)
 * [.editorconfig](#editorconfig)
 * [Server Configuration](#server-configuration)
-* [crossdomain.xml](#crossdomainxml)
 * [robots.txt](#robotstxt)
 * [browserconfig.xml](#browserconfigxml)
 
@@ -31,7 +30,7 @@ globally ignore:
     excludesfile = ~/.gitignore
 ```
 
-* More on global ignores: https://help.github.com/articles/ignoring-files
+* More on global ignores: https://help.github.com/articles/ignoring-files/
 * Comprehensive set of ignores on GitHub: https://github.com/github/gitignore
 
 
@@ -48,7 +47,7 @@ them to better suit your needs.
 
 In order for your editor/IDE to apply the
 [properties](http://editorconfig.org/#supported-properties) from the
-`.editorconfig` file, you will need to [install a
+`.editorconfig` file, you may need to [install a
 plugin]( http://editorconfig.org/#download).
 
 __N.B.__ If you aren't using the server configurations provided by HTML5
@@ -67,7 +66,7 @@ as your web server, then you are encouraged to download a
 [server configuration](https://github.com/h5bp/server-configs) that
 corresponds to your web server and environment.
 
-A `.htaccess` (hypertext access) file is a [Apache HTTP server
+A `.htaccess` (hypertext access) file is an [Apache HTTP server
 configuration file](https://github.com/h5bp/server-configs-apache).
 The `.htaccess` file is mostly used for:
 
@@ -114,25 +113,6 @@ Notice that the original repo for the `.htaccess` file is [this
 one](https://github.com/h5bp/server-configs-apache).
 
 
-## crossdomain.xml
-
-The _cross-domain policy file_ is an XML document that gives a web client —
-such as Adobe Flash Player, Adobe Reader, etc. — permission to handle data
-across multiple domains, by:
-
- * granting read access to data
- * permitting the client to include custom headers in cross-domain requests
- * granting permissions for socket-based connections
-
-__e.g.__ If a client hosts content from a particular source domain and that
-content makes requests directed towards a domain other than its own, the remote
-domain would need to host a cross-domain policy file in order to grant access
-to the source domain and allow the client to continue with the transaction.
-
-For more in-depth information, please see Adobe's [cross-domain policy file
-specification](https://www.adobe.com/devnet/articles/crossdomain_policy_file_spec.html).
-
-
 ## robots.txt
 
 The `robots.txt` file is used to give instructions to web robots on what can
@@ -164,7 +144,7 @@ For more information about `robots.txt`, please see:
 
 The `browserconfig.xml` file is used to customize the tile displayed when users
 pin your site to the Windows 8.1 start screen. In there you can define custom
-tile colors, custom images or even [live tiles](https://msdn.microsoft.com/en-us/library/ie/dn455106.aspx#CreatingLiveTiles).
+tile colors, custom images or even [live tiles](https://msdn.microsoft.com/library/dn455106.aspx#CreatingLiveTiles).
 
 By default, the file points to 2 placeholder tile images:
 
@@ -175,4 +155,4 @@ By default, the file points to 2 placeholder tile images:
 Notice that IE11 uses the same images when adding a site to the `favorites`.
 
 For more in-depth information about the `browserconfig.xml` file, please
-see [MSDN](https://msdn.microsoft.com/en-us/library/ie/dn320426.aspx).
+see [MSDN](https://msdn.microsoft.com/library/dn320426.aspx).

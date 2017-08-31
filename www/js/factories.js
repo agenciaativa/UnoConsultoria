@@ -5,10 +5,14 @@
 
 		var getAll = function(model) {
 			return $http.get($rootScope.api + model, { cache: true});
-		}
+		};
 
+		var getOne = function(id, model) {
+			return $http.get($rootScope.api + model + '/' + id, { cache: true });
+		};
 		return {
-			getAll: getAll
+			getAll: getAll,
+			getOne: getOne
 		};
 	};
 

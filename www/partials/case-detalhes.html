@@ -4,12 +4,14 @@
 
 	<div class="case-detail-box">
 		<div class="case-detail-title">
-			<h2 class="gb">{{ cases[caseID-1].title }}</h2>
+			<h2 class="gb">{{ case.title }}</h2>
 			<h5 class="post-date">Postagem feita em 05 de Julho de 2017</h5>
 		</div>
-		<div class="case-detail-image">
-			<img src="./img/cases/{{caseID}}_full.jpg" class="img-responsive" />
+		<div class="row">
+			<div class="case-detail-image col-sm-6 col-md-5 col-xs-7">
+				<img ng-src="http://localhost:8000/storage/{{ case.filepath }}" class="img-responsive" />
+			</div>
+			<div class="case-detail-description" data-ng-bind-html="case.text"></div>
 		</div>
-		<div class="case-detail-description" data-ng-bind-html="cases[caseID-1].html"></div>
 	</div>
 </div>

@@ -15,7 +15,7 @@
 		</form>
 	</div>
 </div>
-<footer class="container-fluid">
+<footer class="container-fluid" ng-controller="infoController">
 	<div class="container">
 		<div class="col-md-12 text-center logo">
 			<a ui-sref="home">
@@ -23,11 +23,15 @@
 			</a>
 		</div>
 		<div class="col-md-12 text-center">
-			<span class="glyphicon glyphicon-earphone"></span>
-			<span class="gb phone-number">{{ config.phone }}</span>
-			<a class="fb" href="#">
-				<img src="./img/footer/fb.png" />
-			</a>
+			<div class="phone-footer-box" ng-show="config.phone">
+				<span class="glyphicon glyphicon-earphone"></span>
+				<span class="gb phone-number">{{ config.phone }}</span>
+			</div>
+			<div class="social-links">
+				<a target="_blank" class="{{s.name}}" href="{{s.link}}" title="{{s.name}}" ng-repeat="s in socials">
+					<img ng-src="./img/footer/{{s.name}}.png" />
+				</a>
+			</div>
 		</div>
 		<div class="col-md-12 text-center">
 			<span>© Copyright 2017 Uno gestão de saúde - todos os direitos reservados</span>

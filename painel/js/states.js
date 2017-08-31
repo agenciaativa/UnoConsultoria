@@ -48,12 +48,6 @@
 				templateUrl: 'partials/configuracoes.html',
 				controller: 'configController'
 			})
-
-            .state('app.blog', {
-                url: '/blog',
-                templateUrl: 'partials/blog.html',
-                controller: 'blogController'
-            })
 	};
 
 	config.$inject = ['$stateProvider'];
