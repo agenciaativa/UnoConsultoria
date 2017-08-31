@@ -14,7 +14,7 @@ class Config extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['sender', 'phone', 'address', 'lat', 'lon', 'logo_filepath', 'banner_count'];
+	protected $fillable = ['sender', 'phone', 'address', 'lat', 'lon', 'logo_filepath', 'banner_count', 'facebook', 'instagram', 'linkedin'];
 	
 	/**
 	 * The table associated with the model.

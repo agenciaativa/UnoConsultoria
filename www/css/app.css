@@ -14,10 +14,6 @@ body {
 	color: #5d5d5d;
 }
 
-img{
-	max-width: 100%;
-}
-
 .gb {
 	font-family: 'Gotham Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -88,44 +84,58 @@ blockquote {
 *************************************************************/
 
 header {
-	height: 190px;
+	/* height: 190px; */
+	padding: 34px 0;
 	background: url("../img/header/bg_header.jpg") center center no-repeat;
 	background-size: cover;
 }
-	header .box-container {
-		height: 100%;
-		display: -webkit-box;
-		display: -ms-flexbox;
-		display: flex;
-		-webkit-box-align: center;
-			-ms-flex-align: center;
-				align-items: center;
+	header .logo a {
+		display: block;
 	}
-	header .logo {
-		margin-right: auto;
+	header .social-links {
+		text-align: center;
 	}
-		header .logo a {
-			display: block;
+		header .social-links a {
+			display: inline-block;
 		}
-
+		header .social-links a:not(:last-child) {
+			margin: 0 3px;
+		}
 	header .phone-box {
-		display: -webkit-box;
-		display: -ms-flexbox;
-		display: flex;
-		-webkit-box-align: center;
-			-ms-flex-align: center;
-				align-items: center;
-		margin-left: auto;
+		text-align: right;
+	    padding: 15px;
 	}
-		header .phone-box .phone-item.inline {
-			margin-left: 15px;
+		header .phone-box .phone-box-content {
+			display: inline-block;
 		}
-			header .phone-box .phone-item span {
-				font-size: 16px;
+		header .phone-box .phone-box-content .phone-content {
+			text-align: left;
+		}
+		header .phone-box .phone-box-content .phone-content > * {
+			display: inline-block;
+			vertical-align: middle;
+		}
+			header .phone-box .phone-box-content .phone-content .phone-item.inline {
+				margin-left: 15px;
 			}
-			header .phone-box .phone-item span.xf {
-				font-size: 23px;
-			}
+				header .phone-box .phone-box-content .phone-content .phone-item span {
+					font-size: 16px;
+				}
+				header .phone-box .phone-box-content .phone-content .phone-item span.xf {
+					font-size: 23px;
+				}
+
+
+@media (max-width: 767px) {
+	header {
+		padding: 25px 0 0;
+	}
+	
+	header .logo,
+	header .phone-box {
+		text-align: center;
+	}
+}
 
 
 /************************************************************
@@ -199,8 +209,9 @@ footer {
 	footer .phone-number {
 		font-size: 20px;
 	}
-	footer .fb {
+	footer .social-links a {
 		display: inline-block;
+		margin: 0 3px;
 	}
 		footer .container .col-md-12:last-child {
 			padding-top: 10px;
@@ -544,6 +555,12 @@ footer {
 		}
 			.case-item-description h4 {
 				color: #008591;
+				text-transform: uppercase;
+			}
+			.case-item-description p {
+				padding: 0;
+				margin: 0 0 20px;
+				font-size: 17.5px;
 			}
 
 		.case-item-image img {
@@ -590,35 +607,55 @@ footer {
 	}
 
 	.case-detail-image {
-		margin-bottom: 40px;
+		margin: 0 10px 25px 0;
 	}
-
+	.case-detail-description {
+		position: relative;
+		min-height: 1px;
+		padding-right: 15px;
+		padding-left: 15px;
+	}
 	.case-detail-description p,
-	.case-detail-description .featured-box {
+	.case-detail-description {
 		line-height: 26px;
 		margin-bottom: 20px;
 		text-align: justify;
 		font-size: 16px;
 		font-weight: bold;
 	}
-		.case-detail-description .featured-box {
-			margin: 80px 0;
+	.case-detail-description p:first-child:first-letter {
+		color: #008591;
+		float: left;
+		font-size: 5em;
+		margin: 0.23em 0.175em 0.175em 0;
+	}
+		.case-detail-description .featured-item {
+			border: 2px dashed #018592;
+			padding: 20px 60px;
+			float: none;
+			margin-bottom: 40px;
 		}
-			.case-detail-description .featured-box .featured-item {
-				border: 2px dashed #018592;
-				padding: 20px 60px;
+		.case-detail-description .featured-item.solid-bgcolor {
+			border: none;
+			background: #018592;
+			color: #FFF;
+		}
+			.case-detail-description p + .featured-item {
+				margin-top: 40px;
 			}
-			.case-detail-description .featured-box .featured-item.solid-bgcolor {
-				border: none;
-				background: #018592;
-				color: #FFF;
-			}
-				.case-detail-description .featured-box .featured-item:not(:last-child) {
-					margin-bottom: 40px;
-				}
-				.case-detail-description .featured-box .featured-item span {
+				.case-detail-description .featured-item span {
 					color: #018592;
 				}
+
+@media (max-width: 570px) {
+	.case-detail-image {
+		width: 100%;
+		float: none;
+	}
+	.case-detail-description .featured-item {
+		padding: 15px 10px;
+	}
+}
 
 
 /************************************************************
@@ -635,7 +672,6 @@ footer {
 	font-family: 'Gotham Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	text-transform: uppercase;
 	font-size: 2.5em;
-	letter-spacing: -2px;
 	color: #1d848f;
 }
 .list-header-blog{
@@ -658,9 +694,6 @@ footer {
 	text-transform: uppercase;
 	font-family: 'Gotham Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-.list-blog-news .nav>li>a{
-	padding: 10px 0 !important;
-}
 .share-link{
 	position: relative;
 	text-transform: uppercase;
@@ -678,9 +711,7 @@ footer {
 }
 .list-lastnews{
 	display: block;
-	margin: 20px 0;
-	min-height: 90px;
-	max-height: 90px;
+	margin: 40px 0;
 }
 .image-news{
 	float: left;
@@ -720,12 +751,12 @@ footer {
 	color: #fff;
 	background-color: #1d848f;
 	border-color: #1d848f;
-	border: 3px solid #d0d2d2;
+	border: 3px solid #fff;
 }
 .pagination>li>a, .pagination>li>span {
 	color: #1d848f;
 	background-color: #d0d2d2;
-	border: 3px solid #d0d2d2;
+	border: 3px solid #fff;
 }
 li.tags{
 	float: left;

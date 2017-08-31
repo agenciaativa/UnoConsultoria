@@ -30,8 +30,16 @@ angular.module('unoApp.states', ['ui.router'])
 				controller: 'casesController'
 			})
 			.state('detalhes', {
-				url: '/cases/:id',
+				url: '/cases/:slug',
 				templateUrl: 'partials/case-detalhes.html',
+				resolve: {
+					id: function($stateParams){
+						return $stateParams.id;
+					}
+				},
+				params: {
+					id: null
+				},
 				controller: 'infocasesController'
 			})
 
@@ -48,15 +56,7 @@ angular.module('unoApp.states', ['ui.router'])
 			})
 
 			.state('blogdetalhes', {
-				url: '/blog/:slug',
-				resolve:{
-					id:function ($stateParams) {
-						return $stateParams.id;
-                    }
-				},
-				params: {
-					id:null
-				},
+				url: '/blog/:id',
 				templateUrl: 'partials/blog-detail.html',
 				controller: 'infoblogController'
 			})

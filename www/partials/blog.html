@@ -1,29 +1,35 @@
 <div class="cases">
 	<div class="container">
 		<h2 class="gb">BLOG</h2>
-
+		
 		<div class="cases-list row">
 
 			<div class="col-md-8 col-sm-8 col-xs-12">
 
-				<div class="list-blog-news" ng-repeat="b in blog | offset: currentPage*itemsPerPage | limitTo:itemsPerPage">
-					<h3 class="blog-title">{{b.title_client}}</h3>
+				<div class="list-blog-news">
+
+					<h3 class="blog-title">Santa Casa Presidente Epitacio</h3>
 
 					<ul class="list-header-blog nav">
 
-						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-user full-icon" aria-hidden="true"></i> {{b.user}}</li>
-						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-calendar full-icon" aria-hidden="true"></i> {{b.date_publish | date: 'dd'}} de {{b.date_publish | date: 'MMMM' }} de {{b.date_publish | date: 'yyyy'}} </li>
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-user full-icon" aria-hidden="true"></i> Wally West</li>
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-calendar full-icon" aria-hidden="true"></i> Terça Feira, Julho, 2017</li>
 						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-tags full-icon" aria-hidden="true"></i> Blog</li>
 
 					</ul>
 
-					<img ng-src="http://localhost:8000/storage/{{b.image_client_path}}" />
+					<img src="img/cases/1_full.jpg" class="img-responsive">
 
-					<p ng-bind-html="b.resume"></p>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+						veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+					</p>
 
 					<ul class="list-share nav">
 
-						<li class="readmore"><a ui-sref="blogdetalhes({ id : b.id, slug : b.slug })">Leia Mais</a></li>
+						<li class="readmore"><a ui-sref="blogdetalhes({ id : 1, '#': 'blog' })">Leia Mais</a></li>
 
 						<li>
 
@@ -40,25 +46,48 @@
 					</ul>
 				</div>
 
-				<nav aria-label="Page navigation" class="pagination-right">
-				<div class="paginate">
-					<ul class="pagination">
-						<li ng-class="prevPageDisabled()">
-							<a href ng-click="prevPage()">« Anterior</a>
+				<div class="list-blog-news">
+
+					<h3 class="blog-title">Santa Casa Presidente Epitacio</h3>
+
+					<ul class="list-header-blog nav">
+
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-user full-icon" aria-hidden="true"></i> Wally West</li>
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-calendar full-icon" aria-hidden="true"></i> Terça Feira, Julho, 2017</li>
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-tags full-icon" aria-hidden="true"></i> Blog</li>
+
+					</ul>
+
+					<img src="img/cases/1_full.jpg" class="img-responsive">
+
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+						Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore
+						veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+					</p>
+
+					<ul class="list-share nav">
+
+						<li class="readmore"><a ui-sref="blogdetalhes({ id : 2, '#': 'blog' })">Leia Mais</a></li>
+
+						<li>
+
+							<ul class="list-share-right nav navbar-nav navbar-right share-link">
+								<li class="space-link">Compartilhar</li>
+								<i><a href="javascript"><img src="img/blog/share_facebook.png"></a></i>
+								<i><a href="javascript"><img src="img/blog/share_twitter.png"></a></i>
+								<i><a href="javascript"><img src="img/blog/share_pinterest.png"></a></i>
+								<i><a href="javascript"><img src="img/blog/share_google.png"></a></i>
+							</ul>
+
 						</li>
 
-
-						<li ng-repeat="n in range()" ng-class="{active: n == currentPage}" ng-click="setPage(n)"><a href="#">{{currentPage}}</a></li>
-
-
-						<li ng-class="nextPageDisabled()">
-							<a href ng-click="nextPage()">Próxima »</a>
-						</li>
 					</ul>
 				</div>
-				</nav>
 
-				<!--<nav aria-label="Page navigation" class="pagination-right">
+
+				<nav aria-label="Page navigation" class="pagination-right">
 					<ul class="pagination">
 						<li>
 							<a href="javascript:;" aria-label="Previous">
@@ -76,7 +105,7 @@
 							</a>
 						</li>
 					</ul>
-				</nav>-->
+				</nav>
 
 			</div>
 
@@ -90,17 +119,42 @@
 
 					<div class="tab-pane active" id="last">
 
-						<div class="list-lastnews" ng-repeat="b in blog | slice:1:10">
+						<div class="list-lastnews">
 
 							<div class="image-news">
 
-								<img ng-src="http://localhost:8000/storage/{{b.image_client_path}}" class="img-responsive" />
+								<img src="img/cases/2_full.jpg" class="img-responsive">
 
 							</div>
 
-							<p><a ui-sref="blogdetalhes({ id : b.id, slug : b.slug })" class="link-news">{{b.title_client}}</a></p>
+							<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
 
 						</div>
+
+						<div class="list-lastnews">
+
+							<div class="image-news">
+
+								<img src="img/cases/2_full.jpg" class="img-responsive">
+
+							</div>
+
+							<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
+
+						</div>
+
+						<div class="list-lastnews">
+
+							<div class="image-news">
+
+								<img src="img/cases/2_full.jpg" class="img-responsive">
+
+							</div>
+
+							<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
+
+						</div>
+
 
 					</div>
 
@@ -109,15 +163,39 @@
 
 						<div class="list-lasnews">
 
-							<div class="list-lastnews" ng-repeat="b in blog | orderBy:'-views' | limitTo:10">
+							<div class="list-lastnews">
 
 								<div class="image-news">
 
-									<img ng-src="http://localhost:8000/storage/{{b.image_client_path}}" class="img-responsive" />
+									<img src="img/cases/3_full.jpg" class="img-responsive">
 
 								</div>
 
-								<p><a ui-sref="blogdetalhes({ id : b.id, slug : b.slug })" class="link-news">{{b.title_client}}</a></p>
+								<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
+
+							</div>
+
+							<div class="list-lastnews">
+
+								<div class="image-news">
+
+									<img src="img/cases/3_full.jpg" class="img-responsive">
+
+								</div>
+
+								<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
+
+							</div>
+
+							<div class="list-lastnews">
+
+								<div class="image-news">
+
+									<img src="img/cases/3_full.jpg" class="img-responsive">
+
+								</div>
+
+								<p><a href="javascript:;" title="" class="link-news">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</a></p>
 
 							</div>
 
