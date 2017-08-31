@@ -22,6 +22,9 @@ class CreateConfigTable extends Migration
             $table->string('lon')->nullable();
             $table->string('logo_filepath')->nullable();
             $table->integer('banner_count')->default(3);
+            $table->string('facebook')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('linkedin')->nullable();
             $table->timestamps();
         });
     }

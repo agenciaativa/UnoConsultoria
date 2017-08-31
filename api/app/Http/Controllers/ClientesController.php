@@ -17,7 +17,7 @@ class ClientesController extends Controller
 	 */
 	public function index()
 	{
-		$clientes = Clientes::all();
+		$clientes = Clientes::with('case')->get();
 		return response()->json(['clientes' => $clientes, 'message' => '']);
 	}
 
@@ -113,9 +113,14 @@ class ClientesController extends Controller
 		{
 			$cliente = Clientes::find($id);
 			$cliente->title_client = $input['title_client'];
-			$stored_file = public_path('storage/').$cliente->image_client_path;
-			$file = $request->file('file');
-			$cliente->image_client_path = upload_file($file, 'uploads/clientes/', $stored_file);
+			$cliente->image_client_path = $input['image_client_path'];
+
+			if ($file = $request->file('file'))
+			{
+				$stored_file = public_path('storage/').$cliente->image_client_path;
+				$cliente->image_client_path = upload_file($file, 'uploads/clientes', $stored_file);
+			}
+			
 
 			if ($cliente->save()) 
 			{
