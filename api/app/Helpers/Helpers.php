@@ -7,7 +7,9 @@ if (! function_exists('upload_file'))
 	* Delete stored file if exists.
 	*
 	* @param  \Illuminate\Http\Request  $file
+	* @param  string  $upload_path
 	* @param  string  $stored
+	* @param  string  $filename
 	* @return string
 	*/
 	function upload_file($file = null, $upload_path = '', $stored = null, $filename = '')
