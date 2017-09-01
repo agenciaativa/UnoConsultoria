@@ -70,9 +70,6 @@ img a{
 	padding: 10px 35px 10px 10px;
 }
 
-
-
-
 .user-panel>.info {
     padding: 5px 5px 5px 5px;
     line-height: 1;
@@ -93,4 +90,8 @@ span.logo-lg img {
 
 .skin-blue .main-header .logo {
 	background-color: #222d32;
+}
+
+.wrapper.login-bg {
+	background-color: #ecf0f5;
 }

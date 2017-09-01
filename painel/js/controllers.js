@@ -771,102 +771,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		};
 	}])
 
-/*	.controller('contatoController', ['$state', '$rootScope', '$scope', '$window', 'dataFactory', function($state, $rootScope, $scope, $window, dataFactory) {
-		var state = $state.current.name;
-		$rootScope.state = 'app.home';
-		$rootScope.sub = state;
-		$rootScope.title = $rootScope.active_page = 'Fale Conosco';
-		$rootScope.message = '';
-		$rootScope.classe = '';
-
-		$scope.contatos = {};
-		$scope.contato = {};
-		$scope.errorMsg = {};
-
-		$scope.init = function() {
-			dataFactory.getAll('contato')
-				.then(function(response) {
-					var result = response.data;
-					$scope.contatos = result.contatos;
-				}, function (error) {
-					$rootScope.message = 'Não foi possível carregar assuntos: ' + error.statusText;
-					$rootScope.classe = 'alert-danger';
-					$rootScope.scrollTop();
-					$rootScope.showMessage();
-				});
-		}
-
-		$scope.init();
-
-		$scope.submitForm = function() {
-			if ($scope.contato && "undefined" != typeof $scope.contato.id) {
-				dataFactory.updateItem($scope.contato, 'contato')
-					.then(function (response) {
-						var result = response.data;
-						$scope.contato = {};
-						$scope.errorMsg = {};
-						$scope.contatos = result.contatos;
-						$rootScope.message = result.message;
-						$rootScope.classe = 'alert-success';
-						$rootScope.scrollTop();
-						$rootScope.showMessage();
-						contatoForm.reset();
-					}, function (error) {
-						$scope.message = 'Não foi possível alterar o registro: ' + error.statusText;
-						$rootScope.classe = 'alert-danger';
-					});
-			} else {
-				if ($scope.contato.subject) {
-					dataFactory.insertItem($scope.contato, 'contato')
-						.then(function (response) {
-							var result = response.data;
-							$scope.contato = {};
-							$scope.errorMsg = {};
-							$scope.contatos = result.contatos;
-							$rootScope.message = result.message;
-							$rootScope.classe = 'alert-success';
-							$rootScope.scrollTop();
-							$rootScope.showMessage();
-							contatoForm.reset();
-						}, function (error) {
-							$scope.message = 'Não foi possível inserir o registro: ' + error.statusText;
-							$rootScope.classe = 'alert-danger';
-						});
-				} else {
-					$scope.errorMsg.subject = ['Campo obrigatório'];
-				}
-			}
-		};
-
-		$scope.editContato = function(contato) {
-			$scope.contato = contato;
-			$scope.errorMsg = {};
-		};
-
-		$scope.deleteContato = function(contato) {
-			$scope.contato = {};
-
-			var confirm = $window.confirm('Deseja mesmo excluir esse item?');
-
-			if (confirm) {
-				dataFactory.deleteItem(contato, 'contato')
-					.then(function (response) {
-						var result = response.data;
-						$scope.contato = {};
-						$scope.errorMsg = {};
-						$scope.contatos = result.contatos;
-						$rootScope.message = result.message;
-						$rootScope.classe = 'alert-success';
-						$rootScope.scrollTop();
-						$rootScope.showMessage();
-					}, function (error) {
-						$rootScope.message = 'Não foi possível excluir o registro: ' + error.statusText;
-						$rootScope.classe = 'alert-danger';
-					});
-			}
-		};
-	}])*/
-
 	.controller('bannersController', ['$state', '$rootScope', '$scope', '$window', 'fileReader', 'dataFactory', 'Upload', function($state, $rootScope, $scope, $window, fileReader, dataFactory, Upload) {
 		var state = $state.current.name;
 		$rootScope.state = $rootScope.sub = state;
@@ -1428,15 +1332,23 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
         });
     }])
 
-	.controller('loginController', ['$state', '$auth', '$scope', function($state, $auth, $scope) {
+	.controller('loginController', ['$state', '$auth', '$scope', '$rootScope', function($state, $auth, $scope, $rootScope) {
+        $rootScope.state = 'login';
+
 		$scope.login = function() {
 			var credentials = {
 				name: $scope.user.name,
 				password: $scope.user.password,
 			}
-			$auth.login(credentials)
-				.then(function (data) {
-					$state.go('app.home', {});
-				});
+			$auth
+				.login(credentials)
+				.then(function (response) {
+					var token = response.data.token;
+					$auth.setToken(token);
+					$state.go('app.home');
+				})
+				.catch(function (response) {
+			        console.log("error response", response);
+		      	});
 		};
 	}])
