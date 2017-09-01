@@ -63,7 +63,7 @@ class BlogController extends Controller
 			'date_publish' => $data,
 			'views' => 1,
 			'slug' => str_slug($request->title_client, '-'),
-			'user' => 'Fernando Vicente',
+			'user' => 'UnoConsultoria',
 		];
 		if (Blog::create($input))
 			$message = 'Blog inserido com sucesso!';

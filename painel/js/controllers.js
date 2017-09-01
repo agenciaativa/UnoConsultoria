@@ -1427,3 +1427,16 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
             $('[data-mask]').inputmask({mask: ['99/99/9999', '99/99/9999']});
         });
     }])
+
+	.controller('loginController', ['$state', '$auth', '$scope', function($state, $auth, $scope) {
+		$scope.login = function() {
+			var credentials = {
+				name: $scope.user.name,
+				password: $scope.user.password,
+			}
+			$auth.login(credentials)
+				.then(function (data) {
+					$state.go('app.home', {});
+				});
+		};
+	}])

@@ -3,8 +3,13 @@
 (function() {
 	function config($stateProvider) {
 		$stateProvider
+			.state('login', {
+				url: '/login',
+				templateUrl: 'partials/login.html',
+				controller: 'loginController'
+			})
 			.state('app.home', {
-				url: '/app',
+				url: '/home',
 				templateUrl: 'partials/home.html',
 				controller: 'homeController'
 			})

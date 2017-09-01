@@ -1,10 +1,19 @@
 'use strict';
 
-angular.module('ativaApp', ['ui.router', 'ativaApp.states', 'ativaApp.base', 'ativaApp.controllers', 'ativaApp.factories', 'ativaApp.directives'])
+angular.module('ativaApp', ['ui.router', 'satellizer', 'ativaApp.states', 'ativaApp.base', 'ativaApp.controllers', 'ativaApp.factories', 'ativaApp.directives'])
 
-	.config(['$urlRouterProvider', '$qProvider', function($urlRouterProvider, $qProvider) {
+	.config(['$urlRouterProvider', '$qProvider', '$authProvider', function($urlRouterProvider, $qProvider, $authProvider) {
+		// Satellizer configuration that specifies which API
+		// route the JWT should be retrieved from
+		$authProvider.loginUrl = 'http://localhost:8000/api/v1/user/login';
+
+		// Redirect to the auth state if any other states
+		// are requested other than users
 		$urlRouterProvider
-			.otherwise('/app');
+			.otherwise('/login');
+
+		/*$urlRouterProvider
+			.otherwise('/app');*/
 
 		$qProvider.errorOnUnhandledRejections(false);
 	}])
