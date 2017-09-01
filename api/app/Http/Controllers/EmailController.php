@@ -14,7 +14,7 @@ class EmailController extends Controller
         'Access-Control-Allow-Headers' => 'Origin, Content-Type, Accept, Authorization, X-Requested-With'
 	];
 
-	private $departamentos = [
+	/*private $departamentos = [
 		'A'		=> 	'arquitetura',
 		'C' 	=> 	'contabilidade',
 		'F' 	=> 	'financeiro',
@@ -25,26 +25,31 @@ class EmailController extends Controller
 		'T' 	=>	'tecnica'
 	];
 
-	private $mail_domain = '@unogestaodesaude.com.br';
+	private $mail_domain = '@unogestaodesaude.com.br';*/
 
 	public function send(Request $request) {
 		$status = 200;
 
 		try {
 
-			$mail = [
+			/*$mail = [
 				'nome'			=>	$request->json()->get('nome'),
 				'email'			=>	$request->json()->get('email'),
 				'telefone'		=>	$request->json()->get('telefone'),
 				'mensagem'		=>	$request->json()->get('mensagem'),
-				'departamento' 	=>	$request->json()->get('departamento')
+				'assunto' 		=>	$request->json()->get('assunto')
+			];*/
+
+			$mail = [
+				'nome'			=>	$request->nome,
+				'email'			=>	$request->email,
+				'telefone'		=>	$request->telefone,
+				'mensagem'		=>	$request->mensagem,
+				'assunto' 		=>	$request->assunto
 			];
 
-			$recipients = [
-				'bruno.spoladore@agenciaativa.com.br', 
-				'liveroluisotavio@gmail.com', 
-				$this->departamentos[$mail['departamento']].$this->mail_domain
-			];
+			// 'liveroluisotavio@gmail.com'
+			$recipients = ['bruno.spoladore@agenciaativa.com.br'];
 
 			Mail::send('emails.sendmail', $mail, function($mensagem) use ($recipients) {
 				$mensagem->to($recipients);

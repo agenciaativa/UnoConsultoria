@@ -29,10 +29,18 @@
 
 							<ul class="list-share-right nav navbar-nav navbar-right share-link">
 								<li class="space-link">Compartilhar</li>
-								<i><a href="javascript"><img src="img/blog/share_facebook.png"></a></i>
-								<i><a href="javascript"><img src="img/blog/share_twitter.png"></a></i>
-								<i><a href="javascript"><img src="img/blog/share_pinterest.png"></a></i>
-								<i><a href="javascript"><img src="img/blog/share_google.png"></a></i>
+								<!--<div class="fb-share-button" data-href="http://www.unogestaodesaude.com.br/blog/{{b.slug}}" data-layout="button_count"><img src="img/blog/share_facebook.png"></div>-->
+								<i><span class="fb" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="small" data-mobile-iframe="false"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.unogestaodesaude.com.br/#blog/{{b.slug}}&amp;src=sdkpreparse"><img src="img/blog/share_facebook.png"></a></span></i>
+								<i>
+									<a class="twitter-share-button" href="https://twitter.com/share" data-size="large"
+									  data-text="{{b.title_client}}" data-url="http://www.unogestaodesaude.com.br/#blog/{{b.slug}}"
+									  data-hashtags="{{b.title_tags}}" data-via="@unogestaodesaude" data-related="twitterapi,twitter" target="_blank">
+										<img src="img/blog/share_twitter.png">
+									</a>
+								</i>
+								<i><a href="http://pinterest.com/pin/create/button/?url=http://www.unogestaodesaude.com.br/#blog/{{b.slug}}&media=http://localhost:8000/storage/{{b.image_client_path}}&description={{b.title_client}}"
+									  target="_blank"><img src="img/blog/share_pinterest.png"></a></i>
+								<i><a href="https://plus.google.com/share?url=http://www.unogestaodesaude.com.br/#blog/{{b.slug}}" target="_blank"><img src="img/blog/share_google.png"></a></i>
 							</ul>
 
 						</li>

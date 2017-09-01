@@ -2,7 +2,7 @@ angular.module('unoApp.service', [])
 	.service('APIService', function($rootScope, $http, $q) {
 		
 		this.sendMail = function(formData) {
-			var deferred = $q.defer();
+			/*var deferred = $q.defer();
 
 			$http({
 				url		: 'http://api.unogestaodesaude.com.br/api/v1/sendmail',
@@ -18,7 +18,8 @@ angular.module('unoApp.service', [])
 				deferred.reject(err.data);
 			});
 
-			return deferred.promise;
+			return deferred.promise;*/
+			return $http.post('http://api.unogestaodesaude.com.br/api/v1/sendmail', formData);
 		}
 
 		this.saveNews = function(data) {

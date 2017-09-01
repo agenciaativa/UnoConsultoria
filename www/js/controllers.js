@@ -56,8 +56,7 @@ angular.module('unoApp.controllers', [])
 						imgpaths.push({
 							path: imp + value.image_client_path,
 							title: value.title_client,
-							case: value.case.id,
-							link: value.case.slug,
+							case: value.case,
 							callback: deferred.resolve
 						});
 						dArr.push(deferred.promise);
@@ -170,25 +169,6 @@ angular.module('unoApp.controllers', [])
 			});
 		}
 
-		/*$scope.init = function() {
-			getConfig();
-		};
-
-		var getConfig = function() {
-			$scope.message = {};
-			dataFactory.getAll('config')
-				.then(function (response) {
-					var result = response.data;
-					$scope.config = result.config[0];
-				}, function (error) {
-					$scope.message = 'Não foi possível carregar as configurações: ' + error.statusText;
-				});
-		};*/
-
-		/*$scope.$on('$viewContentLoaded', function() {
-			initMap();
-		});*/
-
 		$scope.sendMail = function() {
 			$scope.mensagem = {};
 			APIService.sendMail($scope.formData)
@@ -255,66 +235,68 @@ angular.module('unoApp.controllers', [])
 		$scope.init();
 	})
 
-    .controller('blogController', function($state, $rootScope, $scope, $http, $sce, dataFactory) {
-        $rootScope.state = $state.current.name;
-        $scope.blog = [];
+	.controller('blogController', function($state, $rootScope, $scope, $http, $sce, dataFactory) {
+		$rootScope.state = $state.current.name;
+		$scope.blog = [];
 
-        $scope.init = function() {
-            getBlog();
-        }
+		$scope.init = function() {
+			getBlog();
+		}
 
-        var getBlog = function() {
-            $scope.message = {};
-            dataFactory.getAll('blog')
-                .then(function (response) {
-                    var result = response.data;
-                    angular.forEach(result.blog, function(value, key) {
-                        value.user = $sce.trustAsHtml(value.user);
-                        value.image_client_path = $sce.trustAsHtml(value.image_client_path);
-                        value.resume = $sce.trustAsHtml(value.resume);
-                        value.description = $sce.trustAsHtml(value.description);
-                        value.title_client = $sce.trustAsHtml(value.title_client);
-                        value.title_tags = $sce.trustAsHtml(value.title_tags);
-                        value.slug = $sce.trustAsHtml(value.slug);
-                        var data = new Date($sce.trustAsHtml(value.date_publish));
-                        value.date_publish = data;
+		var getBlog = function() {
+			$scope.message = {};
+			dataFactory.getAll('blog')
+				.then(function (response) {
+					var result = response.data;
+					angular.forEach(result.blog, function(value, key) {
+						var data = new Date(value.date_publish);
+						var data_post = new Date();
+						value.date_publish = data;
+						if (value.date_publish <= data_post) {
+							value.user = $sce.trustAsHtml(value.user);
+							value.image_client_path = $sce.trustAsHtml(value.image_client_path);
+							value.resume = $sce.trustAsHtml(value.resume);
+							value.description = $sce.trustAsHtml(value.description);
+							value.title_client = $sce.trustAsHtml(value.title_client);
+							value.title_tags = $sce.trustAsHtml(value.title_tags);
+							value.slug = $sce.trustAsHtml(value.slug);
+							this.push(value);
+						}
+					}, $scope.blog);
+				}, function (error) {
+					$scope.message = 'Não foi possível carregar registro: ' + error.statusText;
+				});
+		};
 
-                        this.push(value);
-                    }, $scope.blog);
-                }, function (error) {
-                    $scope.message = 'Não foi possível carregar registro: ' + error.statusText;
-                });
-        };
+		$scope.init();
 
-        $scope.init();
+		$scope.itemsPerPage = 5;
+		$scope.currentPage = 0;
 
-        $scope.itemsPerPage = 5;
-        $scope.currentPage = 0;
+		$scope.prevPage = function() {
+			if ($scope.currentPage > 0) {
+				$scope.currentPage--;
+			}
+		};
 
-        $scope.prevPage = function() {
-            if ($scope.currentPage > 0) {
-                $scope.currentPage--;
-            }
-        };
+		$scope.prevPageDisabled = function() {
+			return $scope.currentPage === 0 ? "disabled" : "";
+		};
 
-        $scope.prevPageDisabled = function() {
-            return $scope.currentPage === 0 ? "disabled" : "";
-        };
+		$scope.pageCount = function() {
+			return Math.ceil($scope.blog.length/$scope.itemsPerPage)-1;
+		};
 
-        $scope.pageCount = function() {
-            return Math.ceil($scope.blog.length/$scope.itemsPerPage)-1;
-        };
+		$scope.nextPage = function() {
+			if ($scope.currentPage < $scope.pageCount()) {
+				$scope.currentPage++;
+			}
+		};
 
-        $scope.nextPage = function() {
-            if ($scope.currentPage < $scope.pageCount()) {
-                $scope.currentPage++;
-            }
-        };
-
-        $scope.nextPageDisabled = function() {
-            return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
-        };
-    })
+		$scope.nextPageDisabled = function() {
+			return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
+		};
+	})
 
 	.controller('casesController', function($state, $rootScope, $scope, $stateParams, $sce, dataFactory) {
 		$rootScope.state = $state.current.name;
@@ -344,10 +326,14 @@ angular.module('unoApp.controllers', [])
 		$rootScope.state = 'cases';
 		$scope.case = {};
 		$scope.message = {};
+		var param = $stateParams.id;
+		
+		if (!param)
+			param = $stateParams.slug;
 
 		$scope.init = function() {
 			$anchorScroll();
-			dataFactory.getOne($stateParams.id, 'cases')
+			dataFactory.getOne(param, 'cases')
 				.then(function (response) {
 					var result = response.data;
 					$scope.case = result.case;
@@ -363,38 +349,38 @@ angular.module('unoApp.controllers', [])
 	.controller('infoblogController', function($state, $scope, $stateParams, $sce, dataFactory) {
 		$scope.blogID = $stateParams.id;
 
-        $scope.blog = [];
+		$scope.blog = [];
 
-        $scope.init = function() {
-            getBlog();
-        }
+		$scope.init = function() {
+			getBlog();
+		}
 
-        var getBlog = function() {
-            $scope.message = {};
-            dataFactory.getAll('blog')
-                .then(function (response) {
-                    var result = response.data;
-                    angular.forEach(result.blog, function(value, key) {
-                        value.idpost = value.id;
-                    	if(value.slug == $stateParams.slug ) {
-                            value.user = $sce.trustAsHtml(value.user);
-                            value.image_client_path = $sce.trustAsHtml(value.image_client_path);
-                            value.resume = $sce.trustAsHtml(value.resume);
-                            value.description = $sce.trustAsHtml(value.description);
-                            value.title_client = $sce.trustAsHtml(value.title_client);
-                            value.title_tags = $sce.trustAsHtml(value.title_tags);
-                            value.slug = $sce.trustAsHtml(value.slug);
-                            var data = new Date($sce.trustAsHtml(value.date_publish));
-                            value.date_publish = data;
-                            this.push(value);
-                    	}
-                    }, $scope.blog);
-                }, function (error) {
-                    $scope.message = 'Não foi possível carregar registro: ' + error.statusText;
-                });
-        };
+		var getBlog = function() {
+			$scope.message = {};
+			dataFactory.getAll('blog')
+				.then(function (response) {
+					var result = response.data;
+					angular.forEach(result.blog, function(value, key) {
+						value.idpost = value.id;
+						if(value.slug == $stateParams.slug ) {
+							value.user = $sce.trustAsHtml(value.user);
+							value.image_client_path = $sce.trustAsHtml(value.image_client_path);
+							value.resume = $sce.trustAsHtml(value.resume);
+							value.description = $sce.trustAsHtml(value.description);
+							value.title_client = $sce.trustAsHtml(value.title_client);
+							value.title_tags = $sce.trustAsHtml(value.title_tags);
+							value.slug = $sce.trustAsHtml(value.slug);
+							var data = new Date($sce.trustAsHtml(value.date_publish));
+							value.date_publish = data;
+							this.push(value);
+						}
+					}, $scope.blog);
+				}, function (error) {
+					$scope.message = 'Não foi possível carregar registro: ' + error.statusText;
+				});
+		};
 
-        $scope.init();
+		$scope.init();
 	})
 
 	.controller('newsController', function($scope, APIService) {

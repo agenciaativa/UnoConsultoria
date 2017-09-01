@@ -89,9 +89,9 @@ class CasesController extends Controller
 	 * @param  \App\Cases  $cases
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id)
+	public function show($param)
 	{
-		$case = Cases::find($id)->first();
+		$case = Cases::where('id', $param)->orWhere('slug', $param)->first();
 		return response()->json(['case' => $case, 'message' => '']);
 	}
 

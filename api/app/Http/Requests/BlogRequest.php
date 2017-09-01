@@ -26,7 +26,7 @@ class BlogRequest extends FormRequest
 		return [
 			'title_client' => 'required',
             'title_tags' => 'required',
-			'image_client_path' => 'required|image|mimes:jpeg,jpg,png|max:2048|dimensions:width=1024'
+			'image_client_path' => 'required|image|mimes:jpeg,jpg,png|max:2048|dimensions:min_width=800,max_width=1140'
 		];
 	}
 

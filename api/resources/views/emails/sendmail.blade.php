@@ -4,8 +4,8 @@
     <meta charset="utf-8">
 </head>
 <body>
-De: {!! $nome !!} <{!! $email !!}> <br/>
-Assunto: Contato Site Uno Consultoria <br/>
+De: {!! $nome !!} &lt;{!! $email !!}&gt; <br/>
+Assunto: {!! $assunto !!} <br/>
 Contato: {!! $telefone !!} <br/>
 <br/>
 Corpo da mensagem:<br/>

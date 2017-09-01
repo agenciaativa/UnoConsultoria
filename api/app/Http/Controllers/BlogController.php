@@ -110,8 +110,11 @@ class BlogController extends Controller
     {
         $input = $request->all();
 
-        $dataentrada = explode('/', $request->date_publish);
-        $data = $dataentrada[2].'-'.$dataentrada[1].'-'.$dataentrada[0].' 00:00:00';
+        if(empty($request->date_publish)):
+            $data = date('Y-m-d H:i:s');
+        else:
+            $data = $dataentrada[2].'-'.$dataentrada[1].'-'.$dataentrada[0].' 00:00:00';
+        endif;
 
         $rules = array(
             'title_client'  => 'required',
