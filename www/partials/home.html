@@ -33,9 +33,10 @@
 		<h2 class="gb text-center">{{ home.title_clients }}</h2>
 		<div class="clients-slider">
 			<div class="col-md-3" ng-repeat="imgx in imgpaths">
-				<a ui-sref="detalhes({ slug : imgx.case.slug, id: imgx.case.id })">
+				<a ng-if="imgx.case.slug" ui-sref="detalhes({ slug : imgx.case.slug, id: imgx.case.id })">
 					<loaded-img isrc="imgx.path" ititle="imgx.title" onloadimg="imgx.callback(imgx)"></loaded-img>
 				</a>
+				<loaded-img ng-if="!imgx.case.slug" isrc="imgx.path" ititle="imgx.title" onloadimg="imgx.callback(imgx)"></loaded-img>
 			</div>
 		</div>
 	</div>

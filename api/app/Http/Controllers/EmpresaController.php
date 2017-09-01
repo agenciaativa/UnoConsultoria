@@ -40,14 +40,12 @@ class EmpresaController extends Controller
 	 */
 	public function store(EmpresaRequest $request)
 	{
-		$message = 'Não foi possível inserir o cliente!';
-		$ext = $request->file->getClientOriginalExtension();
-		$filepath = upload_file($request->file, 'uploads/empresa', null, 'bg_home1'.$ext);
+		$message = 'Não foi possível inserir o registro!';
 		$input = [
 			'text_empresa' => $request->text_empresa,
-			'text_empresa2' => $request->text_empresa2,
-			'background_image_path' => $filepath
+			'text_empresa2' => $request->text_empresa2
 		];
+
 		if (Empresa::create($input)) 
 			$message = 'Registro inserido com sucesso!';
 
@@ -119,13 +117,6 @@ class EmpresaController extends Controller
 			$empresa = Empresa::first();
 			$empresa->text_empresa = $input['text_empresa'];
 			$empresa->text_empresa2 = $input['text_empresa2'];
-			
-			if ($file = $request->file('file')) {
-				$stored_file = public_path('storage/').$empresa->background_image_path;
-				$ext = '.'.$file->getClientOriginalExtension();
-			
-				$empresa->background_image_path = upload_file($file, 'uploads/empresa', $stored_file, 'bg_home1.'.$ext);
-			}
 
 			if ($empresa->save()) 
 			{

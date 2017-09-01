@@ -14,7 +14,7 @@ class Empresa extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['text_empresa', 'text_empresa2', 'background_image_path'];
+	protected $fillable = ['text_empresa', 'text_empresa2'];
 	
 	/**
 	 * The table associated with the model.

@@ -197,7 +197,7 @@ angular.module('unoApp.controllers', [])
 					var result = response.data;
 					$scope.clientes = result.clientes;
 					$scope.text = result.text;
-					if ('undefined' != typeof $scope.text)
+					if ($scope.text && 'undefined' != typeof $scope.text)
 						$scope.text.text_clients = $sce.trustAsHtml($scope.text.text_clients);
 				}, function (error) {
 					$scope.message = 'Não foi possível carregar registro: ' + error.statusText;

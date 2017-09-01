@@ -99,82 +99,37 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		};
 
 		$scope.submitForm = function() {
-			var file = $scope.file;
 			// UPDATE
 			if ($scope.empresa && "undefined" != typeof $scope.empresa.id) {
-				if (file) {
-					$scope.empresa.file = file;
-					$scope.empresa._method = 'PUT';
-					file.upload = Upload.upload({
-						url: $rootScope.api + 'empresa/' + $scope.empresa.id,
-						data: $scope.empresa
-					});
-
-					file.upload.then(function (response) {
+				dataFactory.updateItem($scope.empresa, 'empresa')
+					.then(function (response) {
 						var result = response.data;
 						$scope.empresa = result.item;
 						$scope.errorMsg = {};
-						$scope.imageSrc = null;
 						$rootScope.message = result.message;
 						$rootScope.classe = result.classe;
 						$rootScope.scrollTop();
 						$rootScope.showMessage();
 						empresaForm.reset();
-						$('.image-view img').attr('src', '');
 					}, function (error) {
 						if (error.data && "undefined" != typeof error.data) {
 							var result = error.data;
 							$scope.errorMsg = result;
 						}
 					});
-				} else {
-					console.log($scope.empresa);
-					dataFactory.updateItem($scope.empresa, 'empresa')
+			} else {
+				// INSERT
+				if ($scope.empresa && "undefined" != typeof $scope.empresa.text_empresa && "undefined" != typeof $scope.empresa.text_empresa2) {
+					dataFactory.insertItem($scope.empresa, 'empresa')
 						.then(function (response) {
 							var result = response.data;
 							$scope.empresa = result.item;
 							$scope.errorMsg = {};
-							$scope.imageSrc = null;
 							$rootScope.message = result.message;
-							$rootScope.classe = result.classe;
+							$rootScope.classe = 'alert-success';
 							$rootScope.scrollTop();
 							$rootScope.showMessage();
 							empresaForm.reset();
-							$('.image-view img').attr('src', '');
-							console.log(result);
-						}, function (error) {
-							if (error.data && "undefined" != typeof error.data) {
-								var result = error.data;
-								$scope.errorMsg = result;
-							}
-						});
-				}
-			} else {
-				// INSERT
-				if (file && $scope.empresa && "undefined" != typeof $scope.empresa.text_empresa && "undefined" != typeof $scope.empresa.text_empresa2) {
-					$scope.empresa.file = file;
-					file.upload = Upload.upload({
-						url: $rootScope.api + 'empresa',
-						method: 'POST',
-						data: $scope.empresa
-						/*{
-							text_empresa: $scope.empresa.text_empresa,
-							text_empresa2: $scope.empresa.text_empresa2,
-							file: file
-						}*/
-					});
-
-					file.upload.then(function (response) {
-						var result = response.data;
-						$scope.empresa = result.item;
-						$scope.errorMsg = {};
-						$scope.imageSrc = null;
-						$rootScope.message = result.message;
-						$rootScope.classe = 'alert-success';
-						$rootScope.scrollTop();
-						$rootScope.showMessage();
-						empresaForm.reset();
-						$('.image-view img').attr('src', '');
 					}, function (error) {
 						if (error.data && "undefined" != typeof error.data) {
 							var result = error.data;
@@ -255,6 +210,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.errorMsg = {};
 						$scope.servico = {};
 						$scope.servico.position = result.next;
+						$scope.file = null;
 						$scope.imageSrc = null;
 						$rootScope.message = result.message;
 						$rootScope.classe = result.classe;
@@ -269,7 +225,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						}
 					});
 				} else {
-					console.log($scope.servico);
 					dataFactory.updateItem($scope.servico, 'servicos')
 						.then(function (response) {
 							var result = response.data;
@@ -277,6 +232,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 							$scope.errorMsg = {};
 							$scope.servico = {};
 							$scope.servico.position = result.next;
+							$scope.file = null;
 							$scope.imageSrc = null;
 							$rootScope.message = result.message;
 							$rootScope.classe = result.classe;
@@ -284,7 +240,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 							$rootScope.showMessage();
 							servicoForm.reset();
 							$('.image-view img').attr('src', '');
-							console.log(result);
 						}, function (error) {
 							if (error.data && "undefined" != typeof error.data) {
 								var result = error.data;
@@ -308,6 +263,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.errorMsg = {};
 						$scope.servico = {};
 						$scope.servico.position = result.next;
+						$scope.file = null;
 						$scope.imageSrc = null;
 						$rootScope.message = result.message;
 						$rootScope.classe = 'alert-success';
@@ -370,6 +326,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 			$scope.servico = {};
 			$scope.servico.position = $scope.next;
 			$scope.errorMsg = {};
+			$scope.file = null;
 			$scope.imageSrc = null;
 			$('.image-view img').attr('src', '');
 		};
@@ -423,7 +380,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$rootScope.classe = 'alert-success';
 						$rootScope.scrollTop();
 						$rootScope.showMessage();
-						console.log(result);
 					}, function (error) {
 						$rootScope.message = 'Não foi possível alterar o registro: ' + error.statusText;
 						$rootScope.classe = 'alert-danger';
@@ -439,7 +395,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$rootScope.classe = 'alert-success';
 						$rootScope.scrollTop();
 						$rootScope.showMessage();
-						console.log(result);
 					}, function (error) {
 						$rootScope.message = 'Não foi possível inserir o registro: ' + error.statusText;
 						$rootScope.classe = 'alert-danger';
@@ -455,15 +410,10 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 			if ($scope.cliente && "undefined" != typeof $scope.cliente.id) {
 				if (file) {
 					$scope.cliente.file = file;
+					$scope.cliente._method = 'PUT';
 					file.upload = Upload.upload({
 						url: $rootScope.api + 'clientes/' + $scope.cliente.id,
-						data: {
-							id: $scope.cliente.id,
-							title_client: $scope.cliente.title_client,
-							image_client_path: $scope.cliente.image_client_path,
-							_method: 'PUT',
-							file: file
-						}
+						data: $scope.cliente
 					});
 
 					file.upload.then(function (response) {
@@ -474,7 +424,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.file = null;
 						$scope.imageSrc = null;
 						$rootScope.message = result.message;
-						$rootScope.classe = result.classe;//'alert-success';
+						$rootScope.classe = result.classe;
 						$rootScope.scrollTop();
 						$rootScope.showMessage();
 						clienteForm.reset();
@@ -486,7 +436,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						}
 					});
 				} else {
-					console.log($scope.cliente);
 					dataFactory.updateItem($scope.cliente, 'clientes')
 						.then(function (response) {
 							var result = response.data;
@@ -496,12 +445,11 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 							$scope.file = null;
 							$scope.imageSrc = null;
 							$rootScope.message = result.message;
-							$rootScope.classe = result.classe;//'alert-success';
+							$rootScope.classe = result.classe;
 							$rootScope.scrollTop();
 							$rootScope.showMessage();
 							clienteForm.reset();
 							$('.image-view img').attr('src', '');
-							console.log(result);
 						}, function (error) {
 							if (error.data && "undefined" != typeof error.data) {
 								var result = error.data;
@@ -512,13 +460,11 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 			} else {
 				// INSERT
 				if (file && ($scope.cliente && "undefined" != typeof $scope.cliente.title_client) ) {
+					$scope.cliente.file = file;
 					file.upload = Upload.upload({
 						url: $rootScope.api + 'clientes',
 						method: 'POST',
-						data: {
-							title_client: $scope.cliente.title_client,
-							file: file
-						}
+						data: $scope.cliente
 					});
 
 					file.upload.then(function (response) {
@@ -964,16 +910,10 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 			if ($scope.banner && "undefined" != typeof $scope.banner.id) {
 				if (file) {
 					$scope.banner.file = file;
+					$scope.banner._method = 'PUT';
 					file.upload = Upload.upload({
 						url: $rootScope.api + 'banners/' + $scope.banner.id,
-						data: {
-							id: $scope.banner.id,
-							name: $scope.banner.name,
-							description: $scope.banner.description,
-							filepath: $scope.banner.filepath,
-							_method: 'PUT',
-							file: file
-						}
+						data: $scope.banner
 					});
 
 					file.upload.then(function (response) {
@@ -981,6 +921,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.banners = result.banners;
 						$scope.errorMsg = {};
 						$scope.banner = {};
+						$scope.file = null;
 						$scope.imageSrc = null;
 						$rootScope.message = result.message;
 						$rootScope.classe = result.classe;
@@ -1001,6 +942,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 							$scope.banners = result.banners;
 							$scope.errorMsg = {};
 							$scope.banner = {};
+							$scope.file = null;
 							$scope.imageSrc = null;
 							$rootScope.message = result.message;
 							$rootScope.classe = result.classe;
@@ -1018,14 +960,11 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 			} else {
 				// INSERT
 				if (file && ($scope.banner && $scope.banner.name != '') ) {
+					$scope.banner.file = file;
 					file.upload = Upload.upload({
 						url: $rootScope.api + 'banners',
 						method: 'POST',
-						data: {
-							name: $scope.banner.name,
-							description: $scope.banner.description,
-							file: file
-						}
+						data: $scope.banner
 					});
 
 					file.upload.then(function (response) {
@@ -1033,6 +972,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.banners = result.banners;
 						$scope.errorMsg = {};
 						$scope.banner = {};
+						$scope.file = null;
 						$scope.imageSrc = null;
 						$rootScope.message = result.message;
 						$rootScope.classe = 'alert-success';
@@ -1299,7 +1239,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                     var result = response.data;
                     $scope.title_client = result.title_client;
                     $scope.blog = result.blog;
-                    //console.log(result);
                 }, function (error) {
                     $rootScope.message = 'Não foi possível carregar registro: ' + error.statusText;
                     $rootScope.classe = 'alert-danger';
@@ -1320,7 +1259,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                         $rootScope.classe = 'alert-success';
                         $rootScope.scrollTop();
                         $rootScope.showMessage();
-                        console.log(result);
                     }, function (error) {
                         $rootScope.message = 'Não foi possível alterar o registro: ' + error.statusText;
                         $rootScope.classe = 'alert-danger';
@@ -1336,7 +1274,6 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                         $rootScope.classe = 'alert-success';
                         $rootScope.scrollTop();
                         $rootScope.showMessage();
-                        //console.log(result);
                     }, function (error) {
                         $rootScope.message = 'Não foi possível inserir o registro: ' + error.statusText;
                         $rootScope.classe = 'alert-danger';
@@ -1372,9 +1309,10 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                         $scope.blog = result.blog;
                         $scope.errorMsg = {};
                         $scope.blogs = {};
+                        $scope.file = null;
                         $scope.imageSrc = null;
                         $rootScope.message = result.message;
-                        $rootScope.classe = result.classe;//'alert-success';
+                        $rootScope.classe = result.classe;
                         $rootScope.scrollTop();
                         $rootScope.showMessage();
                         blogForm.reset();
@@ -1393,9 +1331,10 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                             $scope.blog = result.blog;
                             $scope.errorMsg = {};
                             $scope.blogs = {};
+                            $scope.file = null;
                             $scope.imageSrc = null;
                             $rootScope.message = result.message;
-                            $rootScope.classe = result.classe;//'alert-success';
+                            $rootScope.classe = result.classe;
                             $rootScope.scrollTop();
                             $rootScope.showMessage();
                             blogForm.reset();
@@ -1429,6 +1368,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                         $scope.blog = result.blog;
                         $scope.errorMsg = {};
                         $scope.blogs = {};
+                        $scope.file = null;
                         $scope.imageSrc = null;
                         $rootScope.message = result.message;
                         $rootScope.classe = 'alert-success';
