@@ -115,9 +115,11 @@ class BannerController extends Controller
 			$banner = Banner::find($id);
 			$banner->name = $input['name'];
 			$banner->description = $input['description'];
-			$stored_file = public_path('storage/').$banner->filepath;
-			$file = $request->file('file');
-			$banner->filepath = upload_file($file, 'uploads/banners', $stored_file);
+			
+			if ($file = $request->file('file')) {
+				$stored_file = public_path('storage/').$banner->filepath;
+				$banner->filepath = upload_file($file, 'uploads/banners', $stored_file);
+			}
 
 			if ($banner->save()) 
 			{

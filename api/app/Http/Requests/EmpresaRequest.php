@@ -25,7 +25,8 @@ class EmpresaRequest extends FormRequest
 	{
 		return [
 			'text_empresa' => 'required',
-			'text_empresa2' => 'required'
+			'text_empresa2' => 'required',
+			'file' => 'required|image|mimes:jpeg,jpg,png,svg|max:2048|dimensions:height=723,width=850'
 		];
 	}
 
@@ -36,14 +37,20 @@ class EmpresaRequest extends FormRequest
 	 */
 	public function messages()
 	{
-		return ['required' => 'Campo obrigatório'];
+		return [
+			'required' => 'Campo obrigatório',
+			'image' => 'Arquivo não suportado',
+			'mimes' => 'Extensão de arquivo inválida',
+			'max' => 'Imagem excedeu o limite de tamanho',
+			'dimensions' => 'Dimensões inválidas da imagem',
+			'uploaded' => 'Falha ao enviar imagem'
+		];
 	}
 
 	/**
 	 * Get the proper failed validation response for the request.
 	 *
-	 * @param  array  $errors
-	 * @return \Symfony\Component\HttpFoundation\Response
+	 * @return boolean
 	 */
 	public function wantsJson()
 	{

@@ -1,0 +1,24 @@
+<div class="clients">
+	<div class="container">
+		<div ng-bind-html="getData.text.text_clients"></div>
+		<div class="clients-gallery row">
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 clients-gallery-item" ng-repeat="c in getData.clientes track by c.id">
+				<div class="item-image">
+					<img class="img-thumbnail" ng-src="http://localhost:8000/storage/{{ c.image_client_path }}"  title="{{ c.title_client }}"/>
+				</div>
+				<div class="item-description">
+					<h5 class="gb text-center">{{ c.title_client }}</h5>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 clients-gallery-item" ng-if="!getData.cliente.id && (getData.cliente.title_client || getData.imageSrc)">
+				<div class="item-image">
+					<img class="img-thumbnail" ng-src="{{ getData.imageSrc }}"/>
+				</div>
+				<div class="item-description">
+					<h5 class="gb text-center">{{ getData.cliente.title_client }}</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

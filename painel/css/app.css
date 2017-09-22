@@ -22,7 +22,7 @@ img a{
 			justify-content: center;
 	margin-bottom: 0;
 }
-	.image-view img {
+	.image-view img, .blog-gallery img {
 		max-height: 100%;
 		max-width: 100%;
 	}
@@ -32,6 +32,51 @@ img a{
 	}
 	.image-view.servicos {
 		height: 200px;
+	}
+	.image-view {
+		height: 220px;
+	}
+
+.blog-gallery {
+	width: 100%;
+	min-height: 200px;
+	margin-bottom: 0;
+}
+	.blog-gallery-item {
+		height: 100px;
+		text-align: center;
+		padding: 0 5px 5px 0;
+		position: relative;
+	}
+	.blog-gallery-item:first-child,
+	.blog-gallery-item:nth-of-type(4n+1) {
+		padding-left: 0;
+	}
+	.blog-gallery-item:nth-of-type(4n) {
+		padding-right: 0;
+	}
+	.blog-gallery-item:nth-child(4n+1):nth-last-child(-n+4), 
+	.blog-gallery-item:nth-child(4n+1):nth-last-child(-n+4) ~ div {
+		padding-bottom: 0;
+	}
+		.blog-gallery-item .gallery-inner {
+			border: 1px solid #CCC;
+			line-height: 80px;
+			height: 100%;
+			padding: 5px;
+			border-radius: 3px;
+			background-color: #e0e0e0;
+		}
+.gallery-remove-item {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    z-index: 1;
+    cursor: pointer;
+    display: none;
+}
+	.blog-gallery-item:hover .gallery-remove-item {
+		display: initial;
 	}
 
 .imagem-preview {
@@ -94,4 +139,27 @@ span.logo-lg img {
 
 .wrapper.login-bg {
 	background-color: #ecf0f5;
+}
+
+
+/************************************************************
+*						  EMPRESA							*
+*************************************************************/
+
+a.btn-preview {
+	cursor: pointer;
+	font-weight: initial;
+}
+	a.btn-preview:hover {
+		font-weight: bold;
+	}
+
+
+
+/************************************************************
+*						NEWSLETTERS							*
+*************************************************************/
+
+h3.box-title.news {
+	line-height: 34px;
 }

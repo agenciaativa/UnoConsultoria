@@ -161,6 +161,20 @@ Route::group(['middleware' => ['cors'] ], function() {
 		// GET Blog
 		Route::apiResource('blog', 'BlogController', ['only' => 'index']);
 		
+
+		Route::group(['prefix' => '/helper'], function() {
+			// Helper routes
+			Route::post('slug', function(Request $request) {
+				return response()->json(['slug' => str_slug($request->slug)]);
+			});
+		});
+
+		Route::group(['prefix' => '/export'], function() {
+			// Export routes
+			Route::get('csv', 'ExportController@csv');
+		});
+
+
 		/*
 		|--------------------------------------------------------------------------
 		| PREFIX => /v1 -> http://api.unogestaodesaude.com.br/api/v1

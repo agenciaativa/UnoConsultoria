@@ -13,6 +13,7 @@ angular.module('ativaApp', ['ui.router', 'satellizer', 'ativaApp.states', 'ativa
 	.run(['$anchorScroll', '$rootScope', '$state', '$auth', '$timeout', function($anchorScroll, $rootScope, $state, $auth, $timeout) {
 		$rootScope.hide = true;
 		$rootScope.api = 'http://localhost:8000/api/v1/';
+		$rootScope.storage = 'http://localhost:8000/storage/';
 
 		$rootScope.scrollTop = function() {
 			$anchorScroll();

@@ -41,9 +41,12 @@ class EmpresaController extends Controller
 	public function store(EmpresaRequest $request)
 	{
 		$message = 'Não foi possível inserir o registro!';
+		$ext = $request->file->getClientOriginalExtension();
+		$filepath = upload_file($request->file, 'uploads/empresa', null, 'bg_empresa.'.$ext);
 		$input = [
 			'text_empresa' => $request->text_empresa,
-			'text_empresa2' => $request->text_empresa2
+			'text_empresa2' => $request->text_empresa2,
+			'background_image_path' => $filepath
 		];
 
 		if (Empresa::create($input)) 
@@ -96,12 +99,18 @@ class EmpresaController extends Controller
 			'required' => 'Campo obrigatório',
 		];
 
+		if ($request->file) {
+			$rules['file'] = 'required|image|mimes:jpeg,jpg,png,svg|max:2048|dimensions:height=723,width=850';
+			$messages['max'] = 'Imagem excedeu o limite de tamanho';
+			$messages['image'] = 'Arquivo não suportado';
+			$messages['mimes'] = 'Extensão de arquivo inválida';
+			$messages['uploaded'] = 'Falha ao enviar imagem';
+			$messages['dimensions'] = 'Dimensões inválidas da imagem';
+		}
+
 		$validator = Validator::make($input, $rules, $messages);
 
-		$this->validate($request, [
-			'text_empresa' => 'required',
-			'text_empresa2' => 'required'
-		], $messages);
+		$this->validate($request, $rules, $messages);
 
 		$message = 'Não foi possível alterar o registro!';
 		$classe = 'alert-danger';
@@ -117,6 +126,13 @@ class EmpresaController extends Controller
 			$empresa = Empresa::first();
 			$empresa->text_empresa = $input['text_empresa'];
 			$empresa->text_empresa2 = $input['text_empresa2'];
+
+			if ($file = $request->file('file')) {
+				$stored_file = public_path('storage/').$empresa->background_image_path;
+				$ext = $file->getClientOriginalExtension();
+			
+				$empresa->background_image_path = upload_file($file, 'uploads/empresa', $stored_file, 'bg_empresa.'.$ext);
+			}
 
 			if ($empresa->save()) 
 			{

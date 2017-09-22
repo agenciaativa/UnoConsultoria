@@ -12,9 +12,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.toolbarGroups = [
 		//{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
 		//{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		//{ name: 'insert' },
+		{ name: 'insert' },
 		//{ name: 'forms' },
-		//{ name: 'tools' },
+		{ name: 'tools' },
 		//{ name: 'others' },
 		//'/',
 		//{ name: 'colors' },
@@ -39,10 +39,49 @@ CKEDITOR.editorConfig = function( config ) {
 	config.format_tags = 'p;span;h1;h2;h3';
 
 	// Simplify the dialog windows.
-	config.removeDialogTabs = 'image:advanced;link:advanced';
+	config.removeDialogTabs = 'link:advanced;image:Link;image:advanced;';
 
 	config.skin = 'moonocolor';
 
 	config.extraAllowedContent = 'div(*){*}[*]; span(*){*}[*]';
+	config.filebrowserBrowseUrl = './bower_components/ckfinder/ckfinder.html',
+	config.filebrowserImageBrowseUrl  = './bower_components/ckfinder/ckfinder.html',
+	config.filebrowserWindowWidth = '1000',
+	config.filebrowserWindowHeight = '700'
 
 };
+
+CKEDITOR.on( 'dialogDefinition', function( ev ) { 
+	var dialogName = ev.data.name;
+	var dialogDefinition = ev.data.definition;
+	ev.data.definition.resizable = CKEDITOR.DIALOG_RESIZE_NONE;
+
+	if (dialogName == 'link') { 
+		dialogDefinition.onShow = function () { 
+			var dialog = CKEDITOR.dialog.getCurrent(); 
+			elem = dialog.getContentElement('info','anchorOptions');     
+			elem.getElement().hide(); 
+			elem = dialog.getContentElement('info','emailOptions');     
+			elem.getElement().hide(); 
+			var elem = dialog.getContentElement('info','linkType');     
+			elem.getElement().hide(); 
+			elem = dialog.getContentElement('info','protocol');     
+			elem.disable(); 
+		}; 
+	} 
+	else if (dialogName == 'image') { 
+		var infoTab = dialogDefinition.getContents('info'); 
+		infoTab.remove('txtBorder');
+		infoTab.remove('txtHSpace');
+		infoTab.remove('txtVSpace');
+
+		dialogDefinition.onLoad = function () { 
+			var dialog = CKEDITOR.dialog.getCurrent(); 
+			var elem = dialog.getContentElement('info','htmlPreview');     
+			elem.getElement().hide(); 
+		}; 
+	} 
+	else if (dialogName == 'table') { 
+		dialogDefinition.removeContents('advanced'); 
+	}         
+}); 

@@ -36,7 +36,7 @@ angular.module('unoApp.directives', [])
 				ele.on('load', function(){
 					ele.removeClass('none');
 					scope.onloadimg();
-				});           
+				});
 			}
 		};
 	});

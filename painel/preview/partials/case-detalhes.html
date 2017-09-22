@@ -1,0 +1,17 @@
+<div class="case-detail">
+	<div class="container" id="case">
+	<h2 class="gb">CASES DE SUCESSO</h2>
+
+	<div class="case-detail-box">
+		<div class="case-detail-title">
+			<h2 class="gb">{{ getData.case.title }}</h2>
+			<!--<h5 class="post-date">Postagem feita em 05 de Julho de 2017</h5>-->
+		</div>
+		<div class="row">
+			<div class="case-detail-image col-sm-6 col-md-5 col-xs-7">
+				<img ng-src="{{ getData.imageSrc }}" class="img-responsive" />
+			</div>
+			<div class="case-detail-description" data-ng-bind-html="getData.case.text"></div>
+		</div>
+	</div>
+</div>

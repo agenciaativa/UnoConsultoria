@@ -25,6 +25,7 @@ class CreateConfigTable extends Migration
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('linkedin')->nullable();
+            $table->string('twitter')->nullable();
             $table->timestamps();
         });
     }

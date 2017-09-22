@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Blog;
-use Illuminate\Support\Facades\Auth;
+use File;
 use Validator;
-use App\Http\Requests\BlogRequest;
+use App\Blog;
+use App\BlogGallery;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\BlogRequest;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class BlogController extends Controller
 {
@@ -17,8 +21,7 @@ class BlogController extends Controller
 	 */
 	public function index()
 	{
-		$blog = Blog::orderBy('id', 'desc')->get();
-
+		$blog = Blog::with('gallery')->orderBy('id', 'desc')->get();
 		return response()->json(['blog' => $blog, 'message' => '']);
 	}
 
@@ -40,17 +43,16 @@ class BlogController extends Controller
 	 */
 	public function store(BlogRequest $request)
 	{
-
 		$message = 'Não foi possível inserir o conteúdo do blog!';
 		$filepath = upload_file($request->image_client_path, 'uploads/blog');
 
-		$dataentrada = explode('/', $request->date_publish);
-
-		if(empty($request->date_publish)):
+		if(empty($request->date_publish))
 			$data = date('Y-m-d H:i:s');
-		else:
+		else 
+		{
+			$dataentrada = explode('/', $request->date_publish);
 			$data = $dataentrada[2].'-'.$dataentrada[1].'-'.$dataentrada[0].' 00:00:00';
-		endif;
+		}
 
 		$input = [
 			'title_client' => $request->title_client,
@@ -65,10 +67,53 @@ class BlogController extends Controller
 			'slug' => str_slug($request->title_client, '-'),
 			'user' => 'UnoConsultoria',
 		];
-		if (Blog::create($input))
+		if ($b = Blog::create($input)) {
+			
 			$message = 'Blog inserido com sucesso!';
+			$files = $request->file('files');
 
-		$blog = Blog::all();
+			if (!empty($files)) {
+				
+				$gallery_fullpath = storage_path('app/public/').'uploads/blog/gallery/';
+				$thumbs_path = 'uploads/blog/gallery/thumbs/';
+				$fullpath = storage_path('app/public/').$thumbs_path;
+				
+				foreach ($files as $file) {
+					if(!File::exists($gallery_fullpath))
+						File::makeDirectory($gallery_fullpath, 0777, true, true);
+
+					$filepath = upload_file($file, 'uploads/blog/gallery');
+					$thumb = Image::make($file->getRealPath());
+					$ext = $file->getClientOriginalExtension();
+					$filename = Str::random(40).'.'.$ext;
+					$thumb_filepath = $thumbs_path.$filename;
+
+					if(!File::exists($fullpath)) 
+						File::makeDirectory($fullpath, 0777, true, true);
+
+					$thumb->fit(300, 300)->save($fullpath.$filename);
+
+					$gallery = [
+						'filepath' => $filepath,
+						'thumbnail' => $thumb_filepath
+					];
+
+					DB::transaction(function() {
+						if ($blog_gallery = BlogGallery::create($gallery)) {
+							$blog_gallery->blog()->associate($b);
+							$blog_gallery->save();
+
+							$message = 'Blog e galeria inseridos com sucesso!';
+						}
+					});
+
+				}
+
+			}
+
+		}
+
+		$blog = Blog::with('gallery')->get();
 
 		return response()->json(['blog' => $blog, 'message' => $message]);
 	}
@@ -81,7 +126,7 @@ class BlogController extends Controller
 	 */
 	public function show($id)
 	{
-		$blog = Blog::find($id);
+		$blog = Blog::find($id)->with('gallery')->get();
 
 		return response()->json(['blogdetalhes' => $blog, 'message' => '']);
 	}
@@ -109,12 +154,13 @@ class BlogController extends Controller
 	{
 		$input = $request->all();
 
-		if(empty($request->date_publish)):
+		if ( empty($request->date_publish) )
 			$data = date('Y-m-d H:i:s');
-		else:
+		else
+		{
 			$dataentrada = explode('/', $request->date_publish);
 			$data = $dataentrada[2].'-'.$dataentrada[1].'-'.$dataentrada[0].' 00:00:00';
-		endif;
+		}
 
 		$rules = array(
 			'title_client'  => 'required',
@@ -137,7 +183,7 @@ class BlogController extends Controller
 
 		if ($validator->fails())
 		{
-			$blog = Blog::all();
+			$blog = Blog::with('gallery')->get();
 
 			return response()->json(['blog' => $blog, 'message' => $validator->errors()->first(), 'classe' => $classe]);
 		}
@@ -160,14 +206,53 @@ class BlogController extends Controller
 				$blog->image_client_path = upload_file($file, 'uploads/blog', $stored_file);
 			endif;
 
-
 			if ($blog->save())
 			{
 				$message = 'Blog alterado com sucesso!';
 				$classe = 'alert-success';
+
+				if ($files = $request->file('files')) {
+
+					if (!empty($files)) {
+				
+						$gallery_fullpath = storage_path('app/public/').'uploads/blog/gallery/';
+						$thumbs_path = 'uploads/blog/gallery/thumbs/';
+						$fullpath = storage_path('app/public/').$thumbs_path;
+						
+						foreach ($files as $f) {
+							if(!File::exists($gallery_fullpath))
+								File::makeDirectory($gallery_fullpath, 0777, true, true);
+
+							$filepath = upload_file($f, 'uploads/blog/gallery');
+							$thumb = Image::make($f->getRealPath());
+							$ext = $f->getClientOriginalExtension();
+							$filename = Str::random(40).'.'.$ext;
+							$thumb_filepath = $thumbs_path.$filename;
+
+							if(!File::exists($fullpath)) 
+								File::makeDirectory($fullpath, 0777, true, true);
+
+							$thumb->fit(250, 250)->save($fullpath.$filename);
+
+							$gallery = [
+								'filepath' => $filepath,
+								'thumbnail' => $thumb_filepath
+							];
+
+							if ($blog_gallery = BlogGallery::create($gallery)) {
+								$blog_gallery->blog()->associate($blog->id);
+								$blog_gallery->save();
+
+								$message = 'Blog e galeria inseridos com sucesso!';
+								$classe = 'alert-success';
+							}
+
+						}
+					}
+				}
 			}
 
-			$blog = Blog::all();
+			$blog = Blog::with('gallery')->get();
 
 			return response()->json(['blog' => $blog, 'message' => $message, 'classe' => $classe]);
 		}

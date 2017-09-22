@@ -1,0 +1,35 @@
+<div class="cases">
+	<div class="container">
+		<h2 class="gb">{{ getData.case_text.title }}</h2>
+		
+		<blockquote>{{ getData.case_text.subtitle }}</blockquote>
+
+		<div class="cases-list row" ng-if="getData.cases.length">
+			<div class="col-md-4 col-sm-6 col-xs-12 case-item" ng-repeat="c in getData.cases track by c.id">
+				<div class="case-item-image">
+					<img class="img-responsive" ng-src="http://localhost:8000/storage/{{c.thumbnail}}" />
+				</div>
+				<div class="case-item-description">
+					<h4 class="gb">{{ c.title }}</h4>
+					<div ng-bind-html="c.description"></div>
+				</div>
+				<div class="case-item-button">
+					<a class="gb btn btn-primary case-button">VER CASE</a>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6 col-xs-12 case-item" ng-if="!getData.case.id && (getData.case.title || getData.imageSrc)">
+				<div class="case-item-image">
+					<img class="img-responsive" ng-src="{{ getData.imageSrc }}" />
+				</div>
+				<div class="case-item-description">
+					<h4 class="gb">{{ getData.case.title }}</h4>
+					<div ng-bind-html="getData.case.description"></div>
+				</div>
+				<div class="case-item-button">
+					<a class="gb btn btn-primary case-button">VER CASE</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

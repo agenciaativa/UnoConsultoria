@@ -1,0 +1,32 @@
+<div class="services-solutions">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="services-details">
+					<div id="{{s.link}}" class="service-item-box" ng-repeat="s in getData.servicos track by s.position">
+						<div class="service-item-avatar" ng-show="s.image_item_path">
+							<img ng-src="http://localhost:8000/storage/{{s.image_item_path}}" />
+						</div>
+						<div class="service-item-title">
+							<h4 class="gb">{{ s.title_item }}</h4>
+						</div>
+						<div class="service-item-description open">
+							<div ng-bind-html="s.text_item"></div>
+						</div>
+					</div>
+					<div id="view" class="service-item-box" ng-if="!getData.servico.id && (getData.servico.title_item || getData.servico.text_item || getData.imageSrc)">
+						<div class="service-item-avatar">
+							<img ng-src="{{ getData.imageSrc }}" />
+						</div>
+						<div class="service-item-title">
+							<h4 class="gb">{{ getData.servico.title_item }}</h4>
+						</div>
+						<div class="service-item-description open">
+							<div ng-bind-html="getData.servico.text_item"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

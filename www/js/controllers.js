@@ -125,9 +125,9 @@ angular.module('unoApp.controllers', [])
 	.controller('empresaController', function($state, $rootScope, $scope, $sce, $q, dataFactory) {
 		$rootScope.state = $state.current.name;
 		$scope.empresa = [];
+		$scope.message = {};
 
 		$scope.init = function() {
-			$scope.message = {};
 			dataFactory.getAll('empresa')
 				.then(function (response) {
 					var result = response.data;
@@ -337,7 +337,7 @@ angular.module('unoApp.controllers', [])
 				.then(function (response) {
 					var result = response.data;
 					$scope.case = result.case;
-					$scope.case.text = $sce.trustAsHtml($scope.case.text);				
+					$scope.case.text = $sce.trustAsHtml($scope.case.text);
 				}, function (error) {
 					$scope.message = 'Não foi possível carregar registro: ' + error.statusText;
 				});
@@ -449,6 +449,13 @@ angular.module('unoApp.controllers', [])
 					$scope.socials.push({
 						name: 'linkedin',
 						link: $scope.config.linkedin
+					});
+				}
+
+				if ($scope.config.twitter) {
+					$scope.socials.push({
+						name: 'twitter',
+						link: $scope.config.twitter
 					});
 				}
 			}

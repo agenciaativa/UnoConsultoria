@@ -28,7 +28,7 @@
 				<span class="gb phone-number">{{ config.phone }}</span>
 			</div>
 			<div class="social-links">
-				<a target="_blank" class="{{s.name}}" href="{{s.link}}" title="{{s.name}}" ng-repeat="s in socials">
+				<a target="_blank" class="{{s.name}}" href="{{s.link}}" title="{{s.name}}" ng-repeat="s in socials track by $index">
 					<img ng-src="./img/footer/{{s.name}}.png" />
 				</a>
 			</div>

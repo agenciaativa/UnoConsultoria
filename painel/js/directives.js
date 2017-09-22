@@ -10,6 +10,16 @@ angular.module('ativaApp.directives', [])
 			}
 		}
 	})
+	.directive('ngfSelect',function() {
+		return {
+			link: function($scope, el) {
+				el.bind('change', function(e) {
+					$scope.files = (e.srcElement || e.target).files;
+					$scope.getFiles();
+				});
+			}
+		}
+	})
 	.directive('checkField',function() {
 		return {
 			restrict: 'A',

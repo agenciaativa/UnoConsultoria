@@ -1,0 +1,29 @@
+{
+  "name": "pretty-photo",
+  "version": "1.0.1",
+  "homepage": "https://github.com/ahb360/prettyphoto",
+  "authors": [
+    "Amir Basiri <amir.basiri@gmail.com>"
+  ],
+  "description": "Another prettyphoto with version tag :D",
+  "keywords": [
+    "prettyphoto"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "16fcdecdba7e3de25a54f7cd651106acdb5d72e8"
+  },
+  "_source": "https://github.com/ahb360/prettyphoto.git",
+  "_target": "^1.0.1",
+  "_originalSource": "PrettyPhoto"
+}

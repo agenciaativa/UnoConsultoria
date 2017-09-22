@@ -1,12 +1,17 @@
 <!-- Main row -->
 <div class="row">
 	<div class="col-md-12">
-		<form role="form" name="empresaForm" ng-submit="submitForm()" novalidate>
+		<form role="form" id="empresaForm" name="empresaForm" ng-submit="submitForm()" novalidate>
 			<div class="box box-info">
 				<div class="box-header with-border">
 					<h3 class="box-title">
 						Área Texto
 					</h3>
+					<div class="pull-right">
+						<a class="btn-preview" ng-click="preview()">[&nbsp;
+							<i class="fa fa-eye"></i>&nbsp;&nbsp;Visualizar&nbsp;&nbsp;]
+						</a>
+					</div>
 				</div>
 				<div class="box-body pad">
 					<div class="row">
@@ -29,6 +34,25 @@
 							</div>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group" ng-class="{'has-error' : errorMsg.file[0]}">
+								<label for="file">
+									<i ng-show="errorMsg.file[0]" class="fa fa-times-circle-o"></i>
+									Imagem de fundo (JPG/JPEG/PNG) (Largura: 850px, Altura: 723px)
+								</label>
+								<input type="file" id="file" name="file" class="form-control" ng-file-select="onFileSelect($files)" accept="image/*" ngf-max-size="2MB" ngf-model-invalid="errorFile" required/>
+								<span class="help-block" ng-show="errorMsg.file[0]">{{errorMsg.file[0]}}</span>
+							</div>
+							<div class="form-group">
+								<label>Visualização</label>
+								<div class="image-view well well-sm no-shadow">
+									<i ng-hide="imageSrc">Sem imagem para visualização</i>
+									<img ng-src="{{imageSrc}}" />
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="box-footer">
 					<div class="pull-right">
@@ -41,4 +65,4 @@
 		</form>
 	</div>
 </div>
-<!-- /.row
+<!-- /.row -->

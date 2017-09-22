@@ -26,6 +26,7 @@ CKEDITOR.stylesSet.add( 'default', [
 	{ name: 'Parágrafo Negrito',	element: 'p',	attributes: { 'class': 'gb' } },
 	{ name: 'Texto centralizado',	element: 'p',	attributes: { 'class': 'text-center' } },
 	{ name: 'Título 1',				element: 'h1' },
+	{ name: 'Título 1 Negrito',		element: 'h1',	attributes: { 'class': 'gb'	} },
 	{ name: 'Título 2',				element: 'h2',	attributes: { 'class': 'gb' } },
 	{ name: 'Título 3',				element: 'h3' },
 	/*{ 
@@ -51,6 +52,7 @@ CKEDITOR.stylesSet.add( 'custom', [
 	{ name: 'Parágrafo Negrito',	element: 'p',	attributes: { 'class': 'gb' } },
 	{ name: 'Texto centralizado',	element: 'p',	attributes: { 'class': 'text-center' } },
 	{ name: 'Título 1',				element: 'h1' },
+	{ name: 'Título 1 Negrito',		element: 'h1',	attributes: { 'class': 'gb'	} },
 	{ name: 'Título 2',				element: 'h2',	attributes: { 'class': 'gb' } },
 	{ name: 'Título 3',				element: 'h3' },
 	{ 

@@ -1,0 +1,203 @@
+@media (max-width: 480px) {
+	.services-details .service-item-description a {
+		font-size: 12px;
+	}
+}
+
+@media (min-width: 480px) {
+	.clients-gallery-item {
+		height: 270px;
+	}
+}
+
+@media (min-width: 640px) {
+	.clients-gallery-item {
+	    height: 350px;
+	}
+}
+
+@media (max-width: 767px) {
+	.services-details .service-item-description blockquote {
+		font-size: 16px;
+		line-height: 28px;
+	}
+}
+
+@media (min-width: 768px) {
+	.container-fluid.menu {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.navbar .nav.navbar-nav {
+		text-align: center;
+		
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+
+		-webkit-box-pack: center;
+		    -ms-flex-pack: center;
+	        justify-content: center;
+
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
+	}
+	.clients-gallery-item {
+    	height: 270px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 790px) {
+	.services-solutions .services-details {
+		padding-right: 25px;
+	}
+}
+
+@media (max-width: 791px) {
+	.nav>li>a {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+}
+
+@media (max-width: 991px) {
+	.advice-box .circle {
+	    height: 180px;
+		width: 180px;
+		background-size: 60%;
+	}
+	.contact-form button {
+		width: 100%;
+	}
+	.services-details .service-item-title {
+		display: -webkit-inline-box;
+		display: -ms-inline-flexbox;
+		display: inline-flex;
+		vertical-align: middle;
+		margin-left: 15px;
+	}
+	.services-details .service-item-description {
+		margin-top: 10px;
+	}
+}
+
+@media (min-width: 991px) {
+	.bg-home {
+		background: url('../img/home/bg_home1.jpg') right bottom no-repeat;
+		background-size: 50%;
+	}
+	.navbar .nav li > a {
+		font-size: 16px;
+	}
+	.services-solutions .services-details {
+		border-left: 2px solid #ebe5e5;
+		margin: 50px 50px 100px;
+		padding-left: 60px;
+	}
+		.services-details .service-item-avatar {
+			position: absolute;
+			left: -101px;
+			top: 0;
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: flex;
+		}
+		.services-details .service-item-box {
+    		margin-bottom: 80px;
+    	}
+
+    .advice-box .advice-item {
+    	height: 220px;
+    }
+}
+
+@media (min-width: 1200px) {
+	.enterprise .bg-home {
+		background-size: 42%;
+	}
+	.services-solutions .services-details {
+		margin: 50px 50px 100px;
+	}
+	.clients-gallery-item {
+		height: 300px;
+	}
+}
+
+@media (min-width: 1350px) {
+	.enterprise .bg-home {
+		background-size: 40%;
+	}
+}
+
+@media (min-width: 1600px) {
+	.bg-home {
+		background-size: 35%;
+	}
+	.enterprise .bg-home {
+		background-size: 30%;
+	}
+}
+
+/*##############################################################################
+								BANNER RESPONSIVO
+################################################################################*/
+
+@media (max-width: 640px) {
+	#carousel {
+		display: none;
+	}
+}
+
+@media (min-width: 640px) {
+	.carousel-caption {
+		width: 30%;
+		top: 22%;
+	}
+		.carousel-caption p {
+			font-size: 95%;
+			line-height: 18px;
+		}
+}
+
+@media (max-width: 768px) {
+	.carousel-caption h1 {
+		font-size: 16px;
+	}
+	.carousel-caption p {
+		font-size: 60%;
+	}
+}
+
+@media (min-width: 768px) {
+	.carousel-caption {
+		left: 15% !important;
+		width: 32%;
+		top: 25%;
+	}
+		.carousel-caption h1 {
+			font-size: 20px;
+		}
+		.carousel-caption p {
+			font-size: 80%;
+		}
+}
+
+@media (min-width: 991px) {
+	.carousel-caption {
+		width: 25%;
+		top: 30%;
+	}
+		.carousel-caption p {
+			font-size: 80%;
+		}
+}
+
+@media (min-width: 1200px) {
+	.carousel-caption h1 {
+		font-size: 24px;
+	}
+	.carousel-caption p {
+	    font-size: 13px;
+	}
+}

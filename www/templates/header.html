@@ -8,7 +8,7 @@
 		<div class="phone-box col-md-6 col-md-offset-0 col-sm-4 col-sm-offset-2 col-xs-12 gb" ng-show="config.phone">
 			<div class="phone-box-content">
 				<div class="social-links">
-					<a target="_blank" class="{{s.name}}" href="{{s.link}}" title="{{s.name}}" ng-repeat="s in socials">
+					<a target="_blank" class="{{s.name}}" href="{{s.link}}" title="{{s.name}}" ng-repeat="s in socials track by $index">
 						<img ng-src="./img/header/{{s.name}}.png" />
 					</a>
 				</div>

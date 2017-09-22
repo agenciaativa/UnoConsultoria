@@ -59,10 +59,19 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 					});
 			}
 		};
+
+		$scope.preview = function() {
+			var sendData = {};
+			sendData.state = 'home';
+			sendData.home = $scope.home;
+			sessionStorage['viewData'] = angular.copy(JSON.stringify(sendData));
+			window.open('preview/', '_blank');
+		};
 	}])
 
 	.controller('empresaController', ['$state', '$rootScope', '$scope', '$window', 'fileReader', 'dataFactory', 'Upload', function($state, $rootScope, $scope, $window, fileReader, dataFactory, Upload) {
 		var state = $state.current.name;
+		// var storage = 'http://localhost:8000/storage/';
 		$rootScope.state = 'app.home';
 		$rootScope.sub = state;
 		$rootScope.title = $rootScope.active_page = 'A Empresa';
@@ -81,6 +90,8 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 				.then(function (response) {
 					var result = response.data;
 					$scope.empresa = result.item;
+					if ($scope.empresa.background_image_path)
+						$scope.imageSrc = $rootScope.storage + $scope.empresa.background_image_path;
 				}, function (error) {
 					$rootScope.message = 'Não foi possível carregar registro: ' + error.statusText;
 					$rootScope.classe = 'alert-danger';
@@ -99,32 +110,70 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		};
 
 		$scope.submitForm = function() {
+			var file = $scope.file;
 			// UPDATE
 			if ($scope.empresa && "undefined" != typeof $scope.empresa.id) {
-				dataFactory.updateItem($scope.empresa, 'empresa')
-					.then(function (response) {
-						var result = response.data;
-						$scope.empresa = result.item;
-						$scope.errorMsg = {};
-						$rootScope.message = result.message;
-						$rootScope.classe = result.classe;
-						$rootScope.scrollTop();
-						$rootScope.showMessage();
-						empresaForm.reset();
+				if (file) {
+					$scope.empresa.file = file;
+					$scope.empresa._method = 'PUT';
+					file.upload = Upload.upload({
+						url: $rootScope.api + 'empresa/' + $scope.empresa.id,
+						data: $scope.empresa
+					});
+
+					file.upload
+						.then(function (response) {
+							var result = response.data;
+							$scope.empresa = result.item;
+							$scope.errorMsg = {};
+							$scope.file = null;
+							$scope.imageSrc = $rootScope.storage + $scope.empresa.background_image_path;
+							$rootScope.message = result.message;
+							$rootScope.classe = result.classe;
+							$rootScope.scrollTop();
+							$rootScope.showMessage();
+							empresaForm.reset();
 					}, function (error) {
 						if (error.data && "undefined" != typeof error.data) {
 							var result = error.data;
 							$scope.errorMsg = result;
 						}
 					});
-			} else {
-				// INSERT
-				if ($scope.empresa && "undefined" != typeof $scope.empresa.text_empresa && "undefined" != typeof $scope.empresa.text_empresa2) {
-					dataFactory.insertItem($scope.empresa, 'empresa')
+				} else {
+					dataFactory.updateItem($scope.empresa, 'empresa')
 						.then(function (response) {
 							var result = response.data;
 							$scope.empresa = result.item;
 							$scope.errorMsg = {};
+							$scope.file = null;
+							$scope.imageSrc = $rootScope + $scope.empresa.background_image_path;
+							$rootScope.message = result.message;
+							$rootScope.classe = result.classe;
+							$rootScope.scrollTop();
+							$rootScope.showMessage();
+							empresaForm.reset();
+						}, function (error) {
+							if (error.data && "undefined" != typeof error.data) {
+								var result = error.data;
+								$scope.errorMsg = result;
+							}
+						});
+				}
+			} else {
+				// INSERT
+				if (file && $scope.empresa && "undefined" != typeof $scope.empresa.text_empresa && "undefined" != typeof $scope.empresa.text_empresa2) {
+					$scope.empresa.file = file;
+					file.upload = Upload.upload({
+						url: $rootScope.api + 'empresa',
+						method: 'POST',
+						data: $scope.empresa
+					});
+					file.upload
+						.then(function (response) {
+							var result = response.data;
+							$scope.empresa = result.item;
+							$scope.errorMsg = {};
+							$scope.file = null;
 							$rootScope.message = result.message;
 							$rootScope.classe = 'alert-success';
 							$rootScope.scrollTop();
@@ -137,7 +186,9 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						}
 					});
 				} else {
-					$scope.errorMsg.file = ['Campo obrigatório'];
+					if (!file)
+						$scope.errorMsg.file = ['Campo obrigatório'];
+
 					if (($scope.empresa.text_empresa == "") || ("undefined" == typeof $scope.empresa.text_empresa))
 						$scope.errorMsg.text_empresa = ['Campo obrigatório'];
 
@@ -145,6 +196,14 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.errorMsg.text_empresa2 = ['Campo obrigatório'];
 				}
 			}
+		};
+
+		$scope.preview = function() {
+			var sendData = {};
+			sendData.state = 'empresa';
+			sendData.empresa = $scope.empresa;
+			sessionStorage['viewData'] = angular.copy(JSON.stringify(sendData));
+			window.open('preview/', '_blank');
 		};
 	}])
 
@@ -293,8 +352,8 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		$scope.editServico = function(servico) {
 			$scope.servico = servico;
 			$scope.errorMsg = {};
-			var storage = 'http://localhost:8000/storage/';
-			var image_url = storage + servico.image_item_path;
+			// var storage = 'http://localhost:8000/storage/';
+			var image_url = $rootScope.storage + servico.image_item_path;
 			$scope.imageSrc = image_url;
 		};
 
@@ -329,6 +388,16 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 			$scope.file = null;
 			$scope.imageSrc = null;
 			$('.image-view img').attr('src', '');
+		};
+
+		$scope.preview = function() {
+			var sendData = {};
+			sendData.state = 'servicos-solucoes';
+			sendData.servico = $scope.servico;
+			sendData.servicos = $scope.servicos;
+			sendData.imageSrc = $scope.imageSrc;
+			sessionStorage['viewData'] = angular.copy(JSON.stringify(sendData));
+			window.open('preview/', '_blank');
 		};
 	}])
 
@@ -497,8 +566,8 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		$scope.editCliente = function(cliente) {
 			$scope.cliente = cliente;
 			$scope.errorMsg = {};
-			var storage = 'http://localhost:8000/storage/';
-			var image_url = storage + cliente.image_client_path;
+			// var storage = 'http://localhost:8000/storage/';
+			var image_url = $rootScope.storage + cliente.image_client_path;
 			$scope.imageSrc = image_url;
 		};
 
@@ -523,6 +592,17 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$rootScope.classe = 'alert-danger';
 					});
 			}
+		};
+
+		$scope.preview = function() {
+			var sendData = {};
+			sendData.state = 'clientes';
+			sendData.cliente_text = $scope.cliente_text;
+			sendData.cliente = $scope.cliente;
+			sendData.clientes = $scope.clientes;
+			sendData.imageSrc = $scope.imageSrc;
+			sessionStorage['viewData'] = angular.copy(JSON.stringify(sendData));
+			window.open('preview/', '_blank');
 		};
 	}])
 
@@ -723,8 +803,8 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		$scope.editCase = function(item) {
 			$scope.case = item;
 			$scope.errorMsg = {};
-			var storage = 'http://localhost:8000/storage/';
-			var image_url = storage + item.filepath;
+			// var storage = 'http://localhost:8000/storage/';
+			var image_url = $rootScope.storage + item.filepath;
 			$scope.imageSrc = image_url;
 		};
 
@@ -768,6 +848,26 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 
 		$scope.selectCliente = function(cliente) {
 			$scope.case.cliente = cliente;
+		};
+
+		$scope.preview = function() {
+			var sendData = {};
+			sendData.state = 'cases';
+			sendData.case_text = $scope.case_text;
+			sendData.case = $scope.case;
+			sendData.cases = $scope.cases;
+			sendData.imageSrc = $scope.imageSrc;
+			sessionStorage['viewData'] = angular.copy(JSON.stringify(sendData));
+			window.open('preview/', '_blank');
+		};
+
+		$scope.previewCase = function() {
+			var sendData = {};
+			sendData.state = 'case';
+			sendData.case = $scope.case;
+			sendData.imageSrc = $scope.imageSrc;
+			sessionStorage['viewData'] = angular.copy(JSON.stringify(sendData));
+			window.open('preview/', '_blank');
 		};
 	}])
 
@@ -901,8 +1001,8 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		$scope.editBanner = function(banner) {
 			$scope.banner = banner;
 			$scope.errorMsg = {};
-			var storage = 'http://localhost:8000/storage/';
-			var image_url = storage + banner.filepath;
+			// var storage = 'http://localhost:8000/storage/';
+			var image_url = $rootScope.storage + banner.filepath;
 			$scope.imageSrc = image_url;
 		};
 
@@ -929,7 +1029,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 		};
 	}])
 
-	.controller('newsletterController', ['$state', '$rootScope', '$scope', '$window', 'dataFactory', function($state, $rootScope, $scope, $window, dataFactory) {
+	.controller('newsletterController', ['$state', '$rootScope', '$scope', '$window', '$timeout', 'dataFactory', function($state, $rootScope, $scope, $window, $timeout, dataFactory) {
 		var state = $state.current.name;
 		$rootScope.state = $rootScope.sub = state;
 		$rootScope.title = $rootScope.active_page = 'Newsletters';
@@ -972,10 +1072,17 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 					});
 			}
 		};
+
+		$scope.exportarCSV = function() {
+			var exportWindow = $window.open($rootScope.api + 'export/csv', '_blank');
+			/*$timeout(function() {
+				exportWindow.close();
+			}, 3000);*/
+		};
 	}])
 
 	.controller('configController', ['$state', '$rootScope', '$scope', '$window', 'fileReader', 'dataFactory', 'Upload', function($state, $rootScope, $scope, $window, fileReader, dataFactory, Upload) {
-		var storage = 'http://localhost:8000/storage/';
+		// var storage = 'http://localhost:8000/storage/';
 		var state = $state.current.name;
 		$rootScope.state = $rootScope.sub = state;
 		$rootScope.title = $rootScope.active_page = 'Configurações Gerais';
@@ -998,7 +1105,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 					var result = response.data;
 					if (result.config.length) {
 						$scope.config = result.config[0];
-						$scope.imageSrc = storage + $scope.config.logo_filepath;
+						$scope.imageSrc = $rootScope.storage + $scope.config.logo_filepath;
 					}
 				}, function (error) {
 					$rootScope.message = 'Não foi possível carregar configurações: ' + error.statusText;
@@ -1027,7 +1134,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.config = result.config[0];
 						$scope.errorMsg = {};
 						$scope.file = null;
-						$scope.imageSrc = storage + $scope.config.logo_filepath;
+						$scope.imageSrc = $rootScope + $scope.config.logo_filepath;
 						$rootScope.message = result.message;
 						$rootScope.classe = result.classe;
 						$rootScope.scrollTop();
@@ -1045,7 +1152,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 							$scope.config = result.config[0];
 							$scope.errorMsg = {};
 							$scope.file = null;
-							$scope.imageSrc = storage + $scope.config.logo_filepath;
+							$scope.imageSrc = $rootScope.storage + $scope.config.logo_filepath;
 							$rootScope.message = result.message;
 							$rootScope.classe = result.classe;
 							$rootScope.scrollTop();
@@ -1072,7 +1179,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 						$scope.config = result.config[0];
 						$scope.errorMsg = {};
 						$scope.file = null;
-						$scope.imageSrc = storage + $scope.config.logo_filepath;
+						$scope.imageSrc = $rootScope.storage + $scope.config.logo_filepath;
 						$rootScope.message = result.message;
 						$rootScope.classe = 'alert-success';
 						$rootScope.scrollTop();
@@ -1117,8 +1224,9 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
         });
 	}])
 
-    .controller('blogController', ['$state', '$rootScope', '$scope', '$window', '$filter', 'fileReader', 'dataFactory', 'Upload', function($state, $rootScope, $scope, $window, $filter, fileReader, dataFactory, Upload) {
+    .controller('blogController', ['$state', '$rootScope', '$scope', '$window', '$filter', '$q', 'fileReader', 'imageReader', 'dataFactory', 'Upload', function($state, $rootScope, $scope, $window, $filter, $q, fileReader, imageReader, dataFactory, Upload) {
         var state = $state.current.name;
+        // var storage = 'http://localhost:8000/storage/';
         $rootScope.state = 'app.home';
         $rootScope.sub = state;
         $rootScope.title = $rootScope.active_page = 'Blog';
@@ -1129,6 +1237,11 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
         $scope.blogs = {};
         $scope.blog = {};
         $scope.errorMsg = {};
+		$scope.gallery = [];
+        $scope.options = {
+			height: 295,
+			resize_minHeight: 400,
+		};
 
         $scope.getFile = function () {
             fileReader.readAsDataUrl($scope.file, $scope)
@@ -1136,6 +1249,39 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                     $scope.imageSrc = result;
                 });
         };
+
+        $scope.getFiles = function () {
+        	var deferred;
+        	var dArr = [];
+        	var gallery = [];
+        	var id = 1;
+        	var add = true;
+        	angular.forEach($scope.files, function(item, index){
+        		var promise;
+        		if (arrayObjectIndexOf_File($scope.gallery, item) == -1) {
+	        		promise = fileReader.readAsDataUrl(item, $scope).then((result) => imageReader.readBlob(result, $scope, item));
+					dArr.push(promise);
+				}
+			});
+
+			$q.all(dArr)
+				.then((values) => {
+					for (var i = 0; i < values.length; i++) {
+						var id = 1;
+						if ($scope.gallery.length > 0) 
+	        				id = Math.max.apply(Math, $scope.gallery.map(function(o){ return o.id })) + 1;
+
+						$scope.gallery.push(
+							{
+								id: id,
+								filepath: values[i].filepath,
+								thumbnail: values[i].thumbnail,
+								file: values[i].file
+							}
+						);
+					}
+				});
+		};
 
         $scope.init = function() {
             dataFactory.getAll('blog')
@@ -1151,9 +1297,7 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                 });
         };
 
-        $scope.init();
-
-        $scope.saveBlogText = function() {
+		$scope.saveBlogText = function() {
             if (($scope.blog_text != null) && ("undefined" != typeof $scope.blog_text.id)) {
                 dataFactory.updateItem($scope.blog_text, 'blog')
                     .then(function (response) {
@@ -1189,23 +1333,17 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
 
         $scope.saveBlog = function() {
             var file = $scope.file;
+            var files = $scope.files;
             // UPDATE
             if ($scope.blogs && "undefined" != typeof $scope.blogs.id) {
                 if (file) {
                     $scope.blogs.file = file;
+                    $scope.blogs.files = (files.length) ? files : [];
+                    $scope.blogs._method = 'PUT';
+
                     file.upload = Upload.upload({
                         url: $rootScope.api + 'blog/' + $scope.blogs.id,
-                        data: {
-                            id: $scope.blogs.id,
-                            title_client: $scope.blogs.title_client,
-                            title_tags: $scope.blogs.title_tags,
-                            image_client_path: $scope.blogs.image_client_path,
-                            description: $scope.blogs.description,
-							status: $scope.blogs.status,
-                            date_publish: $scope.blogs.date_publish,
-							_method: 'PUT',
-                            file: file
-                        }
+                        data: $scope.blogs
                     });
 
                     file.upload.then(function (response) {
@@ -1214,6 +1352,8 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                         $scope.errorMsg = {};
                         $scope.blogs = {};
                         $scope.file = null;
+                        $scope.files = null;
+                        $scope.gallery = null;
                         $scope.imageSrc = null;
                         $rootScope.message = result.message;
                         $rootScope.classe = result.classe;
@@ -1228,32 +1368,62 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                         }
                     });
                 } else {
-                    console.log($scope.blogs);
-                    dataFactory.updateItem($scope.blogs, 'blog')
-                        .then(function (response) {
-                            var result = response.data;
-                            $scope.blog = result.blog;
-                            $scope.errorMsg = {};
-                            $scope.blogs = {};
-                            $scope.file = null;
-                            $scope.imageSrc = null;
-                            $rootScope.message = result.message;
-                            $rootScope.classe = result.classe;
-                            $rootScope.scrollTop();
-                            $rootScope.showMessage();
-                            blogForm.reset();
-                            $('.image-view img').attr('src', '');
-                            console.log(result);
-                        }, function (error) {
-                            if (error.data && "undefined" != typeof error.data) {
-                                var result = error.data;
-                                $scope.errorMsg = result;
-                            }
-                        });
+                	if (files.length) {
+                		$scope.blogs.files = files;
+                		$scope.blogs._method = 'PUT';
+	                    Upload.upload({
+	                        url: $rootScope.api + 'blog/' + $scope.blogs.id,
+	                        data: $scope.blogs
+	                    }).then(function (response) {
+	                        var result = response.data;
+	                        $scope.blog = result.blog;
+	                        $scope.errorMsg = {};
+	                        $scope.blogs = {};
+	                        $scope.file = null;
+	                        $scope.files = null;
+	                        $scope.gallery = null;
+	                        $scope.imageSrc = null;
+	                        $rootScope.message = result.message;
+	                        $rootScope.classe = result.classe;
+	                        $rootScope.scrollTop();
+	                        $rootScope.showMessage();
+	                        blogForm.reset();
+	                        $('.image-view img').attr('src', '');
+	                    }, function (error) {
+	                        if (error.data && "undefined" != typeof error.data) {
+	                            var result = error.data;
+	                            $scope.errorMsg = result;
+	                        }
+	                    });
+                	} else {
+						dataFactory.updateItem($scope.blogs, 'blog')
+							.then(function (response) {
+								var result = response.data;
+								$scope.blog = result.blog;
+								$scope.errorMsg = {};
+								$scope.blogs = {};
+								$scope.file = null;
+								$scope.files = null;
+	                        	$scope.gallery = null;
+								$scope.imageSrc = null;
+								$rootScope.message = result.message;
+								$rootScope.classe = result.classe;
+								$rootScope.scrollTop();
+								$rootScope.showMessage();
+								blogForm.reset();
+								$('.image-view img').attr('src', '');
+							}, function (error) {
+								if (error.data && "undefined" != typeof error.data) {
+									var result = error.data;
+									$scope.errorMsg = result;
+								}
+							});
+                	}
                 }
             } else {
                 // INSERT
                 if (file && ($scope.blogs && "undefined" != typeof $scope.blogs.title_client) ) {
+                	$scope.blogs.files = (files.length) ? files : [];
                     file.upload = Upload.upload({
                         url: $rootScope.api + 'blog',
                         method: 'POST',
@@ -1273,6 +1443,8 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
                         $scope.errorMsg = {};
                         $scope.blogs = {};
                         $scope.file = null;
+                        $scope.files = null;
+                        $scope.gallery = null;
                         $scope.imageSrc = null;
                         $rootScope.message = result.message;
                         $rootScope.classe = 'alert-success';
@@ -1295,13 +1467,24 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
         };
 
         $scope.editBlog = function(blogs) {
-            var data = new Date(blogs.date_publish);
-        	$scope.blogs = blogs;
+            if ("undefined" == typeof blogs.date_publish_fixed)
+            	blogs.date_publish_fixed = blogs.date_publish;
+
+            var image_url = $rootScope.storage + blogs.image_client_path;
+            var d = new Date(blogs.date_publish_fixed);
+            blogs.date_publish = $filter('date')(d, 'dd/MM/yyyy');
             $scope.errorMsg = {};
-            var storage = 'http://localhost:8000/storage/';
-            var image_url = storage + blogs.image_client_path;
             $scope.imageSrc = image_url;
-            $scope.blogs.date_publish = $filter('date')(data, 'dd/MM/yyyy');
+        	$scope.blogs = blogs;
+        	$scope.gallery = blogs.gallery.map(
+        		function(val) { 
+        			return {
+        				'id' : val.id,
+        				'filepath' : blobImageURL(val.filepath),
+        				'thumbnail': blobImageURL(val.thumbnail) 
+        			}
+        		}
+        	);
         };
 
         $scope.deleteBlog = function(blogs) {
@@ -1327,12 +1510,101 @@ angular.module('ativaApp.controllers', ['ngFileUpload'])
             }
         };
 
+        $scope.preview = function() {
+			var sendData = {};
+			sendData.state = 'blog';
+			sendData.blog = $scope.blogs;
+			sendData.blogs = $scope.blog;
+			sendData.imageSrc = $scope.imageSrc;
+			console.log($scope.gallery);
+			sendData.gallery = $scope.gallery.map(
+				function(val) {
+					if (val.filepath)
+						return {
+							id: val.id,
+							filepath: blobImage(val.filepath),
+							thumbnail: val.thumbnail
+						}
+				}
+			);
+			sessionStorage['viewData'] = angular.copy(JSON.stringify(sendData));
+			window.open('preview/', '_blank');
+		};
+
+		$scope.removeFile = function (item) {
+			var index = $scope.gallery.indexOf(item);
+			$scope.gallery.splice(index, 1);
+		};
+
+		var arrayObjectIndexOf_File = function (arr, obj) {
+			for (var i = 0; i < arr.length; i++) {
+				if (angular.equals(arr[i].file, obj)) {
+					return i;
+				}
+			}
+			return -1;
+		};
+
+		var blobImageURL = function(url) {
+			if (url) {
+				var image = new Image();
+				var ext = url.split('.')[1];
+				var mimeType;
+				switch (ext) {
+					case 'png':
+						mimeType = 'image/png';
+						break;
+					default:
+						mimeType = 'image/jpeg';
+						break;
+				}
+				var onload = function() {
+					var canvas = document.createElement('canvas');
+					canvas.width = image.naturalWidth;
+					canvas.height = image.naturalHeight;
+					var ctx = canvas.getContext("2d");
+					ctx.drawImage(image, 0, 0);
+					var dataURL = canvas.toDataURL("image/png");
+					var blobURL = blobImage(dataURL);
+					ctx.clearRect(0,0,canvas.width,canvas.height);
+					$(canvas).remove();
+					return blobURL;
+				}
+				image.setAttribute('crossOrigin', 'anonymous');
+				image.onload = onload;
+				image.src = $rootScope.storage + url;
+			}
+		};
+		
+		var blobImage = function(base64_image) {
+			if (base64_image) {
+				var byteString = atob(base64_image.split(',')[1]);
+				var mimeString = base64_image.split(',')[0].split(':')[1].split(';')[0];
+				var ab = new ArrayBuffer(byteString.length);
+				var ia = new Uint8Array(ab);
+				for (var i = 0; i < byteString.length; i++) {
+					ia[i] = byteString.charCodeAt(i);
+				}
+				var blob = new Blob([ab], {type: mimeString});
+				var blobUrl = URL.createObjectURL(blob);
+				return blobUrl;
+			}
+		};
+
         $scope.$on('$viewContentLoaded', function() {
-            $('[data-mask]').inputmask({mask: ['99/99/9999', '99/99/9999']});
+            // $('[data-mask]').inputmask({mask: ['99/99/9999', '99/99/9999']});
+            $('.date').datepicker({
+				format: "dd/mm/yyyy",
+				language: "pt-BR",
+				autoclose: true,
+				todayHighlight: true,
+			});
         });
+
+        $scope.init();
     }])
 
-	.controller('loginController', ['$state', '$auth', '$scope', '$rootScope', function($state, $auth, $scope, $rootScope) {
+	.controller('loginController', ['$state', '$rootScope', '$scope', '$auth', function($state, $rootScope, $scope, $auth) {
         $rootScope.state = 'login';
 
 		$scope.login = function() {

@@ -51,7 +51,8 @@ class ConfigController extends Controller
 			'logo_filepath' => $filepath,
 			'facebook' => $request->facebook ?? '',
 			'instagram' => $request->instagram ?? '',
-			'linkedin' => $request->linkedin ?? ''
+			'linkedin' => $request->linkedin ?? '',
+			'twitter' => $request->twitter ?? ''
 		];
 		if (Config::create($input)) 
 			$message = 'Configurações salvas com sucesso!';
@@ -138,6 +139,7 @@ class ConfigController extends Controller
 			$config->facebook = $input['facebook'] ?? '';
 			$config->instagram = $input['instagram'] ?? '';
 			$config->linkedin = $input['linkedin'] ?? '';
+			$config->twitter = $input['twitter'] ?? '';
 
 			if ($file = $request->file('file'))
 			{

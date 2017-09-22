@@ -1,0 +1,73 @@
+<div class="cases">
+	<div class="container">
+		<h2 class="gb">BLOG</h2>
+		<div class="cases-list row">
+			<div class="col-md-8 col-sm-8 col-xs-12">
+				<div class="list-blog-news">
+					<h3 class="blog-title">{{ getData.blog.title_client }}</h3>
+					<ul class="list-header-blog nav">
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-user full-icon" aria-hidden="true"></i> {{getData.blog.user}}</li>
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-calendar full-icon" aria-hidden="true"></i> {{getData.blog.date_publish | date: 'dd'}} de {{getData.blog.date_publish | date: 'MMMM' }} de {{getData.blog.date_publish | date: 'yyyy'}} </li>
+						<li class="col-md-4 col-sm-4 col-xs-12 no-padding"><i class="fa fa-tags full-icon" aria-hidden="true"></i> Blog</li>
+					</ul>
+					<img ng-src="{{getData.imageSrc}}" />
+					<p ng-bind-html="getData.blog.description"></p>
+					<div id="lightgallery" class="gallery-slider">
+						<a ng-if="(g.filepath && g.thumbnail)" class="image" ng-href="{{ ::g.filepath }}" ng-repeat="g in getData.gallery track by g.id" data-index="{{$index}}">
+							<img ng-src="{{ ::g.thumbnail }}" />
+						</a>
+					</div>
+					<ul class="list-share nav">
+						<li>
+							<li class="tags">
+								<i class="fa fa-tags full-icon" aria-hidden="true"></i> Tags: 
+								<a>{{getData.blog.title_tags}}</a>
+							</li>
+							<ul class="list-share-right nav navbar-nav navbar-right share-link">
+								<li class="space-link">Compartilhar</li>
+								<i><img src="img/blog/share_facebook.png"></i>
+								<i><img src="img/blog/share_twitter.png"></i>
+								<i><img src="img/blog/share_pinterest.png"></i>
+								<i><img src="img/blog/share_google.png"></i>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-4 col-xs-12">
+				<ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#last" target="_self" data-toggle="tab">Ultimas</a>
+					</li>
+					<li><a href="#reads" target="_self" data-toggle="tab">Mais Lidas</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="last">
+						<div class="list-lastnews" ng-repeat="b in getData.blogs | slice:1:10">
+							<div class="image-news">
+								<img ng-src="http://localhost:8000/storage/{{b.image_client_path}}" class="img-responsive" />
+							</div>
+							<p>
+								<a ui-sref="blogdetalhes({ id : b.id, slug : b.slug })" class="link-news">{{b.title_client}}</a>
+							</p>
+						</div>
+					</div>
+					<div class="tab-pane" id="reads">
+						<div class="list-lasnews">
+							<div class="list-lastnews" ng-repeat="b in getData.blogs | limitTo:10 | orderBy:'-views'">
+								<div class="image-news">
+									<img ng-src="http://localhost:8000/storage/{{b.image_client_path}}" class="img-responsive" />
+								</div>
+								<p>
+									<a class="link-news">{{b.title_client}}</a>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
